@@ -28,6 +28,7 @@ class DisciplinaPeriodo extends \yii\db\ActiveRecord
 {
     public $file;
     public $file_import;
+    public $traducao_usa_laboratorio;
 
     /**
      * @inheritdoc
@@ -98,7 +99,7 @@ class DisciplinaPeriodo extends \yii\db\ActiveRecord
      */
     public function getCurso()
     {
-        return $this->hasOne(Curso::className(), ['id' => 'idCurso']);
+        return $this->hasOne(Curso::className(), ['ID' => 'idCurso']);
     }
 
     /**
@@ -106,7 +107,7 @@ class DisciplinaPeriodo extends \yii\db\ActiveRecord
      */
     public function getProfessor()
     {
-        return $this->hasOne(Usuario::className(), ['id' => 'idProfessor']);
+        return $this->hasOne(Professor::className(), ['ID' => 'idProfessor']);
     }
 
     
@@ -123,6 +124,19 @@ class DisciplinaPeriodo extends \yii\db\ActiveRecord
             if ($modelAux->id != $this->id) {
                 $this->addError($attribute, 'O conjunto (Disciplina, Código Turma, Ano Período e Número Período) já existem no sistema.');
             }
+        }
+    }
+
+    public function afterFind()
+    {
+        switch ($this->usaLaboratorio)
+        {
+            case 0:
+                $this->traducao_usa_laboratorio = 'Não';
+                break;
+            case 1:
+                $this->traducao_usa_laboratorio = 'Sim';
+                break;
         }
     }
 }

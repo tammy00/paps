@@ -18,8 +18,8 @@ use app\models\Disciplina;
 use app\models\DisciplinaSearch;
 use app\models\Curso;
 use app\models\CursoSearch;
-use app\models\Usuario;
-use app\models\UsuarioSearch;
+use app\models\Professor;
+use app\models\ProfessorSearch;
 use yii\filters\AccessControl;
 
 /**
@@ -38,9 +38,9 @@ class DisciplinaPeriodoController extends Controller
                         'actions' => ['create','index','update', 'view', 'delete'],
                         'allow' => true,
                         'matchCallback' => function ($rule, $action) {
-                            if (Yii::$app->user->identity->isAdmin)
+                            if (!Yii::$app->user->isGuest)
                             {
-                                return Yii::$app->user->identity->perfil == "admin"; // Só adms podem acessar esse controller
+                                return Yii::$app->user->identity->perfil == 1; // Só adms podem acessar esse controller
                             }
                         }
                     ],

@@ -26,9 +26,9 @@ class PeriodoInscricaoMonitoriaController extends Controller
                         'actions' => ['create','index','update', 'view', 'delete'],
                         'allow' => true,
                         'matchCallback' => function ($rule, $action) {
-                            if (Yii::$app->user->identity->isAdmin)
+                            if (!Yii::$app->user->isGuest)
                             {
-                                return Yii::$app->user->identity->perfil == "admin";
+                                return Yii::$app->user->identity->perfil == 1;
                             }
                         }
                     ],

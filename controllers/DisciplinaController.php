@@ -26,9 +26,9 @@ class DisciplinaController extends Controller
                         'actions' => ['create','index','update', 'view', 'delete'],
                         'allow' => true,
                         'matchCallback' => function ($rule, $action) {
-                            if (Yii::$app->user->identity->isAdmin)
+                            if (!Yii::$app->user->isGuest)
                             {
-                                return Yii::$app->user->identity->perfil == "admin"; // Só adms podem acessar esse controller
+                                return Yii::$app->user->identity->perfil == 1; // Só adms podem acessar esse controller
                             }
                         }
                     ],
