@@ -32,7 +32,6 @@ class PeriodoInscricaoMonitoria extends \yii\db\ActiveRecord
             [['dataInicio', 'dataFim'], 'safe'],
             [['periodo'], 'in', 'range' => [1,2]],
             [['ano'], 'integer', 'min'=>2015],
-            [['ano'], 'length' => 4],
         ];
     }
 

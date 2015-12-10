@@ -43,14 +43,25 @@ $this->params['breadcrumbs'][] = $this->title;
             //'idCurso',
             'curso.nome',
             //'idProfessor',
-            'professor.Nome',
+            'usuario.name',
             'nomeUnidade',
             'qtdVagas',
             'numPeriodo',
             'anoPeriodo',
-            'dataInicioPeriodo',
-            'dataFimPeriodo',
-            'usaLaboratorio',
+            [
+                'label' => 'Data Início Período',
+                'value' => date("d/m/Y",  strtotime($model->dataInicioPeriodo)),
+            ],
+            [
+                'label' => 'Data Início Período',
+                'value' => date("d/m/Y",  strtotime($model->dataFimPeriodo)),
+            ],
+            //'dataFimPeriodo:datetime',
+            //'usaLaboratorio',
+            [
+                'label' => 'Usa Laboratório',
+                'value' => $model->traducao_usa_laboratorio
+            ],
         ],
     ]) ?>
 

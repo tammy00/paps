@@ -7,7 +7,7 @@ use yii\helpers\Html;
 
 $this->title = 'Atualizar Frequência: ' . ' ' . $model->dmy;
 $this->params['breadcrumbs'][] = ['label' => 'Frequências', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->dmy, 'url' => ['view', 'id' => $model->ID]];
+$this->params['breadcrumbs'][] = ['label' => $model->dmy, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
 <div class="frequencia-update">

@@ -34,7 +34,7 @@ use yii\helpers\Html;
                             <li>
                                 <a href="?r=usuario/index"><i class="fa fa-user fa-fw"></i> Usuários</a>
                             </li>
-							<li>
+                            <li>
                                 <a href="?r=monitoria/index"><i class="fa fa-eye fa-fw"></i> Monitoria</a>
                             </li>
                             <?php } ?>
@@ -47,6 +47,21 @@ use yii\helpers\Html;
                                 </li>
                                 <li>
                                     <a href="?r=atividade/index"><i class="fa fa-tasks fa-fw"></i> Atividades</a>
+                                </li>
+                            <?php } ?>
+                            <?php if(Yii::$app->user->identity->perfil == 'Aluno'){ ?>
+                                <li>
+                                    <a href="?r=monitoria/index"><i class="fa fa-eye fa-fw"></i> Monitoria</a>
+                                </li>
+                            <?php } ?>
+                            <?php if(Yii::$app->user->identity->perfil == 'Professor'){ ?>
+                                <li>
+                                    <a href="?r=monitoria/index"><i class="fa fa-eye fa-fw"></i> Monitoria</a>
+                                </li>
+                            <?php } ?>
+                            <?php if(Yii::$app->user->identity->perfil == 'Secretaria'){ ?>
+                                <li>
+                                    <a href="?r=monitoria/index"><i class="fa fa-eye fa-fw"></i> Monitoria</a>
                                 </li>
                             <?php } ?>
                             <!--   <li>

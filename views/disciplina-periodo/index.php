@@ -41,7 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
             //'idProfessor',
             [
                 'attribute'=>'idProfessor', 
-                'value'=>'professor.Nome'
+                'value'=>'usuario.name'
             ],
             // 'nomeUnidade',
             // 'qtdVagas',

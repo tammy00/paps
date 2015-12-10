@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
 use app\models\DisciplinaSearch;
 use app\models\CursoSearch;
-use app\models\ProfessorSearch;
+use app\models\UsuarioSearch;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\DisciplinaPeriodo */

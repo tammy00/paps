@@ -5,11 +5,12 @@ use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use app\models\DisciplinaSearch;
 use app\models\CursoSearch;
-use app\models\ProfessorSearch;
+use app\models\UsuarioSearch;
 use app\models\Disciplina;
 use app\models\Curso;
-use app\models\Professor;
-use yii\jui\DatePicker;
+use app\models\Usuario;
+//use yii\jui\DatePicker;
+use dosamigos\datepicker\DatePicker;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\DisciplinaPeriodo */
@@ -29,10 +30,10 @@ use yii\jui\DatePicker;
 
     <?= $form->field($model, 'codTurma')->textInput(['maxlength' => true, 'style'=>'width:130px']) ?>
 
-    <?= $form->field($model, 'idCurso')->dropDownList(ArrayHelper::map(Curso::find()->orderBy('nome')->asArray()->all(), 'ID', 'nome'), 
+    <?= $form->field($model, 'idCurso')->dropDownList(ArrayHelper::map(Curso::find()->orderBy('nome')->asArray()->all(), 'id', 'nome'), 
         ['prompt'=>'Selecione um curso', 'style'=>'width:300px']); ?>
 
-    <?= $form->field($model, 'idProfessor')->dropDownList(ArrayHelper::map(Professor::find()->orderBy('Nome')->asArray()->all(), 'ID', 'Nome'),
+    <?= $form->field($model, 'idProfessor')->dropDownList(ArrayHelper::map(Usuario::find()->where(['perfil' => 'Professor'])->orderBy('name')->asArray()->all(), 'id', 'name'),
         ['prompt'=>'Selecione o professor', 'style'=>'width:600px']); ?>
 
     <?= $form->field($model, 'nomeUnidade')->textInput(['maxlength' => true, 'style'=>'width:600px']) ?>
@@ -43,17 +44,33 @@ use yii\jui\DatePicker;
 
     <?= $form->field($model, 'anoPeriodo')->textInput(['style'=>'width:130px']) ?>
 
-    <?= $form->field($model, 'dataInicioPeriodo')->widget(\yii\jui\DatePicker::classname(), [
-        'language' => 'pt-BR',
-        //'dateFormat' => 'dd-MM-y',
-        'dateFormat' => 'yyyy-MM-dd',
-        ]) ?>
+    <?= $form->field($model, 'dataInicioPeriodo')->widget(
+        DatePicker::className(), [
+        // inline too, not bad
+         'inline' => false, 
+        // modify template for custom rendering
+        //'template' => '<div class="well well-sm" style="background-color: #fff; width:250px">{input}</div>',
+        'template' => '{addon}{input}',
+        'options' => ['style'=>'width:130px'],
+        'clientOptions' => [
+            'autoclose' => true,
+            'format' => 'yyyy-mm-dd'
+            ]
+    ]) ?>
 
-    <?= $form->field($model, 'dataFimPeriodo')->widget(\yii\jui\DatePicker::classname(), [
-        'language' => 'pt-BR',
-        //'dateFormat' => 'dd-MM-y',
-        'dateFormat' => 'yyyy-MM-dd',
-        ]) ?>
+    <?= $form->field($model, 'dataFimPeriodo')->widget(
+        DatePicker::className(), [
+        // inline too, not bad
+         'inline' => false, 
+        // modify template for custom rendering
+        //'template' => '<div class="well well-sm" style="background-color: #fff; width:250px">{input}</div>',
+        'template' => '{addon}{input}',
+        'options' => ['style'=>'width:130px'],
+        'clientOptions' => [
+            'autoclose' => true,
+            'format' => 'yyyy-mm-dd'
+            ]
+    ]) ?>
 
     <?= $form->field($model, 'usaLaboratorio')->checkbox() ?>
 

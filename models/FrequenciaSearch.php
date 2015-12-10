@@ -90,14 +90,12 @@ class FrequenciaSearch extends Frequencia
         $query->andFilterWhere([
             'id' => $this->id,
             'IDMonitoria' => $monitoria->id,
-            'dmy' => Yii::$app->formatter->asDate($this->dmy, 'php:d-m-y'),
+            'dmy' => $this->dmy,
             'ch' => $this->ch,
             'atividade' => $this->atividade,
         ]);
 
         $query->orderBy(['id' => SORT_DESC]);
-
-        //$query = Yii::$app->formatter->asDatetime($this->dmy, "php:d-m-Y");
 
         return $dataProvider;
     }
