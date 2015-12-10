@@ -18,8 +18,8 @@ use app\models\Disciplina;
 use app\models\DisciplinaSearch;
 use app\models\Curso;
 use app\models\CursoSearch;
-use app\models\Professor;
-use app\models\ProfessorSearch;
+use app\models\Usuario;
+use app\models\UsuarioSearch;
 use yii\filters\AccessControl;
 
 /**
@@ -40,7 +40,7 @@ class DisciplinaPeriodoController extends Controller
                         'matchCallback' => function ($rule, $action) {
                             if (!Yii::$app->user->isGuest)
                             {
-                                return Yii::$app->user->identity->perfil == 1; // Só adms podem acessar esse controller
+                                return Yii::$app->user->identity->perfil == 'Secretaria'; // Só adms podem acessar esse controller
                             }
                         }
                     ],
@@ -232,13 +232,13 @@ class DisciplinaPeriodoController extends Controller
                         }
 
                         $siglaCurso = trim(utf8_encode(addslashes(strtoupper($data[16]))));
-                        $query = sprintf("SELECT ID FROM curso WHERE sigla = '%s'", $siglaCurso);
+                        $query = sprintf("SELECT id FROM curso WHERE codigo = '%s'", $siglaCurso);
                         $idCurso = Yii::$app->db->createCommand($query)->queryScalar();
 
                         //Tabela: curso
                         if (!$idCurso) {
-                            Yii::$app->db->createCommand()->insert('curso', ['sigla' => $siglaCurso])->execute();
-                            $query = sprintf("SELECT ID FROM curso WHERE sigla = '%s'", $siglaCurso);
+                            Yii::$app->db->createCommand()->insert('curso', ['codigo' => $siglaCurso])->execute();
+                            $query = sprintf("SELECT id FROM curso WHERE codigo = '%s'", $siglaCurso);
                             $idCurso = Yii::$app->db->createCommand($query)->queryScalar();
                         }
 

@@ -7,10 +7,11 @@ use yii\grid\GridView;
 /* @var $searchModel app\models\MonitoriaSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Acompanhar Monitorias';
+$this->title = 'Inscrições Pendentes';
+$this->params['breadcrumbs'][] = ['label' => 'Monitorias', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="monitoria-index">
+<div>
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -20,21 +21,10 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-            'numProcs', 
-            //[
-            //    'attribute'=>'IDAluno', 
-            //    'value'=>'usuario.name'
-            //],
+            'IDperiodoinscr',
+            'IDAluno',
             'IDDisc',
-            [
-                'attribute'=>'IDCurso', 
-                'value'=>'curso.nome'
-            ],
-            [
-                'attribute'=>'bolsa', 
-                'value' => ('bolsa' == 1 ? 'Sim': 'Não')
-            ],
+            'status',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

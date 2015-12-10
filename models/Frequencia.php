@@ -3,12 +3,12 @@
 namespace app\models;
 
 use Yii;
-use app\models\Aluno;
+use app\models\Usuario;
 
 /**
  * This is the model class for table "frequencia".
  *
- * @property integer $ID
+ * @property integer $id
  * @property integer $IDMonitoria
  * @property string $data
  * @property double $ch
@@ -44,7 +44,7 @@ class Frequencia extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'ID' => 'ID',
+            'id' => 'id',
             'IDMonitoria' => 'Nº Monitoria',
             'dmy' => 'Data',
             'ch' => 'Carga Horária',

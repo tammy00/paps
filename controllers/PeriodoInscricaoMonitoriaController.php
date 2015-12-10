@@ -28,7 +28,7 @@ class PeriodoInscricaoMonitoriaController extends Controller
                         'matchCallback' => function ($rule, $action) {
                             if (!Yii::$app->user->isGuest)
                             {
-                                return Yii::$app->user->identity->perfil == 1;
+                                return Yii::$app->user->identity->perfil == 'Secretaria';
                             }
                         }
                     ],
@@ -92,7 +92,7 @@ class PeriodoInscricaoMonitoriaController extends Controller
                 $model->dataFim = Yii::$app->formatter->asDate($model->dataFim, 'php:Y-m-d');
                 //$model->ano = date('Y', strtotime($model->dataInicio));
                 $model->save();
-                return $this->redirect(['view', 'id' => $model->ID]);
+                return $this->redirect(['view', 'id' => $model->id]);
             }
             else {
                 $model->delete();
@@ -121,7 +121,7 @@ class PeriodoInscricaoMonitoriaController extends Controller
                 && (strtotime($model->dataFim) > time() ) && (strtotime($model->dataInicio) != strtotime($model->dataFim)) )
             {
                 $model->save();
-                return $this->redirect(['view', 'id' => $model->ID]);
+                return $this->redirect(['view', 'id' => $model->id]);
             }
             else {
                 return $this->render('aviso');

@@ -57,7 +57,7 @@ class DisciplinaPeriodoSearch extends DisciplinaPeriodo
 
         $query->joinWith(['disciplina']);
         $query->joinWith(['curso']);
-        $query->joinWith(['professor']);
+        $query->joinWith(['usuario']);
 
         $query->andFilterWhere([
             'id' => $this->id,
@@ -77,7 +77,7 @@ class DisciplinaPeriodoSearch extends DisciplinaPeriodo
 
         $query->andFilterWhere(['like', 'disciplina.nomeDisciplina', $this->idDisciplina]);
         $query->andFilterWhere(['like', 'curso.nome', $this->idCurso]);
-        $query->andFilterWhere(['like', 'professor.Nome', $this->idProfessor]);
+        $query->andFilterWhere(['like', 'usuario.name', $this->idProfessor]);
 
         return $dataProvider;
     }

@@ -14,10 +14,13 @@ use yii\helpers\ArrayHelper;
 use yii\db\Command;
 use yii\filters\AccessControl;
 use yii\web\UploadedFile;
+use yii\helpers\Time;
 use app\models\PeriodoInscricaoMonitoria;
 use app\models\DisciplinaPeriodo;
 use app\models\DisciplinaPeriodoSearch;
-use app\models\Aluno;
+use app\models\Usuario;
+use app\models\DisciplinaMonitoria;
+use app\models\DisciplinaMonitoriaSearch;
 
 /**
  * MonitoriaController implements the CRUD actions for Monitoria model.
@@ -38,13 +41,13 @@ class MonitoriaController extends Controller
                         {
                             if (!Yii::$app->user->isGuest)
                             {
-                                if ( Yii::$app->user->identity->perfil === 1 ) 
+                                if ( Yii::$app->user->identity->perfil === 'Secretaria' ) 
                                 {
-                                    return Yii::$app->user->identity->perfil == 1; 
+                                    return Yii::$app->user->identity->perfil == 'Secretaria'; 
                                 }
-                                else  return Yii::$app->user->identity->perfil == 0; 
+                                else  return Yii::$app->user->identity->perfil == 'Aluno'; 
                             }
-                            //else -> redirecionar para o site/login
+                            //else -> redirecionar para o site/cpf
                         }
                     ],
                 ],
@@ -62,7 +65,6 @@ class MonitoriaController extends Controller
      * Lists all Monitoria models.
      * @return mixed
      */
-    private $marcador = 1;
     public function actionIndex()
     {
         $searchModel = new MonitoriaSearch();
@@ -97,56 +99,140 @@ class MonitoriaController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
 
-            //Arquivo Histórico
-            $model->file = UploadedFile::getInstance($model, 'file');
-            $model->file->saveAs('uploads/historicos/'.$model->file->baseName.'.'.$model->file->extension);
-            $model->pathArqHistorico = $model->file->name;
-            $model->file = 'uploads/historicos/'.$model->file->baseName.'.'.$model->file->extension;
+            //$attributes = ['IDDisc'];
+            //if ($model->validate($attributes)) {
 
-            if ($model->validate()) {
-                //Número do Processo
-                $model->numProcs = date("Y").'/'.str_pad(strval($proxProcesso = Monitoria::find()->count() + 1), 6, '0', STR_PAD_LEFT);
-            }
+            if (Yii::$app->request->post('step') == '1') {
 
-            if ($model->save()) 
-            {
-                return $this->redirect(['view', 'id' => $model->ID]);
+                //Usuario - Pega aluno baseando-se no CPF do usuário logado
+                $aluno = Usuario::findOne(['CPF' => Yii::$app->user->identity->cpf]);
+                $model->IDAluno = $aluno->id;
 
-            } else {
+                //Status - Aguardando Avaliação
+                $model->status = 0;
 
-                if ($model->errors) {
-                    Yii::$app->getSession()->setFlash('danger', $this->convert_multi_array($model->errors));
-                    //foreach ($model->getErrors() as $key => $value) {
-                    //    Yii::$app->getSession()->setFlash('danger', $key.' - '.$value);
-                    //}
-                    foreach (Yii::$app->session->getAllFlashes() as $key => $message) {
-                        echo '<div class="alert alert-' . $key . '" role="alert">' . $message . '</div>';
+                //Seleciona o último período de inscrição
+                $periodoInscricao = PeriodoInscricaoMonitoria::find()->orderBy(['id' => SORT_DESC])->one();
+                $model->IDperiodoinscr = $periodoInscricao->id;
+                
+                //$model->IDDisc = Yii::$app->request->post('id');
+                //$monitoria = DisciplinaMonitoria::find()->where(['id' => Yii::$app->request->post('id')])->one();
+                $monitoria = DisciplinaMonitoria::find()->where(['id' => $model->IDDisc])->one();
+                $model->nomeDisciplina = $monitoria->nomeDisciplina;
+                $model->nomeProfessor = $monitoria->nomeProfessor;
+
+                return $this->render('create', [
+                    'model' => $model,
+                    'etapa' => '2',
+                    'periodo' => $periodoInscricao->ano .'/'. $periodoInscricao->periodo,
+                    'matricula' => $aluno->matricula,
+                ]);
+
+            } else if (Yii::$app->request->post('step') == '2') {
+
+                //Usuario - Pega aluno baseando-se no CPF do usuário logado
+                $aluno = Usuario::findOne(['CPF' => Yii::$app->user->identity->cpf]);
+
+                //Arquivo Histórico
+                //Habilitar "extension=php_fileinfo.dll" em C:\xampp\php\php.ini
+                $model->file = UploadedFile::getInstance($model, 'file');
+                //$model->file->saveAs('uploads/historicos/'.$model->file->baseName.'.'.$model->file->extension);
+                $model->file->saveAs('uploads/historicos/'.$aluno->matricula.'_'.date('Ydm_His').'.'.$model->file->extension);
+                //$model->pathArqHistorico = $model->file->name;
+                $model->pathArqHistorico = $aluno->matricula.'_'.date('Ydm_His').'.'.$model->file->extension;
+                $model->file = 'uploads/historicos/'.$aluno->matricula.'_'.date('Ydm_His').'.'.$model->file->extension;
+
+                $model->datacriacao = date('Y-d-m H:i:s');
+
+                //if ($model->validate()) {
+                    //Número do Processo
+                    //$model->numProcs = date("Y").'/'.str_pad(strval($proxProcesso = Monitoria::find()->count() + 1), 6, '0', STR_PAD_LEFT);
+                //}
+
+                if ($model->save()) 
+                {
+                    return $this->redirect(['minhasinscricoes']);
+
+                } else {
+
+                    if ($model->errors) {
+                        //Yii::$app->getSession()->setFlash('danger', $this->convert_multi_array($model->errors));
+                        //foreach ($model->getErrors() as $key => $value) {
+                        //    Yii::$app->getSession()->setFlash('danger', $key.' - '.$value);
+                        //}
+                        //foreach (Yii::$app->session->getAllFlashes() as $key => $message) {
+                        //    echo '<div class="alert alert-' . $key . '" role="alert">' . $message . '</div>';
+                        //}
+
+                        //['IDAluno', 'IDDisc', 'status', 'IDperiodoinscr', 'semestreConclusao', 'anoConclusao', 'mediaFinal']
+
+                        //foreach ($model->getErrors('IDAluno') as $key => $value) {
+                        //    Yii::$app->getSession()->setFlash('danger', $key.' - IDAluno: '.$value);
+                        //}
+                        //foreach ($model->getErrors('IDDisc') as $key => $value) {
+                        //    Yii::$app->getSession()->setFlash('danger', $key.' - IDDisc: '.$value);
+                        //}
+                        //foreach ($model->getErrors('status') as $key => $value) {
+                        //    Yii::$app->getSession()->setFlash('danger', $key.' - status: '.$value);
+                        //}
+                        //foreach ($model->getErrors('IDperiodoinscr') as $key => $value) {
+                        //    Yii::$app->getSession()->setFlash('danger', $key.' - IDperiodoinscr: '.$value);
+                        //}
+                        //foreach ($model->getErrors('semestreConclusao') as $key => $value) {
+                        //    Yii::$app->getSession()->setFlash('danger', $key.' - semestreConclusao: '.$value);
+                        //}
+                        //foreach ($model->getErrors('anoConclusao') as $key => $value) {
+                        //    Yii::$app->getSession()->setFlash('danger', $key.' - anoConclusao: '.$value);
+                        //}
+                        //foreach ($model->getErrors('mediaFinal') as $key => $value) {
+                        //    Yii::$app->getSession()->setFlash('danger', $key.' - mediaFinal: '.$value);
+                        //}
+
+                        //foreach (Yii::$app->session->getAllFlashes() as $key => $message) {
+                        //    echo '<div class="alert alert-' . $key . '" role="alert">' . $message . '</div>';
+                        //}
+
+                        //Usuario - Pega aluno baseando-se no CPF do usuário logado
+                        $aluno = Usuario::findOne(['CPF' => Yii::$app->user->identity->cpf]);
+
+                        //Seleciona o último período de inscrição
+                        $periodoInscricao = PeriodoInscricaoMonitoria::find()->orderBy(['id' => SORT_DESC])->one();
+
+                        return $this->render('create', [
+                        'model' => $model,
+                        'etapa' => '2',
+                        'periodo' => $periodoInscricao->ano .'/'. $periodoInscricao->periodo,
+                        'matricula' => $aluno->matricula,
+                        ]);
+
                     }
                 }
             }
         } else {
-            //Número do Processo
-            $model->numProcs = '[Novo]';
 
-            //Aluno - Pega aluno baseando-se no CPF do usuário logado
-            $aluno = Aluno::findOne(['CPF' => Yii::$app->user->identity->login]);
-            $model->IDAluno = $aluno->ID;
+            //Usuario - Pega aluno baseando-se no CPF do usuário logado
+            $aluno = Usuario::findOne(['CPF' => Yii::$app->user->identity->cpf]);
+            $model->IDAluno = $aluno->id;
 
             //Status - Aguardando Avaliação
             $model->status = 0;
 
             //Seleciona o último período de inscrição
-            $periodoInscricao = PeriodoInscricaoMonitoria::find()->orderBy(['ID' => SORT_DESC])->one();
-            $model->IDperiodoinscr = $periodoInscricao->ID;
-            $periodo = $periodoInscricao->ano.'/'.$periodoInscricao->periodo;
+            $periodoInscricao = PeriodoInscricaoMonitoria::find()->orderBy(['id' => SORT_DESC])->one();
+            $model->IDperiodoinscr = $periodoInscricao->id;
+
+            $searchModel = new DisciplinaMonitoriaSearch();
+            $searchModel->numPeriodo = $periodoInscricao->periodo;
+            $searchModel->anoPeriodo = $periodoInscricao->ano;
+            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
             return $this->render('create', [
                 'model' => $model,
-                'periodo' => $periodo,
+                'etapa' => '1',
+                'periodo' => $periodoInscricao->ano .'/'. $periodoInscricao->periodo,
                 'matricula' => $aluno->matricula,
-                'banco' => $aluno->banco,
-                'agencia' => $aluno->agencia,
-                'conta' => $aluno->conta,
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
             ]);
         }
     }
@@ -164,23 +250,20 @@ class MonitoriaController extends Controller
             $model = $this->findModel($id);
 
             if ($model->load(Yii::$app->request->post()) && $model->save() ) {
-                return $this->redirect(['view', 'id' => $model->ID]);
+                return $this->redirect(['view', 'id' => $model->id]);
             } else {
 
-                //Aluno - Pega aluno baseando-se no CPF do usuário logado
-                $aluno = Aluno::findOne(['CPF' => Yii::$app->user->identity->login]);
+                //Usuario - Pega aluno baseando-se no CPF do usuário logado
+                $aluno = Usuario::findOne(['CPF' => Yii::$app->user->identity->cpf]);
 
                 //Seleciona o último período de inscrição
-                $periodoInscricao = PeriodoInscricaoMonitoria::find()->orderBy(['ID' => SORT_DESC])->one();
-                $periodo = $periodoInscricao->ano.'/'.$periodoInscricao->periodo;
+                $periodoInscricao = PeriodoInscricaoMonitoria::find()->orderBy(['id' => SORT_DESC])->one();
 
                 return $this->render('update', [
                     'model' => $model,
-                    'periodo' => $periodo,
+                    'etapa' => '1',
+                    'periodo' => $periodoInscricao->ano .'/'. $periodoInscricao->periodo,
                     'matricula' => $aluno->matricula,
-                    'banco' => $aluno->banco,
-                    'agencia' => $aluno->agencia,
-                    'conta' => $aluno->conta,
                 ]);
             }
         }
@@ -245,7 +328,7 @@ class MonitoriaController extends Controller
         if (Yii::$app->user->identity->perfil == 1) 
         {
             if ($model->load(Yii::$app->request->post()) && $model->save() ) {
-                return $this->redirect(['view', 'id' => $model->ID]);
+                return $this->redirect(['view', 'id' => $model->id]);
             }
             else $this->render('status', ['model' => $model]);
         } 

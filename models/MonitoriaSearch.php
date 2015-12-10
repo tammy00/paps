@@ -6,7 +6,7 @@ use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\Monitoria;
-use app\models\Aluno;
+use app\models\Usuario;
 use app\models\Disciplina;
 use app\models\DisciplinaPeriodo;
 
@@ -21,8 +21,8 @@ class MonitoriaSearch extends Monitoria
     public function rules()
     {
         return [
-            [['ID', 'IDAluno', 'IDperiodoinscr'], 'integer'],
-            [['numProcs', 'IDDisc', 'nomeCurso'], 'safe'],
+            [['id', 'IDAluno', 'IDperiodoinscr'], 'integer'],
+            [['IDDisc', 'nomeCurso'], 'safe'],
         ];
     }
 
@@ -59,7 +59,7 @@ class MonitoriaSearch extends Monitoria
         }
 
         $query->andFilterWhere([
-            'ID' => $this->ID,
+            'id' => $this->id,
             'IDAluno' => $this->IDAluno,
             'IDDisc' => $this->IDDisc,
             'bolsa' => $this->bolsa,
@@ -93,32 +93,30 @@ class MonitoriaSearch extends Monitoria
             //return $dataProvider;
         }
 
-        //Pega o ID do aluno baseando-se no CPF do usuário logado
-        $aluno = Aluno::findOne(['CPF' => Yii::$app->user->identity->login]);
+        //Pega o id do usuario baseando-se no CPF do usuário logado
+        $usuario = Usuario::findOne(['CPF' => Yii::$app->user->identity->cpf]);
 
-        $query->joinWith(['aluno']);
+        $query->joinWith(['usuario']);
         $query->joinWith(['disciplinaperiodo']);
         $query->joinWith(['periodoinscricao']);
         $query->leftJoin('disciplina', 'disciplina.id = disciplina_periodo.idDisciplina');
-        $query->leftJoin('curso', 'curso.ID = disciplina_periodo.idCurso');
+        $query->leftJoin('curso', 'curso.id = disciplina_periodo.idCurso');
 
         $query->andFilterWhere([
-            'ID' => $this->ID,
-            'IDAluno' => $aluno->ID,
+            'id' => $this->id,
+            'IDAluno' => $usuario->id,
             //'IDDisc' => $this->IDDisc,
             //'bolsa' => $this->bolsa,
             //'status' => $this->status,
             //'IDperiodoinscr' => $this->IDperiodoinscr,
         ]);
 
-        $query->andFilterWhere(['like', 'numProcs', $this->numProcs]);
-
-        $query->andFilterWhere(['like', 'aluno.nome', $this->IDAluno]);
+        $query->andFilterWhere(['like', 'usuario.name', $this->IDAluno]);
         $query->andFilterWhere(['like', 'disciplina.nomeDisciplina', $this->IDDisc]);
         $query->andFilterWhere(['like', 'curso.nome', $this->nomeCurso]);
         $query->andFilterWhere(['like', 'periodoinscricao.ano', $this->IDperiodoinscr]);
 
-        $query->orderBy(['ID' => SORT_DESC]);
+        $query->orderBy(['id' => SORT_DESC]);
 
         return $dataProvider;
     }

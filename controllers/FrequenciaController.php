@@ -9,7 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
-use app\models\Aluno;
+use app\models\Usuario;
 use app\models\Monitoria;
 /**
  * FrequenciaController implements the CRUD actions for Frequencia model.
@@ -29,7 +29,7 @@ class FrequenciaController extends Controller
                         'matchCallback' => function ($rule, $action) {
                             if (!Yii::$app->user->isGuest)
                             {
-                                return Yii::$app->user->identity->perfil == 0; // Só adms podem acessar esse controller
+                                return Yii::$app->user->identity->perfil == 'Aluno'; // Só adms podem acessar esse controller
                             }
                         }
                     ],
@@ -52,9 +52,9 @@ class FrequenciaController extends Controller
     {
         // Deixar essa pesquisa mais limpa
 
-        $aluno = Aluno::find()->where(['CPF' => Yii::$app->user->identity->login])->one(); // pesquisa para pegar o id do aluno
-        $rgmonitoria = Monitoria::find()->where(['IDAluno' => $aluno->ID])->one(); // pesquisa para pegar o id de monitoria do aluno
-        $todas = Frequencia::find()->where(['IDMonitoria' => $rgmonitoria->ID])->all();  
+        $aluno = Usuario::find()->where(['CPF' => Yii::$app->user->identity->cpf])->one(); // pesquisa para pegar o id do aluno
+        $rgmonitoria = Monitoria::find()->where(['IDAluno' => $aluno->id])->one(); // pesquisa para pegar o id de monitoria do aluno
+        $todas = Frequencia::find()->where(['IDMonitoria' => $rgmonitoria->id])->all();  
         //$todas = Frequencia::find()->all();
 
         $frequencias = array();
@@ -62,7 +62,7 @@ class FrequenciaController extends Controller
         foreach ($todas as $freq) 
         {
             $evento = new \yii2fullcalendar\models\Event();
-            $evento->id = $freq->ID;
+            $evento->id = $freq->id;
             $evento->className = 'btn';
             $evento->title = $freq->ch .'h';
             $evento->start = $freq->dmy; 
@@ -112,11 +112,11 @@ class FrequenciaController extends Controller
     {
         $model = new Frequencia();
 
-        $aluno = Aluno::find()->where(['CPF' => Yii::$app->user->identity->login])->one(); // pesquisa para pegar o id do aluno
-        $moni = Monitoria::find()->where(['IDAluno' => $aluno->ID])->one(); // pesquisa para pegar o id de monitoria do aluno
+        $aluno = Usuario::find()->where(['CPF' => Yii::$app->user->identity->cpf])->one(); // pesquisa para pegar o id do aluno
+        $moni = Monitoria::find()->where(['IDAluno' => $aluno->id])->one(); // pesquisa para pegar o id de monitoria do aluno
 
         $model->dmy = $date;
-        $model->IDMonitoria = $moni->ID;
+        $model->IDMonitoria = $moni->id;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
           return $this->redirect(['index']);

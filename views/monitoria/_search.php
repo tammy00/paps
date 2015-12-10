@@ -15,9 +15,6 @@ use yii\widgets\ActiveForm;
         'method' => 'get',
     ]); ?>
 
-
-    <?= $form->field($model, 'numProcs') ?>
-
     <?= //$form->field($model, 'IDAluno') ?>
 
     <?= $form->field($model, 'IDDisc') ?>

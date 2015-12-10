@@ -5,12 +5,12 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\PeriodoInscricaoMonitoria;
+use app\models\DisciplinaMonitoria;
 
 /**
- * PeriodoInscricaoMonitoriaSearch represents the model behind the search form about `app\models\PeriodoInscricaoMonitoria`.
+ * MonitoriaSearch represents the model behind the search form about `app\models\DisciplinaMonitoria`.
  */
-class PeriodoInscricaoMonitoriaSearch extends PeriodoInscricaoMonitoria
+class DisciplinaMonitoriaSearch extends DisciplinaMonitoria
 {
     /**
      * @inheritdoc
@@ -19,7 +19,7 @@ class PeriodoInscricaoMonitoriaSearch extends PeriodoInscricaoMonitoria
     {
         return [
             [['id'], 'integer'],
-            [['dataInicio', 'dataFim', 'periodo', 'ano'], 'safe'],
+            [['nomeDisciplina', 'nomeCurso', 'nomeProfessor', 'codTurma'], 'safe'],
         ];
     }
 
@@ -41,10 +41,11 @@ class PeriodoInscricaoMonitoriaSearch extends PeriodoInscricaoMonitoria
      */
     public function search($params)
     {
-        $query = PeriodoInscricaoMonitoria::find();
+        $query = DisciplinaMonitoria::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => ['pageSize' => 10 ],
         ]);
 
         $this->load($params);
@@ -56,12 +57,14 @@ class PeriodoInscricaoMonitoriaSearch extends PeriodoInscricaoMonitoria
         }
 
         $query->andFilterWhere([
-            'id' => $this->id,
-            'dataInicio' => $this->dataInicio,
-            'dataFim' => $this->dataFim,
+            'numPeriodo' => $this->numPeriodo,
+            'anoPeriodo' => $this->anoPeriodo,
         ]);
 
-        $query->andFilterWhere(['like', 'periodo', $this->periodo]);
+        $query->andFilterWhere(['like', 'nomeDisciplina', $this->nomeDisciplina]);
+        $query->andFilterWhere(['like', 'nomeCurso', $this->nomeCurso]);
+        $query->andFilterWhere(['like', 'nomeProfessor', $this->nomeProfessor]);
+        $query->andFilterWhere(['like', 'codTurma', $this->codTurma]);
 
         return $dataProvider;
     }

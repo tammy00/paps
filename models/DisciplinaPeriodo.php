@@ -22,7 +22,7 @@ use Yii;
  *
  * @property Disciplina $disciplina
  * @property Curso $curso
- * @property Professor $professor
+ * @property Usuario $usuario
  */
 class DisciplinaPeriodo extends \yii\db\ActiveRecord
 {
@@ -64,7 +64,7 @@ class DisciplinaPeriodo extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
+            'id' => 'id',
             'idDisciplina' => 'Disciplina',
             'codTurma' => 'Código Turma',
             'idCurso' => 'Curso',
@@ -99,15 +99,15 @@ class DisciplinaPeriodo extends \yii\db\ActiveRecord
      */
     public function getCurso()
     {
-        return $this->hasOne(Curso::className(), ['ID' => 'idCurso']);
+        return $this->hasOne(Curso::className(), ['id' => 'idCurso']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getProfessor()
+    public function getUsuario()
     {
-        return $this->hasOne(Professor::className(), ['ID' => 'idProfessor']);
+        return $this->hasOne(Usuario::className(), ['id' => 'idProfessor']);
     }
 
     

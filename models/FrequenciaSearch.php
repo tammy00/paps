@@ -18,7 +18,7 @@ class FrequenciaSearch extends Frequencia
     public function rules()
     {
         return [
-            [['ID', 'IDMonitoria'], 'integer'],
+            [['id', 'IDMonitoria'], 'integer'],
             [['dmy', 'atividade'], 'safe'],
             [['ch'], 'number'],
         ];
@@ -57,7 +57,7 @@ class FrequenciaSearch extends Frequencia
         }
 
         $query->andFilterWhere([
-            'ID' => $this->ID,
+            'id' => $this->id,
             'IDMonitoria' => $this->IDMonitoria,
             'dmy' => $this->data,
             'ch' => $this->ch,
@@ -84,18 +84,20 @@ class FrequenciaSearch extends Frequencia
             return $dataProvider;
         }
 
-        $aluno = Aluno::findOne(['CPF' => Yii::$app->user->identity->login]);
-        $monitoria = Monitoria::findOne(['IDAluno' => $aluno->ID]);
+        $usuario = Usuario::findOne(['CPF' => Yii::$app->user->identity->cpf]);
+        $monitoria = Monitoria::findOne(['IDAluno' => $usuario->id]);
 
         $query->andFilterWhere([
-            'ID' => $this->ID,
-            'IDMonitoria' => $monitoria->ID,
-            'dmy' => $this->dmy,
+            'id' => $this->id,
+            'IDMonitoria' => $monitoria->id,
+            'dmy' => Yii::$app->formatter->asDate($this->dmy, 'php:d-m-y'),
             'ch' => $this->ch,
             'atividade' => $this->atividade,
         ]);
 
-        $query->orderBy(['ID' => SORT_DESC]);
+        $query->orderBy(['id' => SORT_DESC]);
+
+        //$query = Yii::$app->formatter->asDatetime($this->dmy, "php:d-m-Y");
 
         return $dataProvider;
     }

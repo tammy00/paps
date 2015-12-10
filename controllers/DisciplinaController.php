@@ -28,7 +28,7 @@ class DisciplinaController extends Controller
                         'matchCallback' => function ($rule, $action) {
                             if (!Yii::$app->user->isGuest)
                             {
-                                return Yii::$app->user->identity->perfil == 1; // Só adms podem acessar esse controller
+                                return Yii::$app->user->identity->perfil == 'Secretaria'; // Só adms podem acessar esse controller
                             }
                         }
                     ],

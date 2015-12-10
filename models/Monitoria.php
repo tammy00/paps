@@ -8,14 +8,13 @@ use app\models\PeriodoInscricaoMonitoria;
 /**
  * This is the model class for table "monitoria".
  *
- * @property integer $ID
- * @property string $numProcs
+ * @property integer $id
  * @property integer $IDAluno
  * @property integer $IDDisc
  * @property integer $bolsa
  *
  * @property DisciplinaPeriodo $disciplinaperiodo
- * @property Aluno $aluno
+ * @property Usuario $usuario
  * @property PeriodoInscricaoMonitoria $periodoinscricao
  */
 class Monitoria extends \yii\db\ActiveRecord
@@ -23,6 +22,7 @@ class Monitoria extends \yii\db\ActiveRecord
 
     public $file;
     public $nomeDisciplina;
+    public $nomeProfessor;
     public $nomeCurso;
     public $traducao_bolsa;
     public $traducao_status;
@@ -41,10 +41,9 @@ class Monitoria extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['numProcs', 'IDAluno', 'IDDisc', 'bolsa', 'status', 'IDperiodoinscr', 'semestreConclusao', 'anoConclusao', 'mediaFinal'], 'required', 'message'=>'Este campo é obrigatório'],
-            [['IDAluno', 'IDDisc', 'bolsa', 'status', 'IDperiodoinscr', 'semestreConclusao', 'anoConclusao'], 'integer'],
-            [['mediaFinal'], 'number'],
-            [['numProcs'], 'string', 'max' => 150, 'min' => 7],
+            [['IDAluno', 'IDDisc', 'status', 'IDperiodoinscr', 'semestreConclusao', 'anoConclusao', 'mediaFinal'], 'required', 'message'=>'Este campo é obrigatório'],
+            [['IDAluno', 'IDDisc', 'bolsa', 'status', 'IDperiodoinscr', 'semestreConclusao', 'anoConclusao', 'banco', 'agencia', 'conta'], 'integer', 'message'=>'O valor deve ser númerico'],
+            [['mediaFinal'], 'number', 'message'=>'O valor deve ser númerico. Use o ponto (.) como o separador decimal.'],
             [['file'], 'file', 'extensions' => 'pdf'],
             [['pathArqHistorico'], 'string', 'max' => 250],
         ];
@@ -56,18 +55,21 @@ class Monitoria extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'ID' => 'ID',
-            'numProcs' => 'Nº Processo',
+            'id' => 'id',
             'IDAluno' => 'Aluno',
             'IDDisc' => 'Disciplina',
             'bolsa' => 'Bolsista',
-            'file' => 'Histórico em PDF',
+            'file' => 'Histórico Escolar (.PDF)',
             'status' => 'Status',
             'IDperiodoinscr' => 'Ano/período',
             'semestreConclusao' => 'Semestre Previsão Conclusão',
             'anoConclusao' => 'Ano Previsão Conclusão',
             'mediaFinal' => 'Média Final',
             'nomeCurso' => 'Curso da Monitoria',
+            'banco' => 'Código Banco',
+            'agencia' => 'Agência',
+            'conta' => 'Conta',
+            'datacriacao' => 'Data Criação'
         ];
     }
 
@@ -82,9 +84,9 @@ class Monitoria extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getAluno()
+    public function getUsuario()
     {
-        return $this->hasOne(Aluno::className(), ['ID' => 'IDAluno']);
+        return $this->hasOne(Usuario::className(), ['id' => 'IDAluno']);
     }
 
     /**
@@ -92,7 +94,7 @@ class Monitoria extends \yii\db\ActiveRecord
      */
     public function getPeriodoinscricao()
     {
-        return $this->hasOne(PeriodoInscricaoMonitoria::className(), ['ID' => 'IDperiodoinscr']);
+        return $this->hasOne(PeriodoInscricaoMonitoria::className(), ['id' => 'IDperiodoinscr']);
     }
 
 
@@ -121,14 +123,14 @@ class Monitoria extends \yii\db\ActiveRecord
                 break;
         }
         
-        $periodo = PeriodoInscricaoMonitoria::findOne(['ID' => $this->IDperiodoinscr]);
+        $periodo = PeriodoInscricaoMonitoria::findOne(['id' => $this->IDperiodoinscr]);
         $this->IDperiodoinscr = $periodo->ano.'/'.$periodo->periodo;
 
         $disciplinaPeriodo = DisciplinaPeriodo::findOne($this->IDDisc);
         $disciplina = Disciplina::find()->where(['id' => $disciplinaPeriodo->idDisciplina])->one();
         $this->nomeDisciplina = $disciplina->nomeDisciplina;
 
-        $curso = Curso::find()->where(['ID' => $disciplinaPeriodo->idCurso])->one();
+        $curso = Curso::find()->where(['id' => $disciplinaPeriodo->idCurso])->one();
         $this->nomeCurso = $curso->nome;
     }
 }
