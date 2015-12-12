@@ -167,6 +167,21 @@ class DisciplinaPeriodoController extends Controller
     {
         $model = new DisciplinaPeriodo(['scenario' => 'csv']);        
 
+        $COD_CURSO = null;
+        $NOME_DOCENTE = null;
+        $COD_DISCIPLINA = null;
+        $COD_TURMA = null;
+        $NOME_UNIDADE = null;
+        $NOME_DISCIPLINA = null;
+        $ANO = null;
+        $CH_TOTAL = null;
+        $CREDITOS = null;
+        $PERIODO = null;
+        $DT_INICIO_PERIODO = null;
+        $DT_FIM_PERIODO = null;
+        $VAGAS_OFERECIDAS = null;
+        $NOME_CURSO_DIPLOMA = null;
+
         /*
         if (Yii::$app->request->get('success') != null) { 
             return $this->render('importarcsv', [
@@ -197,26 +212,171 @@ class DisciplinaPeriodoController extends Controller
                 $model->file->saveAs($model->file_import);
 
                 $handle = fopen($model->file_import, 'r');
-                if ($handle) {                
+                if ($handle) {
 
-                    while( ($data = fgetcsv($handle, 0, ",")) != FALSE) {
+                    $loop=0;
 
-                        $nomeUnidade = trim(utf8_encode(addslashes(strtoupper($data[0]))));
+                    while( ($data = fgetcsv($handle, 0, ";")) != FALSE) {
 
-                        if ($nomeUnidade == 'NOME_UNIDADE')
-                            continue; //Linha de cabeçalho, então vai para o próximo registro.
+                        $loop++;
 
-                        $codDisciplina = trim(utf8_encode(addslashes(strtoupper($data[5]))));
-                        $nomeDisciplina = trim(utf8_encode(addslashes(strtoupper($data[1]))));
-                        $cargaHoraria = $data[13];
-                        $creditos = $data[14];
-                        $codTurma = trim(utf8_encode(addslashes(strtoupper($data[2]))));
-                        $qtdVagas = $data[23];
-                        $numPeriodo = substr(trim(utf8_encode(addslashes(strtoupper($data[15])))), 0, 1);
-                        $anoPeriodo = $data[10];
-                        $date1 = trim(utf8_encode(addslashes(strtoupper($data[18]))));
-                        $date2 = trim(utf8_encode(addslashes(strtoupper($data[19]))));
+                        //Encontra os índices das colunas
+                        if ($loop == 1) {
+                            foreach ($data as $key => $value) {
+                                switch ($value) {
+                                    case trim(strtoupper('COD_CURSO')):
+                                        $COD_CURSO=$key;
+                                        break;
+                                    case trim(strtoupper('NOME_CURSO_DIPLOMA')):
+                                        $NOME_CURSO_DIPLOMA=$key;
+                                        break;
+                                    case trim(strtoupper('NOME_DOCENTE')):
+                                        $NOME_DOCENTE=$key;
+                                        break;
+                                    case trim(strtoupper('COD_DISCIPLINA')):
+                                        $COD_DISCIPLINA=$key;
+                                        break;
+                                    case trim(strtoupper('COD_TURMA')):
+                                        $COD_TURMA=$key;
+                                        break;
+                                    case trim(strtoupper('NOME_UNIDADE')):
+                                        $NOME_UNIDADE=$key;
+                                        break;
+                                    case trim(strtoupper('NOME_DISCIPLINA')):
+                                        $NOME_DISCIPLINA=$key;
+                                        break;
+                                    case trim(strtoupper('ANO')):
+                                        $ANO=$key;
+                                        break;
+                                    case trim(strtoupper('PERIODO')):
+                                        $PERIODO=$key;
+                                        break;
+                                    case trim(strtoupper('CH_TOTAL')):
+                                        $CH_TOTAL=$key;
+                                        break;
+                                    case trim(strtoupper('CREDITOS')):
+                                        $CREDITOS=$key;
+                                        break;
+                                    case trim(strtoupper('DT_INICIO_PERIODO')):
+                                        $DT_INICIO_PERIODO=$key;
+                                        break;
+                                    case trim(strtoupper('DT_FIM_PERIODO')):
+                                        $DT_FIM_PERIODO=$key;
+                                        break;
+                                    case trim(strtoupper('VAGAS_OFERECIDAS')):
+                                        $VAGAS_OFERECIDAS=$key;
+                                        break;
+                                }
+                            }
 
+                            //Se registro de cabeçalho está inválido, então o arquivo está inválido e o procedimento é encerrado.
+                            if (is_null($COD_DISCIPLINA) || is_null($NOME_DISCIPLINA) || is_null($COD_TURMA) 
+                                || is_null($PERIODO) || is_null($ANO) || is_null($DT_INICIO_PERIODO) 
+                                || is_null($DT_FIM_PERIODO) || is_null($COD_CURSO) || is_null($NOME_DOCENTE)) 
+                            {
+                                $model->addError('file', 'O cabeçalho do arquivo está inválido. Coluna(s) obrigatória(s) ausente(s). Colunas obrigatórias: COD_DISCIPLINA, NOME_DISCIPLINA, COD_TURMA, PERIODO, ANO, DT_INICIO_PERIODO, DT_FIM_PERIODO, COD_CURSO, NOME_DOCENTE');
+                                break;
+                            } 
+                            else 
+                            {
+                                continue; //É a linha de cabeçalho, então vai para o próximo registro.
+                            }
+                        }
+
+                        if (count($data) == 1)
+                            continue; //Linha vazia, então vai para o próximo registro.
+
+                        //$nomeUnidade = trim(utf8_encode(addslashes(strtoupper($data[0]))));
+                        //if ($nomeUnidade == 'NOME_UNIDADE')
+                        //    continue; //Linha de cabeçalho, então vai para o próximo registro.
+
+                        $nomeUnidade = '';
+                        $codDisciplina = '';
+                        $nomeDisciplina = '';
+                        $cargaHoraria = '';
+                        $creditos = '';
+                        $codTurma = '';
+                        $qtdVagas = '';
+                        $numPeriodo = '';
+                        $anoPeriodo = '';
+                        $date1 = '';
+                        $date2 = '';
+                        $codigoCurso = '';
+                        $nomeCurso = '';
+                        $nomeProfessor = '';
+
+                        if ($NOME_UNIDADE != null)
+                            $nomeUnidade = trim(utf8_encode(addslashes(strtoupper($data[$NOME_UNIDADE]))));
+                        if ($COD_DISCIPLINA != null)
+                            $codDisciplina = trim(utf8_encode(addslashes(strtoupper($data[$COD_DISCIPLINA]))));
+                        if ($NOME_DISCIPLINA != null)
+                            $nomeDisciplina = trim(utf8_encode(addslashes(strtoupper($data[$NOME_DISCIPLINA]))));
+                        if ($CH_TOTAL != null)
+                            $cargaHoraria = $data[$CH_TOTAL];
+                        if ($CREDITOS != null)
+                            $creditos = $data[$CREDITOS];
+                        if ($COD_TURMA != null)
+                            $codTurma = trim(utf8_encode(addslashes(strtoupper($data[$COD_TURMA]))));
+                        if ($VAGAS_OFERECIDAS != null)
+                            $qtdVagas = $data[$VAGAS_OFERECIDAS];
+                        if ($PERIODO != null)
+                            $numPeriodo = substr(trim(utf8_encode(addslashes(strtoupper($data[$PERIODO])))), 0, 1);
+                        if ($ANO != null)
+                            $anoPeriodo = $data[$ANO];
+                        if ($DT_INICIO_PERIODO != null)
+                            $date1 = trim(utf8_encode(addslashes(strtoupper($data[$DT_INICIO_PERIODO]))));
+                        if ($DT_FIM_PERIODO != null)
+                            $date2 = trim(utf8_encode(addslashes(strtoupper($data[$DT_FIM_PERIODO]))));
+                        if ($COD_CURSO != null)
+                            $codigoCurso = trim(utf8_encode(addslashes(strtoupper($data[$COD_CURSO]))));
+                        if ($NOME_CURSO_DIPLOMA != null)
+                            $nomeCurso = trim(utf8_encode(addslashes($data[$NOME_CURSO_DIPLOMA])));
+                        if ($NOME_DOCENTE != null)
+                            $nomeProfessor = trim(utf8_encode(addslashes(strtoupper($data[$NOME_DOCENTE]))));
+
+                        //Se registro inválido, então vai para o próximo registro
+                        $erro = '0';
+                        if (empty($codDisciplina)) {
+                            $model->addError('file', 'Erro na linha '.$loop.'. O valor da coluna COD_DISCIPLINA está inválido. Registro não importado.');
+                            $erro = '1';
+                        }
+                        if (empty($nomeDisciplina)) {
+                            $model->addError('file', 'Erro na linha '.$loop.'. O valor da coluna NOME_DISCIPLINA está inválido. Registro não importado.');
+                            $erro = '1';
+                        }
+                        if (empty($codTurma)) {
+                            $model->addError('file', 'Erro na linha '.$loop.'. O valor da coluna COD_TURMA está inválido. Registro não importado.');
+                            $erro = '1';
+                        }
+                        if (empty($numPeriodo)) {
+                            $model->addError('file', 'Erro na linha '.$loop.'. O valor da coluna PERIODO está inválido. Registro não importado.');
+                            $erro = '1';
+                        }
+                        if (empty($anoPeriodo)) {
+                            $model->addError('file', 'Erro na linha '.$loop.'. O valor da coluna ANO está inválido. Registro não importado.');
+                            $erro = '1';
+                        }
+                        if (empty($date1)) {
+                            $model->addError('file', 'Erro na linha '.$loop.'. O valor da coluna DT_INICIO_PERIODO está inválido. Registro não importado.');
+                            $erro = '1';
+                        }
+                        if (empty($date2)) {
+                            $model->addError('file', 'Erro na linha '.$loop.'. O valor da coluna DT_FIM_PERIODO está inválido. Registro não importado.');
+                            $erro = '1';
+                        }
+                        if (empty($codigoCurso)) {
+                            $model->addError('file', 'Erro na linha '.$loop.'. O valor da coluna COD_CURSO está inválido. Registro não importado.');
+                            $erro = '1';
+                        }
+                        if (empty($nomeProfessor)) {
+                            $model->addError('file', 'Erro na linha '.$loop.'. O valor da coluna NOME_DOCENTE está inválido. Registro não importado.');
+                            $erro = '1';
+                        }
+                        if ($erro == '1') {
+                            continue;
+                        }
+
+                        //Formata as datas
                         if ($date1 != null && !empty($date1)) {
                             $arrayDate = explode("/", $date1);
                             $dataInicioPeriodo = $arrayDate[2].'-'.$arrayDate[1].'-'.$arrayDate[0];
@@ -231,15 +391,25 @@ class DisciplinaPeriodoController extends Controller
                             $dataFimPeriodo = null;
                         }
 
-                        $siglaCurso = trim(utf8_encode(addslashes(strtoupper($data[16]))));
-                        $query = sprintf("SELECT id FROM curso WHERE codigo = '%s'", $siglaCurso);
+                        //Procura ID do Curso
+                        $query = sprintf("SELECT id FROM curso WHERE UPPER(codigo) = '%s'", $codigoCurso);
                         $idCurso = Yii::$app->db->createCommand($query)->queryScalar();
 
-                        //Tabela: curso
+                        //INSERT Tabela: curso
                         if (!$idCurso) {
-                            Yii::$app->db->createCommand()->insert('curso', ['codigo' => $siglaCurso])->execute();
-                            $query = sprintf("SELECT id FROM curso WHERE codigo = '%s'", $siglaCurso);
+                            Yii::$app->db->createCommand()->insert('curso', ['codigo' => $codigoCurso, 'nome' => $nomeCurso, 'max_horas' => 0])->execute();
+                            $query = sprintf("SELECT id FROM curso WHERE codigo = '%s'", $codigoCurso);
                             $idCurso = Yii::$app->db->createCommand($query)->queryScalar();
+                        }
+
+                        //Procura ID do Professor
+                        $query = sprintf("SELECT id FROM usuario WHERE perfil = 'Professor' AND UPPER(name) = '%s'", $nomeProfessor);
+                        $idProfessor = Yii::$app->db->createCommand($query)->queryScalar();
+
+                        if (!$idProfessor) {
+                            $model->addError('file', 'Erro na linha '.$loop.'. Professor ('.$nomeProfessor.') não localizado no banco de dados. Registro não importado.');
+                            //Se não localizar o professor, então vai para o próximo registro
+                            continue;
                         }
 
                         //Tabela: disciplina
@@ -285,7 +455,8 @@ class DisciplinaPeriodoController extends Controller
                                 'qtdVagas' => $qtdVagas, 
                                 'dataInicioPeriodo' => $dataInicioPeriodo, 
                                 'dataFimPeriodo' => $dataFimPeriodo, 
-                                'idCurso' => $idCurso
+                                'idCurso' => $idCurso,
+                                'idProfessor' => $idProfessor
                                 ];
                             Yii::$app->db->createCommand()->update('disciplina_periodo', $arrayUpdate, 'id='.$result)->execute();
                         } else {
@@ -313,12 +484,14 @@ class DisciplinaPeriodoController extends Controller
                                 'qtdVagas' => $qtdVagas, 
                                 'dataInicioPeriodo' => $dataInicioPeriodo, 
                                 'dataFimPeriodo' => $dataFimPeriodo, 
-                                'idCurso' => $idCurso
+                                'idCurso' => $idCurso,
+                                'idProfessor' => $idProfessor
                                 ];
                             Yii::$app->db->createCommand()->insert('disciplina_periodo', $arrayInsert)->execute();
                         }
                     }
                     fclose($handle);
+                    unlink($model->file_import); //Apaga o arquivo
 
                     //$columnNameArray1 = ['codDisciplina', 'nomeDisciplina', 'cargaHoraria', 'creditos'];
                     //Yii::$app->db->createCommand()->batchInsert('disciplina', $columnNameArray1, $bulkInsertArray)->execute();
@@ -328,9 +501,12 @@ class DisciplinaPeriodoController extends Controller
                 }
             }
 
-            return $this->redirect(['index']);
+            //return $this->redirect(['index']);
+            $terminou='1';
+            return $this->render('importarcsv', ['model' => $model, 'fimprocessamento' => $terminou]);
         } else {
-            return $this->render('importarcsv', ['model' => $model]);
+            $terminou='0';
+            return $this->render('importarcsv', ['model' => $model, 'fimprocessamento' => $terminou]);
         }
     }
 }
