@@ -33,6 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
             </p>
             <p>
                 <?= Html::a('Inscrições Pendentes', ['pendencias'], ['class' => 'btn btn-success']) ?>
+                <?= Html::a('Registro de Inscrições', ['inscricoes'], ['class' => 'btn btn-success']) ?>
                 <?= Html::a('Fazer Plano Semestral', ['fazerplanosemestral'], ['class' => 'btn btn-success']) ?>
                 <?= Html::a('Gerar Plano Semestral da Disciplina', ['gerarplanosemestraldisciplina'], ['class' => 'btn btn-success']) ?>        
             </p>

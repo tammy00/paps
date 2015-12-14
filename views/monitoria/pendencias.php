@@ -21,12 +21,48 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
+            [
+                'attribute'=>'IDDisc', 
+                'value'=>'nomeDisciplina'
+            ],
+            'nomeCurso',
             'IDperiodoinscr',
-            'IDAluno',
-            'IDDisc',
-            'status',
+            [
+                'attribute'=>'bolsa', 
+                'value'=>'traducao_bolsa'
+            ],
+            [
+                'attribute'=>'status', 
+                'value'=>'traducao_status'
+            ],
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{deferir} / {indeferir}',
+                'buttons' => [
+                    'deferir' => function ($url, $model) {
+                        return Html::a(
+                            '<span>Deferir</span>',
+                            ['monitoria/deferir', 'id' => $model->id], 
+                            [
+                                'title' => 'Deferir',
+                                'data-pjax' => '0',
+                            ]
+                        );
+                    },
+                    'indeferir' => function ($url, $model) {
+                        return Html::a(
+                            '<span>Indeferir</span>',
+                            ['monitoria/indeferir', 'id' => $model->id], 
+                            [
+                                'title' => 'Indeferir',
+                                'data-pjax' => '0',
+                            ]
+                        );
+                    },
+                ],
+                //'deleteOptions' => ['data-confirm'=>\Yii::t('app', 'Você realmente deseja deletar este item ' . strtolower($this->title) . '?')],
+            ],
         ],
     ]); ?>
 

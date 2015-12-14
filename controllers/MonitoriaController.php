@@ -315,25 +315,38 @@ class MonitoriaController extends Controller
     public function actionPendencias() 
     {
         $searchModel = new MonitoriaSearch();
-        $dataProvider = $searchModel->searchPendencias();
+        $dataProvider = $searchModel->searchPendencias(Yii::$app->request->queryParams);
 
         return $this->render('pendencias', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
-    public function actionStatus($model)
-    {
-        if (Yii::$app->user->identity->perfil == 1) 
-        {
-            if ($model->load(Yii::$app->request->post()) && $model->save() ) {
-                return $this->redirect(['view', 'id' => $model->id]);
-            }
-            else $this->render('status', ['model' => $model]);
-        } 
 
-        return $this->redirect(Yii::$app->request->referrer);
-    }   
+    public function actionInscricoes()
+    {
+        $searchModel = new MonitoriaSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('inscricoes', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }  
+
+    public function actionDeferir($id)
+    {
+        Yii::$app->db->createCommand()->update('monitoria', ['status' => 1], 'id='.$id)->execute();
+
+        return$this->actionPendencias();
+    }
+
+    public function actionIndeferir($id)
+    {
+        Yii::$app->db->createCommand()->update('monitoria', ['status' => 2], 'id='.$id)->execute();
+        
+        return$this->actionPendencias();
+    }
 
     public function actionFazerplanosemestral()
     {

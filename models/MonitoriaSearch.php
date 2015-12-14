@@ -120,4 +120,45 @@ class MonitoriaSearch extends Monitoria
 
         return $dataProvider;
     }
+
+    public function searchPendencias ($params)
+    {
+        $query = Monitoria::find();
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        $this->load($params);
+
+        if (!$this->validate()) {
+            // uncomment the following line if you do not want to return any records when validation fails
+            // $query->where('0=1');
+            //return $dataProvider;
+        }
+
+        $query->joinWith(['usuario']);
+        $query->joinWith(['disciplinaperiodo']);
+        $query->joinWith(['periodoinscricao']);
+        $query->leftJoin('disciplina', 'disciplina.id = disciplina_periodo.idDisciplina');
+        $query->leftJoin('curso', 'curso.id = disciplina_periodo.idCurso');
+
+        $query->andFilterWhere([
+            'id' => $this->id,
+            //'IDAluno' => $usuario->id,
+            //'IDDisc' => $this->IDDisc,
+            //'bolsa' => $this->bolsa,
+            'status' => '0',
+            //'IDperiodoinscr' => $this->IDperiodoinscr,
+        ]);
+
+        $query->andFilterWhere(['like', 'usuario.name', $this->IDAluno]);
+        $query->andFilterWhere(['like', 'disciplina.nomeDisciplina', $this->IDDisc]);
+        $query->andFilterWhere(['like', 'curso.nome', $this->nomeCurso]);
+        $query->andFilterWhere(['like', 'periodoinscricao.ano', $this->IDperiodoinscr]);
+
+        $query->orderBy(['id' => SORT_DESC]);
+
+        return $dataProvider;
+    }
 }
