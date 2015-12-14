@@ -165,7 +165,9 @@ class DisciplinaPeriodoController extends Controller
 
     public function actionImportarcsv()
     {
-        $model = new DisciplinaPeriodo(['scenario' => 'csv']);        
+        $model = new DisciplinaPeriodo(['scenario' => 'csv']);
+        $erros = array();
+        $erroFatal = '';
 
         $COD_CURSO = null;
         $NOME_DOCENTE = null;
@@ -181,18 +183,6 @@ class DisciplinaPeriodoController extends Controller
         $DT_FIM_PERIODO = null;
         $VAGAS_OFERECIDAS = null;
         $NOME_CURSO_DIPLOMA = null;
-
-        /*
-        if (Yii::$app->request->get('success') != null) { 
-            return $this->render('importarcsv', [
-                'model' => $model,
-                'success' => $success]);
-        } else {
-            return $this->render('importarcsv', [
-                'model' => $model,
-                'success' => '']);
-        }
-        */
 
         if ($model->load(Yii::$app->request->post())) {
 
@@ -274,7 +264,7 @@ class DisciplinaPeriodoController extends Controller
                                 || is_null($PERIODO) || is_null($ANO) || is_null($DT_INICIO_PERIODO) 
                                 || is_null($DT_FIM_PERIODO) || is_null($COD_CURSO) || is_null($NOME_DOCENTE)) 
                             {
-                                $model->addError('file', 'O cabeçalho do arquivo está inválido. Coluna(s) obrigatória(s) ausente(s). Colunas obrigatórias: COD_DISCIPLINA, NOME_DISCIPLINA, COD_TURMA, PERIODO, ANO, DT_INICIO_PERIODO, DT_FIM_PERIODO, COD_CURSO, NOME_DOCENTE');
+                                $erroFatal = 'O cabeçalho do arquivo está inválido. Coluna(s) obrigatória(s) ausente(s).<br><br>Colunas obrigatórias: COD_DISCIPLINA, NOME_DISCIPLINA, COD_TURMA, PERIODO, ANO, DT_INICIO_PERIODO, DT_FIM_PERIODO, COD_CURSO, NOME_DOCENTE';
                                 break;
                             } 
                             else 
@@ -285,10 +275,6 @@ class DisciplinaPeriodoController extends Controller
 
                         if (count($data) == 1)
                             continue; //Linha vazia, então vai para o próximo registro.
-
-                        //$nomeUnidade = trim(utf8_encode(addslashes(strtoupper($data[0]))));
-                        //if ($nomeUnidade == 'NOME_UNIDADE')
-                        //    continue; //Linha de cabeçalho, então vai para o próximo registro.
 
                         $nomeUnidade = '';
                         $codDisciplina = '';
@@ -337,39 +323,39 @@ class DisciplinaPeriodoController extends Controller
                         //Se registro inválido, então vai para o próximo registro
                         $erro = '0';
                         if (empty($codDisciplina)) {
-                            $model->addError('file', 'Erro na linha '.$loop.'. O valor da coluna COD_DISCIPLINA está inválido. Registro não importado.');
+                            $erros[] = 'Erro na linha '.$loop.'. O valor da coluna COD_DISCIPLINA está inválido.';
                             $erro = '1';
                         }
                         if (empty($nomeDisciplina)) {
-                            $model->addError('file', 'Erro na linha '.$loop.'. O valor da coluna NOME_DISCIPLINA está inválido. Registro não importado.');
+                            $erros[] = 'Erro na linha '.$loop.'. O valor da coluna NOME_DISCIPLINA está inválido.';
                             $erro = '1';
                         }
                         if (empty($codTurma)) {
-                            $model->addError('file', 'Erro na linha '.$loop.'. O valor da coluna COD_TURMA está inválido. Registro não importado.');
+                            $erros[] = 'Erro na linha '.$loop.'. O valor da coluna COD_TURMA está inválido.';
                             $erro = '1';
                         }
                         if (empty($numPeriodo)) {
-                            $model->addError('file', 'Erro na linha '.$loop.'. O valor da coluna PERIODO está inválido. Registro não importado.');
+                            $erros[] = 'Erro na linha '.$loop.'. O valor da coluna PERIODO está inválido.';
                             $erro = '1';
                         }
                         if (empty($anoPeriodo)) {
-                            $model->addError('file', 'Erro na linha '.$loop.'. O valor da coluna ANO está inválido. Registro não importado.');
+                            $erros[] = 'Erro na linha '.$loop.'. O valor da coluna ANO está inválido.';
                             $erro = '1';
                         }
                         if (empty($date1)) {
-                            $model->addError('file', 'Erro na linha '.$loop.'. O valor da coluna DT_INICIO_PERIODO está inválido. Registro não importado.');
+                            $erros[] = 'Erro na linha '.$loop.'. O valor da coluna DT_INICIO_PERIODO está inválido.';
                             $erro = '1';
                         }
                         if (empty($date2)) {
-                            $model->addError('file', 'Erro na linha '.$loop.'. O valor da coluna DT_FIM_PERIODO está inválido. Registro não importado.');
+                            $erros[] = 'Erro na linha '.$loop.'. O valor da coluna DT_FIM_PERIODO está inválido.';
                             $erro = '1';
                         }
                         if (empty($codigoCurso)) {
-                            $model->addError('file', 'Erro na linha '.$loop.'. O valor da coluna COD_CURSO está inválido. Registro não importado.');
+                            $erros[] = 'Erro na linha '.$loop.'. O valor da coluna COD_CURSO está inválido.';
                             $erro = '1';
                         }
                         if (empty($nomeProfessor)) {
-                            $model->addError('file', 'Erro na linha '.$loop.'. O valor da coluna NOME_DOCENTE está inválido. Registro não importado.');
+                            $erros[] = 'Erro na linha '.$loop.'. O valor da coluna NOME_DOCENTE está inválido.';
                             $erro = '1';
                         }
                         if ($erro == '1') {
@@ -406,9 +392,9 @@ class DisciplinaPeriodoController extends Controller
                         $query = sprintf("SELECT id FROM usuario WHERE perfil = 'Professor' AND UPPER(name) = '%s'", $nomeProfessor);
                         $idProfessor = Yii::$app->db->createCommand($query)->queryScalar();
 
+                        //Se não localizar o professor, então vai para o próximo registro
                         if (!$idProfessor) {
-                            $model->addError('file', 'Erro na linha '.$loop.'. Professor ('.$nomeProfessor.') não localizado no banco de dados. Registro não importado.');
-                            //Se não localizar o professor, então vai para o próximo registro
+                            $erros[] = 'Erro na linha '.$loop.'. Professor ('.$nomeProfessor.') não localizado no banco de dados.';
                             continue;
                         }
 
@@ -502,11 +488,20 @@ class DisciplinaPeriodoController extends Controller
             }
 
             //return $this->redirect(['index']);
-            $terminou='1';
-            return $this->render('importarcsv', ['model' => $model, 'fimprocessamento' => $terminou]);
-        } else {
-            $terminou='0';
-            return $this->render('importarcsv', ['model' => $model, 'fimprocessamento' => $terminou]);
+            return $this->render('importarcsv', [
+                    'model' => $model, 
+                    'etapa' => '2', 
+                    'erroFatal' => $erroFatal,
+                    'erros' => $erros
+                ]);
+        } else 
+        {
+            return $this->render('importarcsv', [
+                    'model' => $model, 
+                    'etapa' => '1', 
+                    'erroFatal' => '',
+                    'erros' => null
+                ]);
         }
     }
 }

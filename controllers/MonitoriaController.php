@@ -136,11 +136,9 @@ class MonitoriaController extends Controller
                 //Arquivo Histórico
                 //Habilitar "extension=php_fileinfo.dll" em C:\xampp\php\php.ini
                 $model->file = UploadedFile::getInstance($model, 'file');
-                //$model->file->saveAs('uploads/historicos/'.$model->file->baseName.'.'.$model->file->extension);
-                $model->file->saveAs('uploads/historicos/'.$aluno->matricula.'_'.date('Ydm_His').'.'.$model->file->extension);
-                //$model->pathArqHistorico = $model->file->name;
-                $model->pathArqHistorico = $aluno->matricula.'_'.date('Ydm_His').'.'.$model->file->extension;
-                $model->file = 'uploads/historicos/'.$aluno->matricula.'_'.date('Ydm_His').'.'.$model->file->extension;
+                //$model->file->saveAs('uploads/historicos/'.$aluno->matricula.'_'.date('Ydm_His').'.'.$model->file->extension);
+                $model->pathArqHistorico = 'uploads/historicos/'.$aluno->matricula.'_'.date('Ydm_His').'.'.$model->file->extension;
+                //$model->file = 'uploads/historicos/'.$aluno->matricula.'_'.date('Ydm_His').'.'.$model->file->extension;
 
                 $model->datacriacao = date('Y-d-m H:i:s');
 
@@ -151,6 +149,7 @@ class MonitoriaController extends Controller
 
                 if ($model->save()) 
                 {
+                    $model->file->saveAs('uploads/historicos/'.$aluno->matricula.'_'.date('Ydm_His').'.'.$model->file->extension);
                     return $this->redirect(['minhasinscricoes']);
 
                 } else {

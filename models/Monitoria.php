@@ -42,9 +42,11 @@ class Monitoria extends \yii\db\ActiveRecord
     {
         return [
             [['IDAluno', 'IDDisc', 'status', 'IDperiodoinscr', 'semestreConclusao', 'anoConclusao', 'mediaFinal'], 'required', 'message'=>'Este campo é obrigatório'],
-            [['IDAluno', 'IDDisc', 'bolsa', 'status', 'IDperiodoinscr', 'semestreConclusao', 'anoConclusao', 'banco', 'agencia', 'conta'], 'integer', 'message'=>'O valor deve ser númerico'],
-            [['mediaFinal'], 'number', 'message'=>'O valor deve ser númerico. Use o ponto (.) como o separador decimal.'],
-            [['file'], 'file', 'extensions' => 'pdf'],
+            [['IDAluno', 'IDDisc', 'bolsa', 'status', 'IDperiodoinscr', 'banco', 'agencia', 'conta'], 'integer', 'message'=>'O valor deve ser númerico'],
+            [['semestreConclusao'], 'in', 'range' => [1,2], 'message'=>'O valor deve ser 1 ou 2'],
+            [['anoConclusao'], 'integer', 'min'=>2015, 'message'=>'O valor deve ser um ano no formato de 4 dígitos maior/igual a 2015.'],
+            [['mediaFinal'], 'number', 'min'=>7.0, 'max'=>10.0, 'message'=>'O valor deve ser maior/igual 7.0. Use o ponto (.) como o separador decimal.'],
+            [['file'], 'file', 'extensions' => 'pdf', 'skipOnEmpty' => false],
             [['pathArqHistorico'], 'string', 'max' => 250],
         ];
     }

@@ -56,10 +56,9 @@ use kartik\select2\Select2;
         <?php if ($model->errors) { ?>
             <?= $form->errorSummary($model); ?>
         <?php } ?>
-
-        <?php if (!$model->errors) { ?>
-        <?= $form->field($model, 'semestreConclusao')->textInput(['style'=>'width:100px']) ?>
+        
         <?= $form->field($model, 'anoConclusao')->textInput(['style'=>'width:100px']) ?>
+        <?= $form->field($model, 'semestreConclusao')->dropDownList(['' => '', '1' => '1', '2' => '2'], ['style'=>'width:60px']) ?>
         <?= $form->field($model, 'mediaFinal')->textInput(['style'=>'width:100px']) ?>
         <?= $form->field($model, 'file')->fileInput() ?>
         <?= $form->field($model, 'bolsa')->checkbox() ?>
@@ -75,8 +74,6 @@ use kartik\select2\Select2;
         <?= $form->field($model, 'IDAluno')->hiddenInput()->label(false) ?>
         <?= $form->field($model, 'status')->hiddenInput()->label(false) ?>
         <?= $form->field($model, 'IDperiodoinscr')->hiddenInput()->label(false) ?>
-
-        <?php } ?>
 
         <?= Html::hiddenInput('step', $etapa) ?>
 
