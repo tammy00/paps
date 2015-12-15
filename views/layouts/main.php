@@ -4,6 +4,8 @@
 use yii\helpers\Html;
 use app\assets\AppAsset;
 use kartik\icons\Icon;
+use app\models\Periodo;
+
 Icon::map($this);
 AppAsset::register($this);
 ?>
@@ -46,10 +48,14 @@ AppAsset::register($this);
                         <ul class="nav" id="side-menu">
                             <li class="sidebar-search">
                                 <div class="input-group">
-                                    Olá, 
-                                    <b><?= Yii::$app->user->identity->name ?></b>
-                                    , você está logado como: 
-                                    <b><?= Yii::$app->user->identity->perfil ?></b>
+                                    Oi!, 
+                                    <b><?= Yii::$app->user->identity->name ?></b>, você está logado como: 
+                                    <b><?= Yii::$app->user->identity->perfil ?></b>.
+
+                                </div> 
+                                <div class="input-group">
+                                    <?php $p = Periodo::find()->orderBy(['id' => SORT_DESC])->one(); ?>
+                                    <b>Período Atual:</b> <?php echo $p->codigo; ?> 
                                 </div>
                                 <!-- /input-group -->
                             </li>

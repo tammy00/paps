@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use dosamigos\datepicker\DatePicker;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\PeriodoInscricaoMonitoria */
@@ -12,18 +13,31 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'dataInicio')->widget(\yii\jui\DatePicker::classname(), [
-    	'language' => 'pt-BR',
-    	'dateFormat' => 'dd-MM-y',
-	]) ?>
+    <?= $form->field($model, 'dataInicio')->widget(
+        DatePicker::className(), [
+         'inline' => false, 
+         'language' => 'pt', 
+        'template' => '{addon}{input}',
+        'options' => ['style'=>'width:130px'],
+        'clientOptions' => [
+            'autoclose' => true,
+            'format' => 'yyyy-mm-dd'
+            ]
+    ]) ?>
 
-    <?= $form->field($model, 'dataFim')->widget(\yii\jui\DatePicker::classname(), [
-    	'language' => 'pt-BR',
-    	'dateFormat' => 'dd-MM-y',
-	]) ?>
+    <?= $form->field($model, 'dataFim')->widget(
+        DatePicker::className(), [
+         'inline' => false, 
+         'language' => 'pt', 
+        'template' => '{addon}{input}',
+        'options' => ['style'=>'width:130px'],
+        'clientOptions' => [
+            'autoclose' => true,
+            'format' => 'yyyy-mm-dd'
+            ]
+    ]) ?>
 
-   <?= $form->field($model, 'ano')->textInput(['style'=>'width:100px']) ?>
-
+    <?= $form->field($model, 'ano')->textInput(['style'=>'width:100px']) ?>
 
     <?= $form->field($model, 'periodo')->dropDownList(['1' => '1', '2' => '2'], ['style'=>'width:60px']) ?>
 

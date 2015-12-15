@@ -48,6 +48,7 @@ use dosamigos\datepicker\DatePicker;
         DatePicker::className(), [
         // inline too, not bad
          'inline' => false, 
+         'language' => 'pt', 
         // modify template for custom rendering
         //'template' => '<div class="well well-sm" style="background-color: #fff; width:250px">{input}</div>',
         'template' => '{addon}{input}',
@@ -62,6 +63,7 @@ use dosamigos\datepicker\DatePicker;
         DatePicker::className(), [
         // inline too, not bad
          'inline' => false, 
+         'language' => 'pt', 
         // modify template for custom rendering
         //'template' => '<div class="well well-sm" style="background-color: #fff; width:250px">{input}</div>',
         'template' => '{addon}{input}',
