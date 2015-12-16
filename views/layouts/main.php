@@ -62,7 +62,8 @@ AppAsset::register($this);
                          <!--  <li>
                                 <a href="#"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                             </li>-->
-                            <?php if(Yii::$app->user->identity->isAdmin == 1){ ?>
+                            <?php if(Yii::$app->user->identity->isAdmin == 1)
+                            { ?>
                             <li>
                                 <a href="?r=curso/index" ><i class="fa fa-check fa-fw"></i> Curso</a>
                             </li>
@@ -72,10 +73,11 @@ AppAsset::register($this);
                             <li>
                                 <a href="?r=usuario/index"><i class="fa fa-user fa-fw"></i> Usuários</a>
                             </li>
-							<li>
+                            <li>
                                 <a href="?r=monitoria/index"><i class="fa fa-eye fa-fw"></i> Monitoria</a>
                             </li>
                             <?php } ?>
+
                             <?php if(Yii::$app->user->identity->perfil == 'Coordenador'){ ?>
                                 <li>
                                     <a href="?r=solicitacao/index"><i class="fa fa-download fa-fw"></i> Solicitações</a>
@@ -86,6 +88,27 @@ AppAsset::register($this);
                                 <li>
                                     <a href="?r=atividade/index"><i class="fa fa-tasks fa-fw"></i> Atividades</a>
                                 </li>
+                            <?php } ?>
+
+                            <?php if(Yii::$app->user->identity->perfil == 'Aluno')
+                            { ?>
+                            <li>
+                                <a href="?r=monitoria/index"><i class="fa fa-eye fa-fw"></i> Monitoria</a>
+                            </li>
+                            <?php } ?>
+
+                            <?php if(Yii::$app->user->identity->perfil == 'Secretaria')
+                            { ?>
+                            <li>
+                                <a href="?r=monitoria/index"><i class="fa fa-eye fa-fw"></i> Monitoria</a>
+                            </li>
+                            <?php } ?>
+
+                            <?php if(Yii::$app->user->identity->perfil == 'Professor')
+                            { ?>
+                            <li>
+                                <a href="?r=monitoria/index"><i class="fa fa-eye fa-fw"></i> Monitoria</a>
+                            </li>
                             <?php } ?>
                           <!--   <li>
                                 <a href="#"><i class="fa fa-line-chart fa-fw"></i> Relatório</a>
