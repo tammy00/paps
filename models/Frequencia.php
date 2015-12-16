@@ -46,9 +46,9 @@ class Frequencia extends \yii\db\ActiveRecord
         return [
             'id' => 'id',
             'IDMonitoria' => 'Nº Monitoria',
-            'dmy' => 'Data',
-            'ch' => 'Carga Horária',
-            'atividade' => 'Atividade',
+            'dmy' => 'Data do Registro',
+            'ch' => 'Carga Horária Executada',
+            'atividade' => 'Descrição da Atividade',
         ];
     }
 

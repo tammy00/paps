@@ -42,6 +42,7 @@ use dosamigos\datepicker\DatePicker;
     <?= $form->field($model, 'periodo')->dropDownList(['1' => '1', '2' => '2'], ['style'=>'width:60px']) ?>
 
     <div class="form-group">
+        <a href="?r=periodo-inscricao-monitoria/index" class="btn btn-default">Voltar</a>
         <?= Html::submitButton($model->isNewRecord ? 'Criar' : 'Atualizar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 

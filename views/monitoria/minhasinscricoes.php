@@ -29,6 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'IDperiodoinscr',
             [
                 'attribute'=>'bolsa', 
+                'label'=>'Bolsista',
                 'value'=>'traducao_bolsa'
             ],
             [
@@ -43,5 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ],
     ]); ?>
+
+    <a href="?r=monitoria/index" class="btn btn-default">Voltar</a>
 
 </div>

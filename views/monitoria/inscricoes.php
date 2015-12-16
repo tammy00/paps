@@ -38,4 +38,6 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]); ?>
 
+    <a href="?r=monitoria/index" class="btn btn-default">Voltar</a>
+
 </div>

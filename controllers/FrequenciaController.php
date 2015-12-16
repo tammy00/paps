@@ -52,25 +52,28 @@ class FrequenciaController extends Controller
     {
         // Deixar essa pesquisa mais limpa
 
+        $frequencias = array();
         $aluno = Usuario::find()->where(['CPF' => Yii::$app->user->identity->cpf])->one(); // pesquisa para pegar o id do aluno
         $rgmonitoria = Monitoria::find()->where(['IDAluno' => $aluno->id])->one(); // pesquisa para pegar o id de monitoria do aluno
-        $todas = Frequencia::find()->where(['IDMonitoria' => $rgmonitoria->id])->all();  
-        //$todas = Frequencia::find()->all();
-
-        $frequencias = array();
         
-        foreach ($todas as $freq) 
-        {
-            $evento = new \yii2fullcalendar\models\Event();
-            $evento->id = $freq->id;
-            $evento->className = 'btn';
-            $evento->title = $freq->ch .'h';
-            $evento->start = $freq->dmy; 
-            $frequencias[] = $evento;
+        if ($rgmonitoria != null && $rgmonitoria->id != null) {
+            $todas = Frequencia::find()->where(['IDMonitoria' => $rgmonitoria->id])->all();  
+            //$todas = Frequencia::find()->all();        
+            
+            foreach ($todas as $freq) 
+            {
+                $evento = new \yii2fullcalendar\models\Event();
+                $evento->id = $freq->id;
+                $evento->className = 'btn';
+                $evento->title = $freq->ch .'h';
+                $evento->start = $freq->dmy; 
+                $frequencias[] = $evento;
+            }
         }
 
         return $this->render('index', [
             'events' => $frequencias,
+            'erro' => ($rgmonitoria != null && $rgmonitoria->id != null ? '0' : '1'),
         ]);  
         /*
         $events = array();

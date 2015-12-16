@@ -86,6 +86,12 @@ class MonitoriaController extends Controller
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
+
+        //$model = DisciplinaMonitoria::findOne($id)
+
+        //return $this->render('view', [
+        //    'model' => $model,
+        //]);
     }
 
     /**
@@ -150,7 +156,8 @@ class MonitoriaController extends Controller
                 if ($model->save()) 
                 {
                     $model->file->saveAs('uploads/historicos/'.$aluno->matricula.'_'.date('Ydm_His').'.'.$model->file->extension);
-                    return $this->redirect(['minhasinscricoes']);
+                    //return $this->redirect(['minhasinscricoes']);
+                    return $this->redirect(['view', 'id' => $model->id]);
 
                 } else {
 

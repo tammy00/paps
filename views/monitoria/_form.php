@@ -98,6 +98,7 @@ use kartik\grid\GridView;
             'codTurma',
         ],
     ]); ?>
+
 </div>
 
 <div class="monitoria-form">
@@ -108,6 +109,7 @@ use kartik\grid\GridView;
         <?= Html::hiddenInput('step', $etapa) ?>
 
         <div class="form-group">
+            <a href="?r=monitoria/index" class="btn btn-default">Voltar</a>
             <?= Html::submitButton('Continuar', ['class' => 'btn btn-success', 'id' => 'btnsubmit']) ?>
         </div>
 

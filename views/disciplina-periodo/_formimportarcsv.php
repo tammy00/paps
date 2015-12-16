@@ -37,7 +37,8 @@ use yii\helpers\ArrayHelper;
 		    <strong>Atenção:</strong> O arquivo deve usar a vírgula (,) como separador de campos/colunas.<br><br>
 
 		    <div class="form-group">
-		        <?= Html::submitButton('Importar', ['class' => 'btn btn-primary']) ?>
+		    	<a href="?r=disciplina-periodo/index" class="btn btn-default">Voltar</a>
+		        <?= Html::submitButton('Importar', ['class' => 'btn btn-success']) ?>
 		    </div>
 
 		    <?php ActiveForm::end(); ?>
@@ -68,11 +69,11 @@ use yii\helpers\ArrayHelper;
 				</div>
 			<?php 
 			} ?>
-
-			<a href="index.php?r=disciplina-periodo/index" class="btn btn-success btn-large">Visualizar Disciplinas</a>
+			
+			<a href="index.php?r=disciplina-periodo/index" class="btn btn-primary btn-large">Visualizar Disciplinas</a>
 
 			<?php if ($erros) { ?>
-				<a href="index.php?r=disciplina-periodo/importarcsv" class="btn btn-primary btn-large">Tentar Novamente</a>
+				<a href="index.php?r=disciplina-periodo/importarcsv" class="btn btn-success btn-large">Tentar Novamente</a>
 			<?php } ?>
 
         <?php 

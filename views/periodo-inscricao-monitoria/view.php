@@ -37,4 +37,6 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]) ?>
 
+    <a href="?r=periodo-inscricao-monitoria/index" class="btn btn-default">Voltar</a>
+
 </div>

@@ -36,4 +36,6 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]) ?>
 
+    <a href="?r=frequencia/minhasfrequencias" class="btn btn-default">Voltar</a>
+
 </div>

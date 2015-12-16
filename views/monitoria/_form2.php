@@ -78,6 +78,7 @@ use kartik\select2\Select2;
         <?= Html::hiddenInput('step', $etapa) ?>
 
         <div class="form-group">
+            <a href="?r=monitoria/create" class="btn btn-default">Voltar</a>
             <?= Html::submitButton($model->isNewRecord ? 'Cadastrar' : 'Atualizar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
         </div>
 

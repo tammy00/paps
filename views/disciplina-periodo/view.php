@@ -65,4 +65,6 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]) ?>
 
+    <a href="?r=disciplina-periodo/index" class="btn btn-default">Voltar</a>
+
 </div>
