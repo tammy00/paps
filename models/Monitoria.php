@@ -44,9 +44,13 @@ class Monitoria extends \yii\db\ActiveRecord
             [['IDAluno', 'IDDisc', 'status', 'IDperiodoinscr', 'semestreConclusao', 'anoConclusao', 'mediaFinal'], 'required', 'message'=>'Este campo é obrigatório'],
             [['IDAluno', 'IDDisc', 'bolsa', 'status', 'IDperiodoinscr', 'banco', 'agencia', 'conta'], 'integer', 'message'=>'O valor deve ser númerico'],
             [['semestreConclusao'], 'in', 'range' => [1,2], 'message'=>'O valor deve ser 1 ou 2'],
-            [['anoConclusao'], 'integer', 'min'=>2015, 'message'=>'O valor deve ser um ano no formato de 4 dígitos maior/igual a 2015.'],
-            [['mediaFinal'], 'number', 'min'=>7.0, 'max'=>10.0, 'message'=>'O valor deve ser maior/igual 7.0. Use o ponto (.) como o separador decimal.'],
-            [['file'], 'file', 'extensions' => 'pdf', 'skipOnEmpty' => false],
+            [['anoConclusao'], 'integer', 'min'=>2015, 'message'=>'O valor deve ser um ano no formato de 4 dígitos.'],
+            [['mediaFinal'], 'number', 'min'=>7.0, 'max'=>10.0, 'tooSmall'=>'O valor não deve ser menor que 7.', 'tooBig'=>'O valor não deve ser maior que 10.'],
+            [['file'], 'file', 'extensions' => 'pdf', 'skipOnEmpty' => false, 
+                'message' => 'Falha ao carregar o arquivo.', 
+                'uploadRequired' => 'Por favor, faça o upload do histórico escolar em PDF.', 
+                'wrongExtension' => 'Apenas arquivos com a extensão PDF são permitidos.'
+            ],
             [['pathArqHistorico'], 'string', 'max' => 250],
         ];
     }

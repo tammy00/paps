@@ -99,4 +99,19 @@ use kartik\select2\Select2;
             });
         });'
     );
+
+    $this->registerJsFile(Yii::$app->request->baseUrl.'/js/jquery.price_format.2.0.min.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+
+    $this->registerJs('
+        $(document).ready(function(){
+            $("#monitoria-mediafinal").priceFormat({
+            prefix: "",
+            centsSeparator: ".",
+            thousandsSeparator: "",
+            limit: 4,
+            centsLimit: 2,
+            allowNegative: false,
+            });
+        });
+    ');
 ?>

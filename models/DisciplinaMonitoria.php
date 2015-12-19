@@ -44,9 +44,9 @@ class DisciplinaMonitoria extends \yii\db\ActiveRecord
             'nomeDisciplina' => 'Disciplina',
             'nomeCurso' => 'Curso',
             'nomeProfessor' => 'Professor',
-            'codTurma' => 'Código Turma',
-            'numPeriodo' => 'Número Período',
-            'anoPeriodo' => 'Ano Período'
+            'codTurma' => 'Código da Turma',
+            'numPeriodo' => 'Número do Período',
+            'anoPeriodo' => 'Ano do Período'
         ];
     }
 }
