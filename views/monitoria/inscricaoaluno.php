@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel app\models\MonitoriaSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Minhas Inscrições';
+$this->title = 'Minhas Monitorias';
 $this->params['breadcrumbs'][] = ['label' => 'Monitorias', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -21,25 +21,14 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            [
-                'attribute'=>'IDDisc', 
-                'value'=>'nomeDisciplina'
-            ],
+            'nomeDisciplina',
+            'professor',
+            'codTurma',
             'nomeCurso',
-            'IDperiodoinscr',
-            [
-                'attribute'=>'bolsa', 
-                'label'=>'Bolsista',
-                'value'=>'traducao_bolsa'
-            ],
-            [
-                'attribute'=>'status', 
-                'value'=>'traducao_status'
-            ],
-
+            'bolsa_traducao',
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{delete}',
+                'template' => '{view} {delete}',
                 //'deleteOptions' => ['data-confirm'=>\Yii::t('app', 'Você realmente deseja deletar este item ' . strtolower($this->title) . '?')],
             ],
         ],

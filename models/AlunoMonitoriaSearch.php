@@ -5,12 +5,13 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\DisciplinaMonitoria;
+use app\models\AlunoMonitoria;
+use app\models\Usuario;
 
 /**
- * DisciplinaMonitoriaSearch represents the model behind the search form about `app\models\DisciplinaMonitoria`.
+ * AlunoMonitoriaSearch represents the model behind the search form about `app\models\AlunoMonitoria`.
  */
-class DisciplinaMonitoriaSearch extends DisciplinaMonitoria
+class AlunoMonitoriaSearch extends AlunoMonitoria
 {
     /**
      * @inheritdoc
@@ -19,7 +20,7 @@ class DisciplinaMonitoriaSearch extends DisciplinaMonitoria
     {
         return [
             [['id'], 'integer'],
-            [['nomeDisciplina', 'nomeCurso', 'nomeProfessor', 'codTurma'], 'safe'],
+            [['aluno', 'matricula', 'cpf', 'nomeDisciplina', 'codTurma', 'professor', 'nomeCurso', 'bolsa_traducao'], 'safe'],
         ];
     }
 
@@ -41,11 +42,10 @@ class DisciplinaMonitoriaSearch extends DisciplinaMonitoria
      */
     public function search($params)
     {
-        $query = DisciplinaMonitoria::find();
+        $query = AlunoMonitoria::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'pagination' => ['pageSize' => 10 ],
         ]);
 
         $this->load($params);
@@ -56,15 +56,24 @@ class DisciplinaMonitoriaSearch extends DisciplinaMonitoria
             return $dataProvider;
         }
 
+        //Pega o id do usuario baseando-se no CPF do usuário logado
+        $usuario = Usuario::findOne(['CPF' => Yii::$app->user->identity->cpf]);
+
         $query->andFilterWhere([
-            'numPeriodo' => $this->numPeriodo,
-            'anoPeriodo' => $this->anoPeriodo,
+            'id' => $this->id,
+            'IDAluno' => $usuario->id,
         ]);
 
+        $query->andFilterWhere(['like', 'aluno', $this->aluno]);
+        $query->andFilterWhere(['like', 'matricula', $this->matricula]);
+        $query->andFilterWhere(['like', 'cpf', $this->cpf]);
         $query->andFilterWhere(['like', 'nomeDisciplina', $this->nomeDisciplina]);
-        $query->andFilterWhere(['like', 'nomeCurso', $this->nomeCurso]);
-        $query->andFilterWhere(['like', 'nomeProfessor', $this->nomeProfessor]);
         $query->andFilterWhere(['like', 'codTurma', $this->codTurma]);
+        $query->andFilterWhere(['like', 'professor', $this->professor]);
+        $query->andFilterWhere(['like', 'nomeCurso', $this->nomeCurso]);
+        $query->andFilterWhere(['like', 'bolsa_traducao', $this->bolsa_traducao]);
+
+        //$query->orderBy(['id' => SORT_DESC]);
 
         return $dataProvider;
     }

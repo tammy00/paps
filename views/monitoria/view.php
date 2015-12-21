@@ -26,6 +26,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
             ]); ?>
         <?php } ?>
+
+        <?php if(Yii::$app->user->identity->perfil === 'Aluno') { ?>
+            <?= Html::a('Frequência Individual', ['/frequencia/index', 'id' => $model->id], ['class' => 'btn btn-primary']);  ?>
+        <?php } ?>
+
     </p>
 
     <?= DetailView::widget([
@@ -38,6 +43,6 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]) ?>
 
-    <a href="?r=monitoria/minhasinscricoes" class="btn btn-default">Voltar</a>
+    <a href="?r=monitoria/inscricaoaluno" class="btn btn-default">Voltar</a>
 
 </div>

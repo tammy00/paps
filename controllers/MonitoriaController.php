@@ -21,6 +21,10 @@ use app\models\DisciplinaPeriodoSearch;
 use app\models\Usuario;
 use app\models\DisciplinaMonitoria;
 use app\models\DisciplinaMonitoriaSearch;
+use app\models\AlunoMonitoria;
+use app\models\AlunoMonitoriaSearch;
+use app\models\Periodo;
+use mPDF;
 
 /**
  * MonitoriaController implements the CRUD actions for Monitoria model.
@@ -32,10 +36,10 @@ class MonitoriaController extends Controller
         return [
             'acess' => [
                 'class' => AccessControl::className(),
-                'only' => ['create','index','update', 'view', 'delete', 'minhasinscricoes', 'pendencias'],
+                'only' => ['create','index','update', 'view', 'delete', 'inscricaoaluno', 'inscricaosecretaria'],
                 'rules' => [
                     [
-                        'actions' => ['create','index','update', 'view', 'delete', 'minhasinscricoes', 'pendencias'],
+                        'actions' => ['create','index','update', 'view', 'delete', 'inscricaoaluno', 'inscricaosecretaria'],
                         'allow' => true,
                         'matchCallback' => function ($rule, $action) 
                         {
@@ -156,7 +160,7 @@ class MonitoriaController extends Controller
                 if ($model->save()) 
                 {
                     $model->file->saveAs('uploads/historicos/'.$aluno->matricula.'_'.date('Ydm_His').'.'.$model->file->extension);
-                    //return $this->redirect(['minhasinscricoes']);
+                    //return $this->redirect(['inscricaoaluno']);
                     return $this->redirect(['view', 'id' => $model->id]);
 
                 } else {
@@ -251,7 +255,7 @@ class MonitoriaController extends Controller
      */
     public function actionUpdate($id)
     {
-        if ( (Yii::$app->request->referrer) != '/monitoria/minhasinscricoes')
+        if ( (Yii::$app->request->referrer) != '/monitoria/inscricaoaluno')
         {
             $model = $this->findModel($id);
 
@@ -308,12 +312,12 @@ class MonitoriaController extends Controller
         }
     }
 
-    public function actionMinhasinscricoes()
+    public function actionInscricaoaluno()
     {
-        $searchModel = new MonitoriaSearch();
-        $dataProvider = $searchModel->searchAluno(Yii::$app->request->queryParams);
+        $searchModel = new AlunoMonitoriaSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->render('minhasinscricoes', [
+        return $this->render('inscricaoaluno', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
@@ -330,12 +334,12 @@ class MonitoriaController extends Controller
         ]);
     }
 
-    public function actionInscricoes()
+    public function actionInscricaosecretaria()
     {
         $searchModel = new MonitoriaSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->render('inscricoes', [
+        return $this->render('inscricaosecretaria', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
@@ -369,8 +373,44 @@ class MonitoriaController extends Controller
 
     public function actionGerarquadrogeral()
     {
+        //$modelPeriodo = Periodo::find()->orderBy(['id' => SORT_DESC])->one();
+        //$dadosCabecalho = DisciplinaPeriodo::find()->where(['anoPeriodo'.'/'.'numPeriodo' => $modelPeriodo->codigo])->one();
 
-        return $this->render('gerarquadrogeral');
+        $modelPeriodo = DisciplinaPeriodo::find()->orderBy(['anoPeriodo' => SORT_DESC, 'numPeriodo' => SORT_DESC])->one();
+        $periodoletivo = $modelPeriodo->anoPeriodo . '/' . $modelPeriodo->numPeriodo;
+        $dadosCabecalho = Periodo::find()->where(['codigo' => $periodoletivo])->one();
+
+        if ( $dadosCabecalho != null ) {
+
+            $cssfile = file_get_contents('../web/css/estilo3.css');
+            $mpdf = new mPDF('utf-8', 'A4-L');
+            $mpdf->title = '3. Quadro Geral';
+            $mpdf->WriteHTML($cssfile, 1);
+            //$mpdf->Image('../web/img/cabecalho.png', 20, 5, 900, 80);
+            $mpdf->WriteHTML('
+                <img src="../web/img/cabecalho.png" alt="Universidade Federal do Amazonas...." width="950" height="80">
+                <p><b>QUADRO GERAL DE MONITORES BOLSISTAS E NÃO BOLSISTAS - 03<br>
+                (<amarelo>Encaminhar também em formato .DOC -word- para o email monitoriaufam@outlook.com</amarelo>)
+                </b></p>
+                <table>
+                    <tr>
+                      <td bgcolor="#e6e6e6"> <b>SETOR RESPONSÁVEL (Coord.Dept/Outros)</b> </td>
+                      <td> '.$modelPeriodo->nomeUnidade.'</td>
+                      <td bgcolor="#e6e6e6"><b>UNIDADE</b></td>
+                      <td>'.$modelPeriodo->nomeUnidade.'</td>
+                    </tr>
+                    <tr>
+                      <td bgcolor="#e6e6e6"><b>PERÍODO LETIVO</b></td>
+                      <td colspan=3>'.$modelPeriodo->anoPeriodo.'/'.$modelPeriodo->numPeriodo.' </td> 
+                     </tr>  
+                 </table>
+
+            ');
+
+            $mpdf->Output();
+            exit;
+        }
+        else return $this->render('gerarquadrogeral');
     }
 
     public function actionGerarfrequenciageral()

@@ -48,32 +48,28 @@ class FrequenciaController extends Controller
      * Lists all Frequencia models.
      * @return mixed
      */
-    public function actionIndex()
+    public function actionIndex($id)
     {
         // Deixar essa pesquisa mais limpa
 
         $frequencias = array();
         $aluno = Usuario::find()->where(['CPF' => Yii::$app->user->identity->cpf])->one(); // pesquisa para pegar o id do aluno
-        $rgmonitoria = Monitoria::find()->where(['IDAluno' => $aluno->id])->one(); // pesquisa para pegar o id de monitoria do aluno
         
-        if ($rgmonitoria != null && $rgmonitoria->id != null) {
-            $todas = Frequencia::find()->where(['IDMonitoria' => $rgmonitoria->id])->all();  
-            //$todas = Frequencia::find()->all();        
-            
-            foreach ($todas as $freq) 
-            {
-                $evento = new \yii2fullcalendar\models\Event();
-                $evento->id = $freq->id;
-                $evento->className = 'btn';
-                $evento->title = $freq->ch .'h';
-                $evento->start = $freq->dmy; 
-                $frequencias[] = $evento;
-            }
+        $todas = Frequencia::find()->where(['IDMonitoria' => $id])->all();
+        
+        foreach ($todas as $freq) 
+        {
+            $evento = new \yii2fullcalendar\models\Event();
+            $evento->id = $freq->id;
+            $evento->className = 'btn';
+            $evento->title = $freq->ch .'h';
+            $evento->start = $freq->dmy; 
+            $frequencias[] = $evento;
         }
 
         return $this->render('index', [
             'events' => $frequencias,
-            'erro' => ($rgmonitoria != null && $rgmonitoria->id != null ? '0' : '1'),
+            'erro' => ($id != null ? '0' : '1'),
         ]);  
         /*
         $events = array();
@@ -88,7 +84,7 @@ class FrequenciaController extends Controller
         $Event->id = 2;
         $Event->title = 'Testing';
         $Event->start = date('Y-m-d\TH:i:s\Z',strtotime('tomorrow 6am'));
-  $events[] = $Event;    
+        $events[] = $Event;    
           return $this->render('index', [
             'events' => $events,
         ]);   */
