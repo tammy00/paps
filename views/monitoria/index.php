@@ -20,29 +20,15 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="jumbotron">
         <?php if(Yii::$app->user->identity->perfil == 'Aluno') { ?>
             <p> <?= Html::a('Inscrição', ['create'], ['class' => 'btn btn-success']) ?>   </p>
-            <p> <?= Html::a('Gerenciar Inscrições', ['inscricaoaluno'], ['class' => 'btn btn-success']) ?> </p>
+            <p> <?= Html::a('Gerenciar Monitorias', ['inscricaoaluno'], ['class' => 'btn btn-success']) ?> </p>
             <p> <?= Html::a('Gerar Relatório Semestral', ['gerarrelatoriosemestral'], ['class' => 'btn btn-success']) ?> </p>
         <?php } ?>
 
         <?php if(Yii::$app->user->identity->perfil == 'Secretaria'){ ?>
-            <p>
-                <?= Html::a('Gerenciar Período de Inscrição', ['/periodo-inscricao-monitoria/index'], ['class' => 'btn btn-success']) ?>
-                <?= Html::a('Disciplinas UFAM', ['/disciplina/index'], ['class' => 'btn btn-success']) ?>
-                <?= Html::a('Selecionar Disciplinas Monitoria', ['/disciplina-periodo/index'], ['class' => 'btn btn-success']) ?>
-            </p>
-            <p>
-                <?= Html::a('Gerenciar Inscrições', ['inscricaosecretaria'], ['class' => 'btn btn-success']) ?>
-                <?= Html::a('Fazer Plano Semestral', ['fazerplanosemestral'], ['class' => 'btn btn-success']) ?>
-                <?= Html::a('Gerar Plano Semestral da Disciplina', ['gerarplanosemestraldisciplina'], ['class' => 'btn btn-success']) ?>        
-            </p>
-            <p> 
-                <?= Html::a('Gerar Quadro Geral', ['gerarquadrogeral'], ['class' => 'btn btn-success']) ?>   
-                 <?= Html::a('Gerar Frequência Geral', ['gerarfrequenciageral'], ['class' => 'btn btn-success']) ?>
-            </p>
-            <p>    
-                <?= Html::a('Gerar Relatório Semestral', ['gerarrelatoriosemestral'], ['class' => 'btn btn-success']) ?>    
-                <?= Html::a('Gerar Relatório Anual', ['gerarrelatorioanual'], ['class' => 'btn btn-success']) ?>
-            </p>
+            <p><?= Html::a('Gerenciar Período de Inscrição', ['/periodo-inscricao-monitoria/index'], ['class' => 'btn btn-success']) ?></p>
+            <p><?= Html::a('Disciplinas UFAM', ['/disciplina/index'], ['class' => 'btn btn-success']) ?></p>
+            <p><?= Html::a('Selecionar Disciplinas Monitoria', ['/disciplina-periodo/index'], ['class' => 'btn btn-success']) ?></p>
+            <p><?= Html::a('Gerenciar Monitorias', ['inscricaosecretaria'], ['class' => 'btn btn-success']) ?></p>
         <?php } ?>
 
     </div>

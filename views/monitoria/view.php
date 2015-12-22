@@ -17,7 +17,21 @@ $this->params['breadcrumbs'][] = $this->title;
     </br>
     <p>
         <?php if(Yii::$app->user->identity->perfil === 'Secretaria') { ?>
-            <?= Html::a('Atualizar', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']);  ?>
+
+            <?= Html::a('Deferir', ['deferir', 'id' => $model->id], [
+                'class' => 'btn btn-primary',
+                'data' => [
+                    'confirm' => 'Você realmente deseja deferir esta inscrição?',
+                    'method' => 'post',
+                ],
+            ]); ?>
+            <?= Html::a('Indeferir', ['indeferir', 'id' => $model->id], [
+                'class' => 'btn btn-warning',
+                'data' => [
+                    'confirm' => 'Você realmente deseja indeferir esta inscrição?',
+                    'method' => 'post',
+                ],
+            ]); ?>
             <?= Html::a('Deletar', ['delete', 'id' => $model->id], [
                 'class' => 'btn btn-danger',
                 'data' => [
@@ -40,6 +54,11 @@ $this->params['breadcrumbs'][] = $this->title;
             'codTurma',
             'nomeCurso',
             'bolsa_traducao',
+            [
+                'label' => 'Histórico Escolar',
+                'format'=> 'raw',
+                'value' => Html::a('Visualizar', '/paps/web/'.$model->pathArqHistorico, ['target'=>'_blank'])
+            ],
             'status'
         ],
         'options' => [
@@ -48,6 +67,12 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]) ?>
 
-    <a href="?r=monitoria/inscricaoaluno" class="btn btn-default">Voltar</a>
+    <?php if(Yii::$app->user->identity->perfil === 'Secretaria') { ?>
+        <a href="?r=monitoria/inscricaosecretaria" class="btn btn-default">Voltar</a>
+    <?php } ?>
+
+    <?php if(Yii::$app->user->identity->perfil === 'Aluno') { ?>
+        <a href="?r=monitoria/inscricaoaluno" class="btn btn-default">Voltar</a>
+    <?php } ?>
 
 </div>

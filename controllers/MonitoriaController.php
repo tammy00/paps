@@ -71,13 +71,7 @@ class MonitoriaController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new MonitoriaSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+        return $this->render('index');
     }
 
     /**
@@ -87,14 +81,8 @@ class MonitoriaController extends Controller
      */
     public function actionView($id)
     {
-        //return $this->render('view', [
-        //    'model' => $this->findModel($id),
-        //]);
-
-        $model = AlunoMonitoria::findOne($id);
-
         return $this->render('view', [
-            'model' => $model,
+            'model' => AlunoMonitoria::findOne($id),
         ]);
     }
 
@@ -315,7 +303,7 @@ class MonitoriaController extends Controller
     public function actionInscricaoaluno()
     {
         $searchModel = new AlunoMonitoriaSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = $searchModel->searchAluno(Yii::$app->request->queryParams);
 
         return $this->render('inscricaoaluno', [
             'searchModel' => $searchModel,
@@ -323,21 +311,14 @@ class MonitoriaController extends Controller
         ]);
     }
 
-    public function actionPendencias() 
-    {
-        $searchModel = new MonitoriaSearch();
-        $dataProvider = $searchModel->searchPendencias(Yii::$app->request->queryParams);
-
-        return $this->render('pendencias', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
-
     public function actionInscricaosecretaria()
     {
-        $searchModel = new MonitoriaSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        //Seleciona o último período de inscrição
+        $periodoInscricao = PeriodoInscricaoMonitoria::find()->orderBy(['id' => SORT_DESC])->one();
+
+        $searchModel = new AlunoMonitoriaSearch();
+        $searchModel->IDperiodoinscr = $periodoInscricao->id;
+        $dataProvider = $searchModel->searchSecretaria(Yii::$app->request->queryParams);
 
         return $this->render('inscricaosecretaria', [
             'searchModel' => $searchModel,
@@ -349,14 +330,14 @@ class MonitoriaController extends Controller
     {
         Yii::$app->db->createCommand()->update('monitoria', ['status' => 1], 'id='.$id)->execute();
 
-        return$this->actionPendencias();
+        return$this->actionView($id);
     }
 
     public function actionIndeferir($id)
     {
         Yii::$app->db->createCommand()->update('monitoria', ['status' => 2], 'id='.$id)->execute();
         
-        return$this->actionPendencias();
+        return$this->actionView($id);
     }
 
     public function actionFazerplanosemestral()

@@ -47,7 +47,9 @@ class AlunoMonitoria extends \yii\db\ActiveRecord
             'professor' => 'Professor',
             'nomeCurso' => 'Curso',
             'status' => 'Status',
-            'periodo' => 'Período'
+            'periodo' => 'Período',
+            'IDperiodoinscr' => 'IDperiodoinscr',
+            'pathArqHistorico' => 'Histórico Escolar'
         ];
     }
     
