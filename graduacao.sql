@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 21-Dez-2015 às 23:31
+-- Generation Time: 22-Dez-2015 às 19:40
 -- Versão do servidor: 5.6.20
 -- PHP Version: 5.5.15
 
@@ -179,14 +179,17 @@ CREATE TABLE IF NOT EXISTS `frequencia` (
   `dmy` date NOT NULL,
   `ch` float NOT NULL,
   `atividade` varchar(200) DEFAULT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 --
 -- Extraindo dados da tabela `frequencia`
 --
 
 INSERT INTO `frequencia` (`id`, `IDMonitoria`, `dmy`, `ch`, `atividade`) VALUES
-(1, 2, '2015-12-16', 5, 'Teste');
+(1, 2, '2015-12-16', 5, 'Teste'),
+(2, 2, '2015-12-17', 2, 'TESTE 22/12'),
+(3, 2, '2015-12-18', 4, 'TESTE 22/12 - 2'),
+(4, 2, '2015-12-15', 3, 'test');
 
 -- --------------------------------------------------------
 
@@ -394,6 +397,8 @@ CREATE TABLE IF NOT EXISTS `view_aluno_monitoria` (
 ,`codTurma` varchar(10)
 ,`professor` varchar(100)
 ,`nomeCurso` varchar(100)
+,`status` varchar(20)
+,`periodo` varchar(16)
 );
 -- --------------------------------------------------------
 
@@ -417,7 +422,7 @@ CREATE TABLE IF NOT EXISTS `view_disciplina_monitoria` (
 --
 DROP TABLE IF EXISTS `view_aluno_monitoria`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_aluno_monitoria` AS select `m`.`id` AS `id`,`m`.`IDDisc` AS `id_disciplina`,`m`.`bolsa` AS `bolsa`,if((`m`.`bolsa` = 1),'Sim','Não') AS `bolsa_traducao`,`u`.`name` AS `aluno`,`m`.`IDAluno` AS `IDAluno`,`u`.`matricula` AS `matricula`,`u`.`cpf` AS `cpf`,`d`.`nomeDisciplina` AS `nomeDisciplina`,`dp`.`codTurma` AS `codTurma`,`p`.`name` AS `professor`,`c`.`nome` AS `nomeCurso` from (((((`monitoria` `m` join `disciplina_periodo` `dp` on((`m`.`IDDisc` = `dp`.`id`))) join `disciplina` `d` on((`dp`.`idDisciplina` = `d`.`id`))) left join `usuario` `u` on((`m`.`IDAluno` = `u`.`id`))) left join `usuario` `p` on((`dp`.`idProfessor` = `p`.`id`))) left join `curso` `c` on((`dp`.`idCurso` = `c`.`id`)));
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_aluno_monitoria` AS select `m`.`id` AS `id`,`m`.`IDDisc` AS `id_disciplina`,`m`.`bolsa` AS `bolsa`,if((`m`.`bolsa` = 1),'Sim','Não') AS `bolsa_traducao`,`u`.`name` AS `aluno`,`m`.`IDAluno` AS `IDAluno`,`u`.`matricula` AS `matricula`,`u`.`cpf` AS `cpf`,`d`.`nomeDisciplina` AS `nomeDisciplina`,`dp`.`codTurma` AS `codTurma`,`p`.`name` AS `professor`,`c`.`nome` AS `nomeCurso`,(case `m`.`status` when 0 then 'Aguardando Avaliação' when 1 then 'Deferido' when 2 then 'Indeferido' end) AS `status`,concat(`pi`.`ano`,'/',`pi`.`periodo`) AS `periodo` from ((((((`monitoria` `m` join `disciplina_periodo` `dp` on((`m`.`IDDisc` = `dp`.`id`))) join `disciplina` `d` on((`dp`.`idDisciplina` = `d`.`id`))) left join `usuario` `u` on((`m`.`IDAluno` = `u`.`id`))) left join `usuario` `p` on((`dp`.`idProfessor` = `p`.`id`))) left join `curso` `c` on((`dp`.`idCurso` = `c`.`id`))) left join `periodoinscricao` `pi` on((`m`.`IDperiodoinscr` = `pi`.`id`)));
 
 -- --------------------------------------------------------
 
@@ -543,7 +548,7 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=128;
 -- AUTO_INCREMENT for table `frequencia`
 --
 ALTER TABLE `frequencia`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `grupo`
 --

@@ -87,15 +87,15 @@ class MonitoriaController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-
-        //$model = DisciplinaMonitoria::findOne($id)
-
         //return $this->render('view', [
-        //    'model' => $model,
+        //    'model' => $this->findModel($id),
         //]);
+
+        $model = AlunoMonitoria::findOne($id);
+
+        return $this->render('view', [
+            'model' => $model,
+        ]);
     }
 
     /**

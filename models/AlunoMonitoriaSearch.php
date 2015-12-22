@@ -20,7 +20,7 @@ class AlunoMonitoriaSearch extends AlunoMonitoria
     {
         return [
             [['id'], 'integer'],
-            [['aluno', 'matricula', 'cpf', 'nomeDisciplina', 'codTurma', 'professor', 'nomeCurso', 'bolsa_traducao'], 'safe'],
+            [['aluno', 'matricula', 'cpf', 'nomeDisciplina', 'codTurma', 'professor', 'nomeCurso', 'bolsa_traducao', 'status', 'periodo'], 'safe'],
         ];
     }
 
@@ -72,6 +72,8 @@ class AlunoMonitoriaSearch extends AlunoMonitoria
         $query->andFilterWhere(['like', 'professor', $this->professor]);
         $query->andFilterWhere(['like', 'nomeCurso', $this->nomeCurso]);
         $query->andFilterWhere(['like', 'bolsa_traducao', $this->bolsa_traducao]);
+        $query->andFilterWhere(['like', 'status', $this->status]);
+        $query->andFilterWhere(['like', 'periodo', $this->periodo]);
 
         //$query->orderBy(['id' => SORT_DESC]);
 

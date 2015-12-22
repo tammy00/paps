@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel app\models\MonitoriaSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Minhas Monitorias';
+$this->title = 'Monitorias';
 $this->params['breadcrumbs'][] = ['label' => 'Monitorias', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -19,17 +19,57 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        //'layout'=>"{sorter}\n{pager}\n{summary}\n{items}",
+        'summary' => '',
+        //'showFooter'=>true,
+        'showHeader' => true,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
             'nomeDisciplina',
             'professor',
+            'periodo',
             'codTurma',
             'nomeCurso',
-            'bolsa_traducao',
+            [
+                'attribute'=> 'bolsa_traducao',
+                'filter'=>array("Sim"=>"Sim","Não"=>"Não"),
+            ],
+            [
+                'attribute'=> 'status',
+                'filter'=>array("Aguardando Avaliação"=>"Aguardando Avaliação", "Deferido"=>"Deferido", "Indeferido"=>"Indeferido"),
+            ],
             [
                 'class' => 'yii\grid\ActionColumn',
+                'header'=>'Ações',
+                'headerOptions' => ['style' => 'text-align:center; color:#337AB7'],
+                'contentOptions' => ['style' => 'text-align:center; vertical-align:middle'],
                 'template' => '{view} {delete}',
-                //'deleteOptions' => ['data-confirm'=>\Yii::t('app', 'Você realmente deseja deletar este item ' . strtolower($this->title) . '?')],
+                'buttons' => 
+                [
+                    'view' => function ($url, $model) {
+                        return Html::a(
+                            '<span class="glyphicon glyphicon-eye-open"></span>',
+                            ['monitoria/view', 'id' => $model->id], 
+                            [
+                                'title' => 'View',
+                                'aria-label' => 'View',
+                                'data-pjax' => '0',
+                            ]
+                        );
+                    },
+                    'delete' => function ($url, $model) {
+                        return Html::a(
+                            '<span class="glyphicon glyphicon-trash"></span>',
+                            ['monitoria/delete', 'id' => $model->id], 
+                            [
+                                'title' => 'Delete',
+                                'aria-label' => 'Delete',
+                                'data-pjax' => '0',
+                                'data-confirm' => 'Você realmente deseja deletar este item?',
+                                'data-method' => 'post',
+                            ]
+                        );
+                    },
+                ],
             ],
         ],
     ]); ?>

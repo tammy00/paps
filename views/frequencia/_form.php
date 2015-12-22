@@ -21,7 +21,6 @@ use dosamigos\datepicker\DatePicker;
     <?= $form->field($model, 'atividade')->textInput(['style'=>'width:530px'])->label('Resumo das Atividades Realizadas') ?>
 
     <div class="form-group">
-    	<a href="?r=frequencia/index" class="btn btn-default">Fechar</a>
         <?= Html::submitButton($model->isNewRecord ? 'Cadastrar' : 'Atualizar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 

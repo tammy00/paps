@@ -44,7 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
 
     <?php } ?>
-
-    <a href="?r=monitoria/index" class="btn btn-default">Voltar</a>
+    
+    <?php echo Html::a('Voltar', ['monitoria/inscricaoaluno'], ['class' => 'btn btn-default']); ?>
 
 </div>

@@ -118,7 +118,7 @@ class FrequenciaController extends Controller
         $model->IDMonitoria = $moni->id;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-          return $this->redirect(['index']);
+          return $this->redirect(['index', 'id' => $model->IDMonitoria]);
         } 
         else 
         {
@@ -140,7 +140,7 @@ class FrequenciaController extends Controller
         //g
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index']);
+            return $this->redirect(['index', 'id' => $model->IDMonitoria]);
         } else {
             return $this->render('update', [
                 'model' => $model,

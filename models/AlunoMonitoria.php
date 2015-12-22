@@ -45,7 +45,14 @@ class AlunoMonitoria extends \yii\db\ActiveRecord
             'nomeDisciplina' => 'Disciplina',
             'codTurma' => 'Código da Turma',
             'professor' => 'Professor',
-            'nomeCurso' => 'Curso'
+            'nomeCurso' => 'Curso',
+            'status' => 'Status',
+            'periodo' => 'Período'
         ];
+    }
+    
+    public static function primaryKey()
+    {
+        return array('id');
     }
 }
