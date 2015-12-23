@@ -24,6 +24,7 @@ use app\models\DisciplinaMonitoriaSearch;
 use app\models\AlunoMonitoria;
 use app\models\AlunoMonitoriaSearch;
 use app\models\Periodo;
+use app\models\Curso;
 use mPDF;
 
 /**
@@ -386,20 +387,24 @@ class MonitoriaController extends Controller
             $mpdf->WriteHTML('
                 <img src="../web/img/cabecalho.png" alt="Universidade Federal do Amazonas...." width="950" height="85">
 
-                <p style = "text-align: center;"><b style = "font-size: small;">QUADRO GERAL DE MONITORES BOLSISTAS E NÃO BOLSISTAS - 03<br></b>
+                <p style = "text-align: center;"> <b style = "font-size: small;">
+                QUADRO GERAL DE MONITORES BOLSISTAS E NÃO BOLSISTAS - 03 <br> </b>
                 (<b style = "background-color: yellow;">Encaminhar também em formato .DOC -word- para o email monitoriaufam@outlook.com</b>)
                 </p>
-                <table id="cabecalho_quadro_geral" width="99%" height="100%">
+
+                <table id="cabecalho_1_QuadroGeral" width="99%" height="100%">
                     <tr>
                       <td bgcolor="#e6e6e6"> <b>SETOR RESPONSÁVEL (Coord.Dept/Outros)</b> </td>
-                      <td> '.$modelPeriodo->nomeUnidade.'</td>
-                      <td bgcolor="#e6e6e6"><b>UNIDADE</b></td>
                       <td width="30%"></td>
-                    </tr>
+                      <td bgcolor="#e6e6e6"><b>UNIDADE</b></td>
+                      <td width="30%">'.$modelPeriodo->nomeUnidade.'</td>
+                    </tr> 
+                 </table>
+                 <table id = "cabecalho_2_QuadroGeral" width="40%" height="100%">
                     <tr>
-                      <td bgcolor="#e6e6e6"><b>PERÍODO LETIVO</b></td>
-                      <td colspan=3>'.$modelPeriodo->anoPeriodo.'/'.$modelPeriodo->numPeriodo.' </td> 
-                     </tr>  
+                      <td bgcolor="#e6e6e6" width="29%"><b>PERÍODO LETIVO</b></td>
+                      <td width="20px">'.$modelPeriodo->anoPeriodo.'/'.$modelPeriodo->numPeriodo.' </td> 
+                    </tr> 
                  </table>
 
             ');
@@ -409,25 +414,18 @@ class MonitoriaController extends Controller
                 <br>
                 <table id="quadro_geral" width="99%">
                 <tr>
-                    <td id="n" value="0" bgcolor="#e6e6e6" width="3%"><b>Nº</b></td>
-                    <td id="aluno" value="0" bgcolor="#e6e6e6" width="25%"><b>ALUNO</b><br>(nome completo, sem abreviações)</td>
-                    <td id="mat" value="0" bgcolor="#e6e6e6" width="6%"><b>Nº <br>MATR.</b></td>
-                    <td id="cpf" value="0" bgcolor="#e6e6e6" width="8%"><b>CPF</b></td>
-                    <td id="cat" value="0" bgcolor="#e6e6e6" colspan=2 width="6%"><b>CATEG.</b></td>
-                    <td id="curso" value="0" bgcolor="#e6e6e6" width="13%"><b>CURSO</b></td>
-                    <td id="disc" value="0" bgcolor="#e6e6e6" width="14%"><b>DISCIPLINAS</b><br> (código e título, sem abreviações)</td>
-                    <td id="prof" value="0" bgcolor="#e6e6e6" width="25%"><b>PROFESSOR ORIENTADOR</b><br> (nome completo, sem abreviações)</td>
+                    <td id="n" value="0" bgcolor="#e6e6e6" width="3%" rowspan=2><b>Nº</b></td>
+                    <td id="aluno" value="0" bgcolor="#e6e6e6" width="25%" rowspan=2><b>ALUNO</b><br>(nome completo, sem abreviações)</td>
+                    <td id="mat" value="0" bgcolor="#e6e6e6" width="6%" rowspan=2><b>Nº <br>MATR.</b></td>
+                    <td id="cpf" value="0" bgcolor="#e6e6e6" width="8%" rowspan=2><b>CPF</b></td>
+                    <td id="cat" value="0" bgcolor="#e6e6e6" colspan=2 width="6%" colspan=2><b>CATEG.</b></td>
+                    <td id="curso" value="0" bgcolor="#e6e6e6" width="13%" rowspan=2><b>CURSO</b></td>
+                    <td id="disc" value="0" bgcolor="#e6e6e6" width="14%" rowspan=2><b>DISCIPLINAS</b><br> (código e título, sem abreviações)</td>
+                    <td id="prof" value="0" bgcolor="#e6e6e6" width="25%" rowspan=2><b>PROFESSOR ORIENTADOR</b><br> (nome completo, sem abreviações)</td>
                 </tr>
                 <tr>
-                    <td></tr>
-                    <td></tr>
-                    <td></tr>
-                    <td></tr>
                     <td bgcolor="#e6e6e6" width="3%">B</tr>
                     <td bgcolor="#e6e6e6" width="3%">NB</tr>
-                    <td></tr>
-                    <td></tr>
-                    <td></tr>
                 </tr>
                  </table>
                  ');
@@ -437,12 +435,10 @@ class MonitoriaController extends Controller
         $n = 1;
         $id = 0;
 
-        //while ( $count > 0 )
-        foreach ($aM as $monitor)
+        foreach ($aM as $monitor)        
         {
-            //$monitor = AlunoMonitoria::find()->where(['periodo' => $periodoletivo])->andWhere(['>', 'id', $id])->one();
-            //$monitor = AlunoMonitoria::find()->where(['periodo' => $periodoletivo])->andWhere(['!=', 'id', $id])->one();
             $disc = DisciplinaMonitoria::find()->where(['id' => $monitor->id_disciplina])->one();
+            $codCurso = Curso::find()->where(['nome' => $monitor->nomeCurso])->one();
 
             if ( $monitor->bolsa == 0 ) // Row para alunos não-bolsistas
             {
@@ -455,8 +451,8 @@ class MonitoriaController extends Controller
                             <td width="8%">'.$monitor->cpf.'</tr>
                             <td width="3%"></tr>
                             <td width="3%">X</tr>
-                            <td width="13%">'.$monitor->nomeCurso.'</tr>
-                            <td width="14%">'.$disc->codDisciplina.'-'.$monitor->nomeDisciplina.'</tr>
+                            <td width="13%">'.$codCurso->codigo.' - '.$monitor->nomeCurso.'</tr>
+                            <td width="14%">'.$disc->codDisciplina.' - '.$monitor->nomeDisciplina.'</tr>
                             <td width="25%">'.$monitor->professor.'</tr>
                         </tr>
                          </table>
@@ -472,8 +468,8 @@ class MonitoriaController extends Controller
                             <td width="8%">'.$monitor->cpf.'</tr>
                             <td width="3%">X</tr>
                             <td width="3%"></tr>
-                            <td width="13%">'.$monitor->nomeCurso.'</tr>
-                            <td width="14%">'.$disc->codDisciplina.'-'.$monitor->nomeDisciplina.'</tr>
+                            <td width="13%">'.$codCurso->codigo.' - ' .$monitor->nomeCurso.'</tr>
+                            <td width="14%">'.$disc->codDisciplina.' - '.$monitor->nomeDisciplina.'</tr>
                             <td width="25%">'.$monitor->professor.'</tr>
                         </tr>
                          </table>
@@ -483,6 +479,30 @@ class MonitoriaController extends Controller
             $count--;
             $n++;
             $id = $monitor->id;
+
+            if ( $n == 15 ) {   // Para quebrar o doc em páginas.
+                $mpdf->AddPage();
+                $mpdf->WriteHTML('
+                    <img src="../web/img/cabecalho.png" alt="Universidade Federal do Amazonas...." width="950" height="85">
+                    <br>
+                    <table id="quadro_geral" width="99%">
+                    <tr>
+                        <td id="n" value="0" bgcolor="#e6e6e6" width="3%"><b>Nº</b></td>
+                        <td id="aluno" value="0" bgcolor="#e6e6e6" width="25%"><b>ALUNO</b><br>(nome completo, sem abreviações)</td>
+                        <td id="mat" value="0" bgcolor="#e6e6e6" width="6%"><b>Nº <br>MATR.</b></td>
+                        <td id="cpf" value="0" bgcolor="#e6e6e6" width="8%"><b>CPF</b></td>
+                        <td id="cat" value="0" bgcolor="#e6e6e6" colspan=2 width="6%"><b>CATEG.</b></td>
+                        <td id="curso" value="0" bgcolor="#e6e6e6" width="13%"><b>CURSO</b></td>
+                        <td id="disc" value="0" bgcolor="#e6e6e6" width="14%"><b>DISCIPLINAS</b><br> (código e título, sem abreviações)</td>
+                        <td id="prof" value="0" bgcolor="#e6e6e6" width="25%"><b>PROFESSOR ORIENTADOR</b><br> (nome completo, sem abreviações)</td>
+                    </tr>
+                    <tr>
+                        <td bgcolor="#e6e6e6" width="3%">B</tr>
+                        <td bgcolor="#e6e6e6" width="3%">NB</tr>
+                    </tr>
+                     </table>
+                ');
+            }
         }
 
         // Footer do documento

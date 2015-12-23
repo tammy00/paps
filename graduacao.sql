@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 22-Dez-2015 às 23:53
+-- Generation Time: 23-Dez-2015 às 21:46
 -- Versão do servidor: 5.6.20
 -- PHP Version: 5.5.15
 
@@ -260,14 +260,16 @@ CREATE TABLE IF NOT EXISTS `monitoria` (
   `agencia` varchar(10) CHARACTER SET utf8 DEFAULT NULL,
   `conta` varchar(10) CHARACTER SET utf8 DEFAULT NULL,
   `datacriacao` datetime DEFAULT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 --
 -- Extraindo dados da tabela `monitoria`
 --
 
 INSERT INTO `monitoria` (`id`, `IDAluno`, `IDDisc`, `IDperiodoinscr`, `pathArqHistorico`, `status`, `semestreConclusao`, `anoConclusao`, `mediaFinal`, `bolsa`, `banco`, `agencia`, `conta`, `datacriacao`) VALUES
-(2, 7, 124, 1, 'uploads/historicos/20902175_20151212_074512.pdf', 1, 1, 2016, 8, 0, '', '', '', '0000-00-00 00:00:00');
+(2, 7, 124, 1, 'uploads/historicos/20902175_20151212_074512.pdf', 1, 1, 2016, 8, 0, '', '', '', '0000-00-00 00:00:00'),
+(3, 7, 122, 2, 'uploads/historicos/_20152312_182456.pdf', 0, 2, 2016, 8, 0, '', '', '', '0000-00-00 00:00:00'),
+(4, 5, 125, 2, 'uploads/historicos/20902150_20152312_212035.pdf', 0, 1, 2016, 8, 1, '10', '20', '30', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -309,7 +311,8 @@ CREATE TABLE IF NOT EXISTS `periodoinscricao` (
 --
 
 INSERT INTO `periodoinscricao` (`id`, `dataInicio`, `dataFim`, `periodo`, `ano`) VALUES
-(1, '2015-11-20', '2015-11-21', 2, 2015);
+(1, '2015-11-20', '2015-11-21', 1, 2015),
+(2, '2015-12-01', '2015-12-31', 2, 2015);
 
 -- --------------------------------------------------------
 
@@ -372,9 +375,9 @@ INSERT INTO `usuario` (`id`, `name`, `cpf`, `email`, `password`, `matricula`, `s
 (2, 'CoordSI', '888', 'coord@si.com.br', '0a113ef6b61820daa5611c870ed8d5ee', NULL, NULL, 'Coordenador', NULL, 0, 0, NULL, NULL, NULL),
 (3, 'Tia', '111', 'tia@icomp.com', '698d51a19d8a121ce581499d7b701668', NULL, NULL, 'Secretaria', NULL, 0, 0, NULL, NULL, NULL),
 (4, 'DENILSON DE ALBUQUERQUE CARVALHO', '74247824287', 'zottozbr@gmail.com', 'da1f83c6908ac6c65b8372c8dda40ec0', '21203723', NULL, 'Aluno', NULL, 0, 0, NULL, NULL, NULL),
-(5, 'LUCIENE OLIVEIRA DA SILVA', '51950880206', 'los@icomp.ufam.edu.br', '6a6d00f175cb0fab40385efb121996e6', '20902150', NULL, 'Aluno', NULL, 0, 0, NULL, NULL, NULL),
+(5, 'LUCIENE OLIVEIRA DA SILVA', '51950880206', 'los@icomp.ufam.edu.br', 'b706835de79a2b4e80506f582af3676a', '20902150', NULL, 'Aluno', NULL, 0, 0, NULL, NULL, NULL),
 (6, 'TAMMY HIKARI YANAI GUSMAO', '02806338239', 'tammyhikari@gmail.com', 'b706835de79a2b4e80506f582af3676a', '21201463', NULL, 'Secretaria', NULL, 0, 1, NULL, NULL, NULL),
-(7, 'KALLEY CORREA', '88309495234', 'kalleycorrea@gmail.com', 'b706835de79a2b4e80506f582af3676a', NULL, NULL, 'Aluno', NULL, 0, 1, NULL, NULL, NULL),
+(7, 'KALLEY CORREA', '88309495234', 'kalleycorrea@gmail.com', 'b706835de79a2b4e80506f582af3676a', '20902175', NULL, 'Aluno', NULL, 0, 1, NULL, NULL, NULL),
 (8, 'ARILO CLÁUDIO DIAS NETO', '111', 'arilo@icomp.ufam.edu.br', 'b706835de79a2b4e80506f582af3676a', NULL, NULL, 'Professor', NULL, 0, 1, NULL, NULL, NULL),
 (9, 'CÉSAR AUGUSTO VIANA MELO', '222', 'cesar@icomp.ufam.edu.br', 'b706835de79a2b4e80506f582af3676a', NULL, NULL, 'Professor', NULL, 0, 1, NULL, NULL, NULL),
 (10, 'ELAINE HARADA TEIXEIRA DE OLIVEIRA', '333', 'elaine@icomp.ufam.edu.br', 'b706835de79a2b4e80506f582af3676a', NULL, NULL, 'Professor', NULL, 0, 1, NULL, NULL, NULL);
@@ -560,7 +563,7 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 -- AUTO_INCREMENT for table `monitoria`
 --
 ALTER TABLE `monitoria`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `periodo`
 --
