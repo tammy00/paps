@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\helpers\ArrayHelper;
+use app\models\AlunoMonitoria;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\MonitoriaSearch */
@@ -26,7 +28,10 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             'nomeDisciplina',
             'professor',
-            'periodo',
+            [
+                'attribute'=>'periodo',
+                'filter' => ArrayHelper::map(AlunoMonitoria::find()->distinct()->orderBy(['periodo' => SORT_DESC])->asArray()->all(), 'periodo', 'periodo'),
+            ],
             'codTurma',
             'nomeCurso',
             [

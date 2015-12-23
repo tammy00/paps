@@ -2,16 +2,15 @@ table, th, td, thead {
     border: 1px solid black;
     border-collapse: collapse;
     text-align: center;
+    font-family: arial;
+    font-size: 10px;
 }
 
 th, td {
     padding: 5px;
 }
 
-.amarelo {
-	background-color: #ffff00;
-}
-
 p {
-	text-align: center;
+	font-family: arial;
+    font-size: 10px;
 }

@@ -148,7 +148,6 @@ class MonitoriaController extends Controller
                 if ($model->save()) 
                 {
                     $model->file->saveAs('uploads/historicos/'.$aluno->matricula.'_'.date('Ydm_His').'.'.$model->file->extension);
-                    //return $this->redirect(['inscricaoaluno']);
                     return $this->redirect(['view', 'id' => $model->id]);
 
                 } else {
@@ -302,8 +301,10 @@ class MonitoriaController extends Controller
 
     public function actionInscricaoaluno()
     {
+        //Seleciona o último período de inscrição
+        $periodoInscricao = PeriodoInscricaoMonitoria::find()->orderBy(['id' => SORT_DESC])->one();
         $searchModel = new AlunoMonitoriaSearch();
-        $dataProvider = $searchModel->searchAluno(Yii::$app->request->queryParams);
+        $dataProvider = $searchModel->searchAluno(Yii::$app->request->queryParams+['AlunoMonitoriaSearch' => ['=', 'periodo' => $periodoInscricao->ano.'/'.$periodoInscricao->periodo]]);
 
         return $this->render('inscricaoaluno', [
             'searchModel' => $searchModel,
@@ -315,16 +316,14 @@ class MonitoriaController extends Controller
     {
         //Seleciona o último período de inscrição
         $periodoInscricao = PeriodoInscricaoMonitoria::find()->orderBy(['id' => SORT_DESC])->one();
-
         $searchModel = new AlunoMonitoriaSearch();
-        $searchModel->IDperiodoinscr = $periodoInscricao->id;
-        $dataProvider = $searchModel->searchSecretaria(Yii::$app->request->queryParams);
+        $dataProvider = $searchModel->searchSecretaria(Yii::$app->request->queryParams+['AlunoMonitoriaSearch' => ['=', 'periodo' => $periodoInscricao->ano.'/'.$periodoInscricao->periodo]]);
 
         return $this->render('inscricaosecretaria', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
-    }  
+    }
 
     public function actionDeferir($id)
     {
@@ -338,6 +337,22 @@ class MonitoriaController extends Controller
         Yii::$app->db->createCommand()->update('monitoria', ['status' => 2], 'id='.$id)->execute();
         
         return$this->actionView($id);
+    }
+
+    public function actionFormularioinscricao()
+    {
+        $cssfile = file_get_contents('../web/css/estilo3.css');
+        $mpdf = new mPDF('utf-8', 'A4-L');
+        $mpdf->title = 'Formulário de Inscrição';
+        $mpdf->WriteHTML($cssfile, 1);
+
+        // Cabeçalho + primeira tabela do documento
+        $mpdf->WriteHTML('
+            <img src="../web/img/cabecalho.png" alt="Universidade Federal do Amazonas...." width="950" height="85">
+        ');
+
+        $mpdf->Output();
+        exit;
     }
 
     public function actionFazerplanosemestral()
@@ -354,8 +369,6 @@ class MonitoriaController extends Controller
 
     public function actionGerarquadrogeral()
     {
-        //$modelPeriodo = Periodo::find()->orderBy(['id' => SORT_DESC])->one();
-        //$dadosCabecalho = DisciplinaPeriodo::find()->where(['anoPeriodo'.'/'.'numPeriodo' => $modelPeriodo->codigo])->one();
 
         $modelPeriodo = DisciplinaPeriodo::find()->orderBy(['anoPeriodo' => SORT_DESC, 'numPeriodo' => SORT_DESC])->one();
         $periodoletivo = $modelPeriodo->anoPeriodo . '/' . $modelPeriodo->numPeriodo;
@@ -368,17 +381,20 @@ class MonitoriaController extends Controller
             $mpdf->title = '3. Quadro Geral';
             $mpdf->WriteHTML($cssfile, 1);
             //$mpdf->Image('../web/img/cabecalho.png', 20, 5, 900, 80);
+
+            // Cabeçalho + primeira tabela do documento
             $mpdf->WriteHTML('
-                <img src="../web/img/cabecalho.png" alt="Universidade Federal do Amazonas...." width="950" height="80">
-                <p><b>QUADRO GERAL DE MONITORES BOLSISTAS E NÃO BOLSISTAS - 03<br>
-                (<amarelo>Encaminhar também em formato .DOC -word- para o email monitoriaufam@outlook.com</amarelo>)
-                </b></p>
-                <table>
+                <img src="../web/img/cabecalho.png" alt="Universidade Federal do Amazonas...." width="950" height="85">
+
+                <p style = "text-align: center;"><b style = "font-size: small;">QUADRO GERAL DE MONITORES BOLSISTAS E NÃO BOLSISTAS - 03<br></b>
+                (<b style = "background-color: yellow;">Encaminhar também em formato .DOC -word- para o email monitoriaufam@outlook.com</b>)
+                </p>
+                <table id="cabecalho_quadro_geral" width="99%" height="100%">
                     <tr>
                       <td bgcolor="#e6e6e6"> <b>SETOR RESPONSÁVEL (Coord.Dept/Outros)</b> </td>
                       <td> '.$modelPeriodo->nomeUnidade.'</td>
                       <td bgcolor="#e6e6e6"><b>UNIDADE</b></td>
-                      <td>'.$modelPeriodo->nomeUnidade.'</td>
+                      <td width="30%"></td>
                     </tr>
                     <tr>
                       <td bgcolor="#e6e6e6"><b>PERÍODO LETIVO</b></td>
@@ -387,6 +403,123 @@ class MonitoriaController extends Controller
                  </table>
 
             ');
+
+            // Tabela do meio do documento
+            $mpdf->WriteHTML('
+                <br>
+                <table id="quadro_geral" width="99%">
+                <tr>
+                    <td id="n" value="0" bgcolor="#e6e6e6" width="3%"><b>Nº</b></td>
+                    <td id="aluno" value="0" bgcolor="#e6e6e6" width="25%"><b>ALUNO</b><br>(nome completo, sem abreviações)</td>
+                    <td id="mat" value="0" bgcolor="#e6e6e6" width="6%"><b>Nº <br>MATR.</b></td>
+                    <td id="cpf" value="0" bgcolor="#e6e6e6" width="8%"><b>CPF</b></td>
+                    <td id="cat" value="0" bgcolor="#e6e6e6" colspan=2 width="6%"><b>CATEG.</b></td>
+                    <td id="curso" value="0" bgcolor="#e6e6e6" width="13%"><b>CURSO</b></td>
+                    <td id="disc" value="0" bgcolor="#e6e6e6" width="14%"><b>DISCIPLINAS</b><br> (código e título, sem abreviações)</td>
+                    <td id="prof" value="0" bgcolor="#e6e6e6" width="25%"><b>PROFESSOR ORIENTADOR</b><br> (nome completo, sem abreviações)</td>
+                </tr>
+                <tr>
+                    <td></tr>
+                    <td></tr>
+                    <td></tr>
+                    <td></tr>
+                    <td bgcolor="#e6e6e6" width="3%">B</tr>
+                    <td bgcolor="#e6e6e6" width="3%">NB</tr>
+                    <td></tr>
+                    <td></tr>
+                    <td></tr>
+                </tr>
+                 </table>
+                 ');
+
+        $aM = AlunoMonitoria::find()->where(['periodo' => $periodoletivo])->orderBy(['aluno' => SORT_DESC])->all();
+        $count = count($aM);
+        $n = 1;
+        $id = 0;
+
+        //while ( $count > 0 )
+        foreach ($aM as $monitor)
+        {
+            //$monitor = AlunoMonitoria::find()->where(['periodo' => $periodoletivo])->andWhere(['>', 'id', $id])->one();
+            //$monitor = AlunoMonitoria::find()->where(['periodo' => $periodoletivo])->andWhere(['!=', 'id', $id])->one();
+            $disc = DisciplinaMonitoria::find()->where(['id' => $monitor->id_disciplina])->one();
+
+            if ( $monitor->bolsa == 0 ) // Row para alunos não-bolsistas
+            {
+                $mpdf->WriteHTML('
+                    <table id="quadro_geral" width="99%">
+                        <tr>
+                            <td width="3%">'.$n.'</tr>
+                            <td width="25%">'.$monitor->aluno.'</tr>
+                            <td width="6%">'.$monitor->matricula.'</tr>
+                            <td width="8%">'.$monitor->cpf.'</tr>
+                            <td width="3%"></tr>
+                            <td width="3%">X</tr>
+                            <td width="13%">'.$monitor->nomeCurso.'</tr>
+                            <td width="14%">'.$disc->codDisciplina.'-'.$monitor->nomeDisciplina.'</tr>
+                            <td width="25%">'.$monitor->professor.'</tr>
+                        </tr>
+                         </table>
+                ');
+            }
+            elseif ( $monitor->bolsa == 1 ){  // Row para alunos bolsistas
+                $mpdf->WriteHTML('
+                    <table id="quadro_geral" width="99%">
+                        <tr>
+                            <td width="3%">'.$n.'</tr>
+                            <td width="25%">'.$monitor->aluno.'</tr>
+                            <td width="6%">'.$monitor->matricula.'</tr>
+                            <td width="8%">'.$monitor->cpf.'</tr>
+                            <td width="3%">X</tr>
+                            <td width="3%"></tr>
+                            <td width="13%">'.$monitor->nomeCurso.'</tr>
+                            <td width="14%">'.$disc->codDisciplina.'-'.$monitor->nomeDisciplina.'</tr>
+                            <td width="25%">'.$monitor->professor.'</tr>
+                        </tr>
+                         </table>
+                ');
+            }
+
+            $count--;
+            $n++;
+            $id = $monitor->id;
+        }
+
+        // Footer do documento
+        $mpdf->WriteHTML('
+
+                 <footer> <p>
+                    <b>(*)</b> Relacionar todos os monitores de todas as disciplinas do departamento neste mesmo quadro, observando a quantidade total de vagas aprovadas pela Comissão de Monitoria do Programa.<br>
+                    <b>(*) B</b> = Bolsista<br>
+                    <b>NB</b> = Não Bolsista<br>
+                    OBS.: Encaminhar cópia deste quadro à DPA/PROEG para nomeação em portaria. 
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    Manaus, '.date('d').' / '.date('m').' / '.date('Y').'. 
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    _________________________________________________________
+                    <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    Chefe do Depto (com carimbo).    
+                    </p>
+                </footer>
+                ');
+
 
             $mpdf->Output();
             exit;

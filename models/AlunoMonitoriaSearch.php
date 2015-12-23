@@ -75,7 +75,7 @@ class AlunoMonitoriaSearch extends AlunoMonitoria
         $query->andFilterWhere(['like', 'status', $this->status]);
         $query->andFilterWhere(['like', 'periodo', $this->periodo]);
 
-        //$query->orderBy(['id' => SORT_DESC]);
+        $query->orderBy(['id' => SORT_DESC]);
 
         return $dataProvider;
     }
@@ -98,7 +98,6 @@ class AlunoMonitoriaSearch extends AlunoMonitoria
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'IDperiodoinscr' => $this->IDperiodoinscr,
         ]);
 
         $query->andFilterWhere(['like', 'aluno', $this->aluno]);
@@ -112,7 +111,7 @@ class AlunoMonitoriaSearch extends AlunoMonitoria
         $query->andFilterWhere(['like', 'status', $this->status]);
         $query->andFilterWhere(['like', 'periodo', $this->periodo]);
 
-        //$query->orderBy(['id' => SORT_DESC]);
+        $query->orderBy(['id' => SORT_DESC]);
 
         return $dataProvider;
     }

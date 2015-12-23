@@ -15,23 +15,42 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h4><?= Html::encode($this->title) ?></h4>
     </br>
-    <p>
-        <?php if(Yii::$app->user->identity->perfil === 'Secretaria') { ?>
+    <?php if(Yii::$app->user->identity->perfil === 'Secretaria') { ?>
+        <p>
+        <?= Html::a('Deferir', ['deferir', 'id' => $model->id], [
+            'class' => 'btn btn-primary',
+            'data' => [
+                'confirm' => 'Você realmente deseja deferir esta inscrição?',
+                'method' => 'post',
+            ],
+        ]); ?>
+        <?= Html::a('Indeferir', ['indeferir', 'id' => $model->id], [
+            'class' => 'btn btn-warning',
+            'data' => [
+                'confirm' => 'Você realmente deseja indeferir esta inscrição?',
+                'method' => 'post',
+            ],
+        ]); ?>
+        <?= Html::a('Deletar', ['delete', 'id' => $model->id], [
+            'class' => 'btn btn-danger',
+            'data' => [
+                'confirm' => 'Você realmente deseja deletar este item?',
+                'method' => 'post',
+            ],
+        ]); ?>
+        </p>
+        <p>
+        <?= Html::a('Formulário de Inscrição', ['formularioinscricao', 'id' => $model->id], ['class' => 'btn btn-primary']); ?>
+        </p>
+    <?php } ?>
 
-            <?= Html::a('Deferir', ['deferir', 'id' => $model->id], [
-                'class' => 'btn btn-primary',
-                'data' => [
-                    'confirm' => 'Você realmente deseja deferir esta inscrição?',
-                    'method' => 'post',
-                ],
-            ]); ?>
-            <?= Html::a('Indeferir', ['indeferir', 'id' => $model->id], [
-                'class' => 'btn btn-warning',
-                'data' => [
-                    'confirm' => 'Você realmente deseja indeferir esta inscrição?',
-                    'method' => 'post',
-                ],
-            ]); ?>
+    <?php if(Yii::$app->user->identity->perfil === 'Aluno') { ?>
+        <p>
+        <?php if($model->status == 'Deferido') { ?>
+            <?= Html::a('Formulário de Inscrição', ['formularioinscricao', 'id' => $model->id], ['class' => 'btn btn-primary']); ?>
+            <?= Html::a('Frequência Individual', ['/frequencia/index', 'id' => $model->id], ['class' => 'btn btn-primary']); ?>
+        <?php } else { ?>
+            <?= Html::a('Formulário de Inscrição', ['formularioinscricao', 'id' => $model->id], ['class' => 'btn btn-primary']); ?>
             <?= Html::a('Deletar', ['delete', 'id' => $model->id], [
                 'class' => 'btn btn-danger',
                 'data' => [
@@ -39,12 +58,9 @@ $this->params['breadcrumbs'][] = $this->title;
                     'method' => 'post',
                 ],
             ]); ?>
-        <?php } ?>
+        </p>
+    <?php } } ?>
 
-        <?php if(Yii::$app->user->identity->perfil === 'Aluno' && $model->status == 'Deferido') { ?>
-            <?= Html::a('Frequência Individual', ['/frequencia/index', 'id' => $model->id], ['class' => 'btn btn-primary']);  ?>
-        <?php } ?>
-    </p>
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [            
