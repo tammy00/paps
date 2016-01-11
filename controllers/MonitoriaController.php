@@ -292,11 +292,12 @@ class MonitoriaController extends Controller
      */
     public function actionDelete($id)
     {
-        if (Yii::$app->user->identity->perfil == 1) {
+        if (Yii::$app->user->identity->perfil == 'Aluno' ||
+            Yii::$app->user->identity->perfil == 'Coordenador' || 
+            Yii::$app->user->identity->perfil == 'Secretaria') 
+        {
             $this->findModel($id)->delete();
-            //$this->redirect(['index']);
         } 
-
         return $this->redirect(Yii::$app->request->referrer);
     }
 
@@ -599,7 +600,7 @@ class MonitoriaController extends Controller
     public function actionGerarplanosemestral($id)
     {
         $modelPeriodo = DisciplinaPeriodo::find()->orderBy(['anoPeriodo' => SORT_DESC, 'numPeriodo' => SORT_DESC])->one();
-        $justi = PeriodoInscricaoMonitoria::find($id)->one();
+        $justi = PeriodoInscricaoMonitoria::find()->where(['id' => $id])->one();
         $periodoletivo = $modelPeriodo->anoPeriodo . '/' . $modelPeriodo->numPeriodo;
         $dadosCabecalho = Periodo::find()->where(['codigo' => $periodoletivo])->one();
 
@@ -930,7 +931,7 @@ class MonitoriaController extends Controller
                  </table>
                  ');
 
-        $aM = AlunoMonitoria::find()->where(['periodo' => $periodoletivo])->orderBy(['aluno' => SORT_DESC])->all();
+        $aM = AlunoMonitoria::find()->where(['periodo' => $periodoletivo])->andWhere(['status' => 'Deferido'])->orderBy(['aluno' => SORT_DESC])->all();
         $count = count($aM);
         $n = 1;
         $id = 0;

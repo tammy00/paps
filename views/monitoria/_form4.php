@@ -13,7 +13,8 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="monitoria-create">
     <h1><?= Html::encode($this->title) ?></h1>
     <p>
-    <a href="https://www.dropbox.com/sh/1sx0q8g0c3rnmzj/AADqpM9lmRhnuQTHbd66unz9a?dl=0" target="_blank" class="btn btn-primary">Baixar Modelo do Relatório</a>
+    <a href="https://www.dropbox.com/sh/1sx0q8g0c3rnmzj/AAB0GhB4RUdhuRqSdCYWdjdCa/7.%20Relat%C3%B3rio%20Final.doc?dl=0" target="_blank" class="btn btn-primary">Baixar Modelo do Relatório</a>
+    <?= Html::a('Baixar Modificações', '/paps/web/'.$modelInfo->pathArqRelatorioSemestral, ['target'=>'_blank', 'class'=>'btn btn-primary']) ?>
     </p>
 </div>
 

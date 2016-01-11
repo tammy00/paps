@@ -48,7 +48,7 @@ AppAsset::register($this);
                         <ul class="nav" id="side-menu">
                             <li class="sidebar-search">
                                 <div class="input-group">
-                                    Oi!, 
+                                    Olá, 
                                     <b><?= Yii::$app->user->identity->name ?></b>, você está logado como: 
                                     <b><?= Yii::$app->user->identity->perfil ?></b>.
 
