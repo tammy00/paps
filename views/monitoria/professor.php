@@ -3,10 +3,10 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\helpers\ArrayHelper;
-use app\models\AlunoMonitoria;
+use app\models\ProfessorMonitoria;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\MonitoriaSearch */
+/* @var $searchModel app\models\ProfessorMonitoriaSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Gerenciar Monitorias';
@@ -27,20 +27,17 @@ $this->params['breadcrumbs'][] = $this->title;
         'showHeader' => true,
         'columns' => [
             'nomeDisciplina',
-            'professor',
+            'aluno',
+            'codTurma',
+            'nomeCursoDisciplina',
+            'nomeCursoAluno',
             [
                 'attribute'=>'periodo',
-                'filter' => ArrayHelper::map(AlunoMonitoria::find()->distinct()->orderBy(['periodo' => SORT_DESC])->asArray()->all(), 'periodo', 'periodo'),
+                'filter' => ArrayHelper::map(ProfessorMonitoria::find()->distinct()->orderBy(['periodo' => SORT_DESC])->asArray()->all(), 'periodo', 'periodo'),
             ],
-            'codTurma',
-            'nomeCurso',
             [
                 'attribute'=> 'bolsa_traducao',
                 'filter'=>array("Sim"=>"Sim","Não"=>"Não"),
-            ],
-            [
-                'attribute'=> 'status',
-                'filter'=>array("Aguardando Avaliação"=>"Aguardando Avaliação", "Deferido"=>"Deferido", "Indeferido"=>"Indeferido"),
             ],
             [
                 'class' => 'yii\grid\ActionColumn',
@@ -52,8 +49,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 [
                     'plano' => function ($url, $model) {
                         return Html::a(
-                            '<span class="btn btn-primary"></span>',
-                            ['monitoria/actionGerarplanosemestraldisciplina', 'id' => $model->id], 
+                            '<span class="btn btn-primary">Plano Disciplina</span>',
+                            ['monitoria/gerarplanosemestraldisciplina', 'id' => $model->id], 
                             [
                                 'title' => 'Plano Disciplina',
                                 'aria-label' => 'Plano Disciplina',
@@ -63,8 +60,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     },
                     'relatorio' => function ($url, $model) {
                         return Html::a(
-                            '<span class="btn btn-primary"></span>',
-                            ['monitoria/actionGerarrelatoriosemestral', 'id' => $model->id], 
+                            '<span class="btn btn-primary">Relatório</span>',
+                            ['monitoria/gerarrelatoriosemestral', 'id' => $model->id], 
                             [
                                 'title' => 'Relatório Semestral',
                                 'aria-label' => 'Relatório Semestral',

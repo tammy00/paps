@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 11-Jan-2016 às 17:52
+-- Generation Time: 11-Jan-2016 às 20:56
 -- Versão do servidor: 5.6.20
 -- PHP Version: 5.5.15
 
@@ -272,17 +272,19 @@ CREATE TABLE IF NOT EXISTS `monitoria` (
   `banco` varchar(5) CHARACTER SET utf8 DEFAULT NULL,
   `agencia` varchar(10) CHARACTER SET utf8 DEFAULT NULL,
   `conta` varchar(10) CHARACTER SET utf8 DEFAULT NULL,
-  `datacriacao` datetime DEFAULT NULL
+  `datacriacao` datetime DEFAULT NULL,
+  `pathArqPlanoDisciplina` varchar(250) CHARACTER SET utf8 DEFAULT NULL,
+  `pathArqRelatorioSemestral` varchar(250) CHARACTER SET utf8 DEFAULT NULL
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 --
 -- Extraindo dados da tabela `monitoria`
 --
 
-INSERT INTO `monitoria` (`id`, `IDAluno`, `IDDisc`, `IDperiodoinscr`, `pathArqHistorico`, `status`, `semestreConclusao`, `anoConclusao`, `mediaFinal`, `bolsa`, `banco`, `agencia`, `conta`, `datacriacao`) VALUES
-(2, 7, 124, 1, 'uploads/historicos/20902175_20151212_074512.pdf', 1, 1, 2016, 8, 0, '', '', '', '0000-00-00 00:00:00'),
-(3, 7, 122, 2, 'uploads/historicos/_20152312_182456.pdf', 1, 2, 2016, 8, 1, '341', '0686', '64684-5', '0000-00-00 00:00:00'),
-(4, 5, 125, 2, 'uploads/historicos/20902150_20152312_212035.pdf', 0, 1, 2016, 8, 1, '10', '20', '30', '0000-00-00 00:00:00');
+INSERT INTO `monitoria` (`id`, `IDAluno`, `IDDisc`, `IDperiodoinscr`, `pathArqHistorico`, `status`, `semestreConclusao`, `anoConclusao`, `mediaFinal`, `bolsa`, `banco`, `agencia`, `conta`, `datacriacao`, `pathArqPlanoDisciplina`, `pathArqRelatorioSemestral`) VALUES
+(2, 7, 124, 1, 'uploads/historicos/20902175_20151212_074512.pdf', 1, 1, 2016, 8, 0, '', '', '', '0000-00-00 00:00:00', NULL, NULL),
+(3, 7, 122, 2, 'uploads/historicos/_20152312_182456.pdf', 1, 2, 2016, 8, 1, '341', '0686', '64684-5', '0000-00-00 00:00:00', 'uploads/plano-semestral-disciplina/333_20161101_205448.doc', 'uploads/relatorio-semestral/333_20161101_205454.doc'),
+(4, 5, 125, 2, 'uploads/historicos/20902150_20152312_212035.pdf', 0, 1, 2016, 8, 1, '10', '20', '30', '0000-00-00 00:00:00', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -458,6 +460,29 @@ CREATE TABLE IF NOT EXISTS `view_disciplina_monitoria` (
 -- --------------------------------------------------------
 
 --
+-- Stand-in structure for view `view_professor_monitoria`
+--
+CREATE TABLE IF NOT EXISTS `view_professor_monitoria` (
+`id` int(11)
+,`id_disciplina` int(11)
+,`nomeDisciplina` varchar(150)
+,`codTurma` varchar(10)
+,`professor` varchar(100)
+,`cpfProfessor` varchar(100)
+,`idProfessor` int(11)
+,`nomeCursoDisciplina` varchar(100)
+,`aluno` varchar(100)
+,`IDAluno` int(11)
+,`matricula` varchar(20)
+,`nomeCursoAluno` varchar(100)
+,`bolsa` tinyint(1)
+,`bolsa_traducao` varchar(3)
+,`periodo` varchar(16)
+,`IDperiodoinscr` int(11)
+);
+-- --------------------------------------------------------
+
+--
 -- Structure for view `view_aluno_monitoria`
 --
 DROP TABLE IF EXISTS `view_aluno_monitoria`;
@@ -472,6 +497,15 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 DROP TABLE IF EXISTS `view_disciplina_monitoria`;
 
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_disciplina_monitoria` AS select `a`.`id` AS `id`,`b`.`nomeDisciplina` AS `nomeDisciplina`,`b`.`codDisciplina` AS `codDisciplina`,`c`.`nome` AS `nomeCurso`,`a`.`codTurma` AS `codTurma`,`d`.`name` AS `nomeProfessor`,`a`.`numPeriodo` AS `numPeriodo`,`a`.`anoPeriodo` AS `anoPeriodo`,`a`.`qtdVagas` AS `qtdVagas`,`a`.`usaLaboratorio` AS `lab`,if((`a`.`usaLaboratorio` = 1),'Sim','Não') AS `lab_traducao`,`a`.`qtdMonitorBolsista` AS `qtdMonitorBolsista`,`a`.`qtdMonitorNaoBolsista` AS `qtdMonitorNaoBolsista` from (((`disciplina_periodo` `a` join `disciplina` `b` on((`a`.`idDisciplina` = `b`.`id`))) left join `curso` `c` on((`a`.`idCurso` = `c`.`id`))) left join `usuario` `d` on((`a`.`idProfessor` = `d`.`id`)));
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `view_professor_monitoria`
+--
+DROP TABLE IF EXISTS `view_professor_monitoria`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_professor_monitoria` AS select `m`.`id` AS `id`,`m`.`IDDisc` AS `id_disciplina`,`d`.`nomeDisciplina` AS `nomeDisciplina`,`dp`.`codTurma` AS `codTurma`,`p`.`name` AS `professor`,`p`.`cpf` AS `cpfProfessor`,`dp`.`idProfessor` AS `idProfessor`,`c`.`nome` AS `nomeCursoDisciplina`,`u`.`name` AS `aluno`,`m`.`IDAluno` AS `IDAluno`,`u`.`matricula` AS `matricula`,`ca`.`nome` AS `nomeCursoAluno`,`m`.`bolsa` AS `bolsa`,if((`m`.`bolsa` = 1),'Sim','Não') AS `bolsa_traducao`,concat(`pi`.`ano`,'/',`pi`.`periodo`) AS `periodo`,`m`.`IDperiodoinscr` AS `IDperiodoinscr` from (((((((`monitoria` `m` join `disciplina_periodo` `dp` on((`m`.`IDDisc` = `dp`.`id`))) join `disciplina` `d` on((`dp`.`idDisciplina` = `d`.`id`))) left join `usuario` `u` on((`m`.`IDAluno` = `u`.`id`))) left join `usuario` `p` on((`dp`.`idProfessor` = `p`.`id`))) left join `curso` `c` on((`dp`.`idCurso` = `c`.`id`))) left join `periodoinscricao` `pi` on((`m`.`IDperiodoinscr` = `pi`.`id`))) left join `curso` `ca` on((`u`.`IDCurso` = `ca`.`id`))) where (`m`.`status` = 1);
 
 --
 -- Indexes for dumped tables

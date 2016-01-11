@@ -12,6 +12,7 @@ use app\models\Disciplina;
 use app\models\DisciplinaSearch;
 use yii\helpers\ArrayHelper;
 use yii\db\Command;
+use yii\db\Expression;
 use yii\filters\AccessControl;
 use yii\web\UploadedFile;
 use yii\helpers\Time;
@@ -23,6 +24,8 @@ use app\models\DisciplinaMonitoria;
 use app\models\DisciplinaMonitoriaSearch;
 use app\models\AlunoMonitoria;
 use app\models\AlunoMonitoriaSearch;
+use app\models\ProfessorMonitoria;
+use app\models\ProfessorMonitoriaSearch;
 use app\models\Periodo;
 use app\models\Curso;
 use app\models\Frequencia;
@@ -343,8 +346,8 @@ class MonitoriaController extends Controller
     {
         //Seleciona o último período de inscrição
         $periodoInscricao = PeriodoInscricaoMonitoria::find()->orderBy(['id' => SORT_DESC])->one();
-        $searchModel = new AlunoMonitoriaSearch();
-        $dataProvider = $searchModel->searchAluno(Yii::$app->request->queryParams+['AlunoMonitoriaSearch' => ['=', 'periodo' => $periodoInscricao->ano.'/'.$periodoInscricao->periodo]]);
+        $searchModel = new ProfessorMonitoriaSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams+['ProfessorMonitoriaSearch' => ['=', 'periodo' => $periodoInscricao->ano.'/'.$periodoInscricao->periodo]]);
 
         return $this->render('professor', [
             'searchModel' => $searchModel,
@@ -1609,14 +1612,64 @@ class MonitoriaController extends Controller
 
     public function actionGerarplanosemestraldisciplina($id)
     {
+        $model = new Monitoria();
+        $modelInfo = new ProfessorMonitoria();
 
-        return $this->render('gerarplanosemestraldisciplina');
+        if ($model->load(Yii::$app->request->post())) 
+        {
+            //Usuario - Pega professor baseando-se no CPF do usuário logado
+            $professor = Usuario::findOne(['CPF' => Yii::$app->user->identity->cpf]);
+
+            //Habilitar "extension=php_fileinfo.dll" em C:\xampp\php\php.ini
+            $model->filePlanoDisciplina = UploadedFile::getInstance($model, 'filePlanoDisciplina');
+
+            $arrayUpdate = ['pathArqPlanoDisciplina' => 'uploads/plano-semestral-disciplina/'.$professor->cpf.'_'.date('Ydm_His').'.'.$model->filePlanoDisciplina->extension];
+            Yii::$app->db->createCommand()->update('monitoria', $arrayUpdate, 'id='.$id)->execute();
+
+            $model->filePlanoDisciplina->saveAs('uploads/plano-semestral-disciplina/'.$professor->cpf.'_'.date('Ydm_His').'.'.$model->filePlanoDisciplina->extension);
+            return $this->redirect(['professor']);
+        }
+        else
+        {
+            $model = $this->findModel($id);
+            $modelInfo = ProfessorMonitoria::findOne(['id' => $id]);
+
+            return $this->render('_form3', [
+                'model' => $model,
+                'modelInfo' => $modelInfo,
+            ]);
+        }
     }
 
     public function actionGerarrelatoriosemestral($id)
     {
+        $model = new Monitoria();
+        $modelInfo = new ProfessorMonitoria();
 
-        return $this->render('gerarrelatoriosemestral');
+        if ($model->load(Yii::$app->request->post())) 
+        {
+            //Usuario - Pega professor baseando-se no CPF do usuário logado
+            $professor = Usuario::findOne(['CPF' => Yii::$app->user->identity->cpf]);
+            
+            //Habilitar "extension=php_fileinfo.dll" em C:\xampp\php\php.ini
+            $model->fileRelatorioSemestral = UploadedFile::getInstance($model, 'fileRelatorioSemestral');
+
+            $arrayUpdate = ['pathArqRelatorioSemestral' => 'uploads/relatorio-semestral/'.$professor->cpf.'_'.date('Ydm_His').'.'.$model->fileRelatorioSemestral->extension];
+            Yii::$app->db->createCommand()->update('monitoria', $arrayUpdate, 'id='.$id)->execute();
+
+            $model->fileRelatorioSemestral->saveAs('uploads/relatorio-semestral/'.$professor->cpf.'_'.date('Ydm_His').'.'.$model->fileRelatorioSemestral->extension);
+            return $this->redirect(['professor']);
+        }
+        else
+        {
+            $model = $this->findModel($id);
+            $modelInfo = ProfessorMonitoria::findOne(['id' => $id]);
+
+            return $this->render('_form4', [
+                'model' => $model,
+                'modelInfo' => $modelInfo,
+            ]);
+        }
     }
 
     public function convert_multi_array($array) {

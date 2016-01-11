@@ -21,6 +21,8 @@ class Monitoria extends \yii\db\ActiveRecord
 {
 
     public $file;
+    public $filePlanoDisciplina;
+    public $fileRelatorioSemestral;
     public $nomeDisciplina;
     public $nomeProfessor;
     public $nomeCurso;
@@ -52,6 +54,18 @@ class Monitoria extends \yii\db\ActiveRecord
                 'wrongExtension' => 'Apenas arquivos com a extensão PDF são permitidos.'
             ],
             [['pathArqHistorico'], 'string', 'max' => 250],
+            [['filePlanoDisciplina'], 'file', 'extensions' => 'doc', 'skipOnEmpty' => true, 
+                'message' => 'Falha ao carregar o arquivo.', 
+                'uploadRequired' => 'Por favor, faça o upload do Plano Semestral da Disciplina.', 
+                'wrongExtension' => 'Apenas arquivos com a extensão DOC são permitidos.'
+            ],
+            [['fileRelatorioSemestral'], 'file', 'extensions' => 'doc', 'skipOnEmpty' => true, 
+                'message' => 'Falha ao carregar o arquivo.', 
+                'uploadRequired' => 'Por favor, faça o upload do Relatório Semestral de Monitoria.', 
+                'wrongExtension' => 'Apenas arquivos com a extensão DOC são permitidos.'
+            ],
+            [['pathArqPlanoDisciplina'], 'string', 'max' => 250],
+            [['pathArqRelatorioSemestral'], 'string', 'max' => 250],
         ];
     }
 
@@ -75,7 +89,9 @@ class Monitoria extends \yii\db\ActiveRecord
             'banco' => 'Código Banco',
             'agencia' => 'Agência',
             'conta' => 'Conta',
-            'datacriacao' => 'Data Criação'
+            'datacriacao' => 'Data Criação',
+            'filePlanoDisciplina' => 'Plano Semestral da Disciplina (.DOC)',
+            'fileRelatorioSemestral' => 'Relatório Semestral de Monitoria (.DOC)',
         ];
     }
 
