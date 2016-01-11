@@ -45,7 +45,7 @@ class DisciplinaPeriodo extends \yii\db\ActiveRecord
     {
         return [
             [['idDisciplina', 'codTurma', 'idCurso', 'nomeUnidade', 'qtdVagas', 'numPeriodo', 'anoPeriodo'], 'required', 'message'=>'Este campo é obrigatório'],
-            [['idDisciplina', 'idCurso', 'idProfessor', 'qtdVagas', 'numPeriodo', 'anoPeriodo', 'usaLaboratorio'], 'integer'],
+            [['idDisciplina', 'idCurso', 'idProfessor', 'qtdVagas', 'qtdMonitorBolsista', 'qtdMonitorNaoBolsista', 'numPeriodo', 'anoPeriodo', 'usaLaboratorio'], 'integer'],
             [['dataInicioPeriodo', 'dataFimPeriodo', 'idProfessor'], 'safe'],
             [['codTurma'], 'string', 'max' => 10],
             [['nomeUnidade'], 'string', 'max' => 100],
@@ -70,12 +70,14 @@ class DisciplinaPeriodo extends \yii\db\ActiveRecord
             'idCurso' => 'Curso',
             'idProfessor' => 'Professor',
             'nomeUnidade' => 'Nome Unidade',
-            'qtdVagas' => 'Quantidade Vagas',
-            'numPeriodo' => 'Número Período',
-            'anoPeriodo' => 'Ano Período',
-            'dataInicioPeriodo' => 'Data Início Período',
-            'dataFimPeriodo' => 'Data Término Período',
-            'usaLaboratorio' => 'Usa Laboratório',
+            'qtdVagas' => 'Quantidade de Vagas da Turma',
+            'qtdMonitorBolsista' => 'Quantidade de Monitor Bolsista',
+            'qtdMonitorNaoBolsista' => 'Quantidade de Monitor Não Bolsista',
+            'numPeriodo' => 'Número do Período',
+            'anoPeriodo' => 'Ano do Período',
+            'dataInicioPeriodo' => 'Data Incial do Período',
+            'dataFimPeriodo' => 'Data Final do Período',
+            'usaLaboratorio' => 'Usar Laboratório',
             'file' => 'Arquivo CSV',
         ];
     }

@@ -20,6 +20,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'creditos')->textInput(['style'=>'width:130px']) ?>
 
+    <?= $form->field($model, 'possuiMonitoria')->checkbox() ?>
+
     <div class="form-group">
     	<a href="?r=disciplina/index" class="btn btn-default">Voltar</a>
         <?= Html::submitButton($model->isNewRecord ? 'Cadastrar' : 'Atualizar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

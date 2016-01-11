@@ -45,7 +45,6 @@ $this->params['breadcrumbs'][] = $this->title;
             //'idProfessor',
             'usuario.name',
             'nomeUnidade',
-            'qtdVagas',
             'numPeriodo',
             'anoPeriodo',
             [
@@ -62,6 +61,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => 'Usa Laboratório',
                 'value' => $model->traducao_usa_laboratorio
             ],
+            'qtdVagas',
+            'qtdMonitorBolsista',
+            'qtdMonitorNaoBolsista',
         ],
     ]) ?>
 

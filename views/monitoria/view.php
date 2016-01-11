@@ -48,7 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <p>
         <?php if($model->status == 'Deferido') { ?>
             <?= Html::a('Formulário de Inscrição', ['formularioinscricao', 'id' => $model->id], ['class' => 'btn btn-primary']); ?>
-            <?= Html::a('Frequência Individual', ['/frequencia/index', 'id' => $model->id], ['class' => 'btn btn-primary']); ?>
+            <?= Html::a('Frequências', ['/frequencia/index', 'id' => $model->id], ['class' => 'btn btn-primary']); ?>
         <?php } else { ?>
             <?= Html::a('Formulário de Inscrição', ['formularioinscricao', 'id' => $model->id], ['class' => 'btn btn-primary']); ?>
             <?= Html::a('Deletar', ['delete', 'id' => $model->id], [
@@ -84,11 +84,11 @@ $this->params['breadcrumbs'][] = $this->title;
     ]) ?>
 
     <?php if(Yii::$app->user->identity->perfil === 'Secretaria') { ?>
-        <a href="?r=monitoria/inscricaosecretaria" class="btn btn-default">Voltar</a>
+        <a href="?r=monitoria/secretaria" class="btn btn-default">Voltar</a>
     <?php } ?>
 
     <?php if(Yii::$app->user->identity->perfil === 'Aluno') { ?>
-        <a href="?r=monitoria/inscricaoaluno" class="btn btn-default">Voltar</a>
+        <a href="?r=monitoria/aluno" class="btn btn-default">Voltar</a>
     <?php } ?>
 
 </div>

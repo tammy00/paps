@@ -11,6 +11,7 @@ use Yii;
  * @property string $dataInicio
  * @property string $dataFim
  * @property string $periodo
+ * @property string justificativa
  */
 class PeriodoInscricaoMonitoria extends \yii\db\ActiveRecord
 {
@@ -29,6 +30,7 @@ class PeriodoInscricaoMonitoria extends \yii\db\ActiveRecord
     {
         return [
             [['dataInicio', 'dataFim', 'periodo', 'ano'], 'required', 'message'=>'Este campo é obrigatório.'],
+            [['justificativa'], 'string'],
             [['dataInicio', 'dataFim'], 'safe'],
             [['periodo'], 'in', 'range' => [1,2]],
             [['ano'], 'integer', 'min'=>2015],
@@ -45,6 +47,7 @@ class PeriodoInscricaoMonitoria extends \yii\db\ActiveRecord
             'dataInicio' => 'Data Inicial   ',
             'dataFim' => 'Data Final   ',
             'periodo' => 'Período da Universidade',
+            'justificativa' => 'Justificativa',
         ];
     }
 }

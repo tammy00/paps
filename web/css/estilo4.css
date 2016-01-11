@@ -1,0 +1,16 @@
+table, th, td, thead {
+    border: 1px solid black;
+    border-collapse: collapse;
+    text-align: left;
+    font-family: arial;
+    font-size: 10px;
+}
+
+th, td {
+    padding: 5px;
+}
+
+p {
+	font-family: arial;
+    font-size: 10px;
+}

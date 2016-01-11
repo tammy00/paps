@@ -8,7 +8,7 @@ use yii\bootstrap\Modal;
 /* @var array $events */
 /* @var string erro */
 
-$this->title = 'Minhas Frequências';
+$this->title = 'Frequências';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="frequencia-index">
@@ -20,6 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= Html::a('Ver todas', ['minhasfrequencias'], ['class' => 'btn btn-success']) ?> 
+        <?= Html::a('Imprimir Frequências', ['/monitoria/frequenciaindividual'], ['class' => 'btn btn-success']) ?> 
     </p>
 
     <?php 
@@ -45,6 +46,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php } ?>
     
-    <?php echo Html::a('Voltar', ['monitoria/inscricaoaluno'], ['class' => 'btn btn-default']); ?>
+    <?php echo Html::a('Voltar', ['monitoria/aluno'], ['class' => 'btn btn-default']); ?>
 
 </div>

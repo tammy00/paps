@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\helpers\ArrayHelper;
+use app\models\DisciplinaPeriodo;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\DisciplinaPeriodoSearch */
@@ -23,8 +25,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'summary' => '',
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+            //['class' => 'yii\grid\SerialColumn'],
 
             //'id',
             //'idDisciplina',
@@ -45,13 +48,25 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             // 'nomeUnidade',
             // 'qtdVagas',
-            'anoPeriodo',
-            'numPeriodo',
+            //'anoPeriodo',
+            //'numPeriodo',
+            [
+                'attribute'=>'anoPeriodo',
+                'filter' => ArrayHelper::map(DisciplinaPeriodo::find()->distinct()->orderBy(['anoPeriodo' => SORT_DESC])->asArray()->all(), 'anoPeriodo', 'anoPeriodo'),
+            ],
+            [
+                'attribute'=>'numPeriodo',
+                'filter' => ArrayHelper::map(DisciplinaPeriodo::find()->distinct()->orderBy(['numPeriodo' => SORT_DESC])->asArray()->all(), 'numPeriodo', 'numPeriodo'),
+            ],
             // 'dataInicioPeriodo',
             // 'dataFimPeriodo',
             // 'usaLaboratorio',
-
-            ['class' => 'yii\grid\ActionColumn'],
+            [   
+                'class' => 'yii\grid\ActionColumn', 
+                'header'=>'Ações', 
+                'headerOptions' => ['style' => 'text-align:center; color:#337AB7'],
+                'contentOptions' => ['style' => 'text-align:center; vertical-align:middle'],
+            ],
         ],
     ]); ?>
 

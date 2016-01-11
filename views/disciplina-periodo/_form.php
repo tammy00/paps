@@ -38,8 +38,6 @@ use dosamigos\datepicker\DatePicker;
 
     <?= $form->field($model, 'nomeUnidade')->textInput(['maxlength' => true, 'style'=>'width:600px']) ?>
 
-    <?= $form->field($model, 'qtdVagas')->textInput(['style'=>'width:130px']) ?>
-
     <?= $form->field($model, 'numPeriodo')->textInput(['style'=>'width:130px']) ?>
 
     <?= $form->field($model, 'anoPeriodo')->textInput(['style'=>'width:130px']) ?>
@@ -75,6 +73,12 @@ use dosamigos\datepicker\DatePicker;
     ]) ?>
 
     <?= $form->field($model, 'usaLaboratorio')->checkbox() ?>
+
+    <?= $form->field($model, 'qtdVagas')->textInput(['style'=>'width:130px']) ?>
+
+    <?= $form->field($model, 'qtdMonitorBolsista')->textInput(['style'=>'width:130px']) ?>
+
+    <?= $form->field($model, 'qtdMonitorNaoBolsista')->textInput(['style'=>'width:130px']) ?>
 
     <div class="form-group">
         <a href="?r=disciplina-periodo/index" class="btn btn-default">Voltar</a>

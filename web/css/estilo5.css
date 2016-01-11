@@ -1,0 +1,25 @@
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    text-align: center;
+    font-family: verdana;
+    font-size: 12px;
+}
+
+th, td {
+    padding: 4px;
+    font-size: 10px;
+}
+
+p {
+	font-family: verdana;
+    font-size: 10px;
+}
+
+ .rotate {
+  display:inline-block;
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+  -webkit-transform: rotate(270deg);
+  -ms-transform: rotate(270deg);
+  transform: rotate(270deg);
+}

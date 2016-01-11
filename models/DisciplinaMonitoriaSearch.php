@@ -68,4 +68,36 @@ class DisciplinaMonitoriaSearch extends DisciplinaMonitoria
 
         return $dataProvider;
     }
+
+    public function searchByPeriodo($ano, $semestre)
+    {
+        $query = DisciplinaMonitoria::find();
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+        /*
+        $this->load($params);
+
+        if (!$this->validate()) {
+            // uncomment the following line if you do not want to return any records when validation fails
+            // $query->where('0=1');
+            return $dataProvider;
+        } */
+
+        $query->andFilterWhere([
+            'numPeriodo' => $semestre,
+            'anoPeriodo' => $ano,
+        ]); /*
+
+        $query->andFilterWhere(['like', 'nomeDisciplina', $this->nomeDisciplina]);
+        $query->andFilterWhere(['like', 'nomeCurso', $this->nomeCurso]);
+        $query->andFilterWhere(['like', 'nomeProfessor', $this->nomeProfessor]);
+        $query->andFilterWhere(['like', 'qtdVagas', $this->qtdVagas]);
+        $query->andFilterWhere(['like', 'qtdMonitorBolsista', $this->qtdMonitorBolsista]);
+        $query->andFilterWhere(['like', 'qtdMonitorNaoBolsista', $this->qtdMonitorNaoBolsista]);
+        $query->andFilterWhere(['like', 'lab_traducao', $this->lab_traducao]);  */
+
+        return $dataProvider;
+    }
 }

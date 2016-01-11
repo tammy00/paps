@@ -46,7 +46,12 @@ class DisciplinaMonitoria extends \yii\db\ActiveRecord
             'nomeProfessor' => 'Professor',
             'codTurma' => 'Código da Turma',
             'numPeriodo' => 'Número do Período',
-            'anoPeriodo' => 'Ano do Período'
+            'anoPeriodo' => 'Ano do Período',
+            'qtdVagas' => 'QTD Vagas',
+            'lab' => 'Usa Laboratório',
+            'lab_traducao' => 'Usa Laboratório',
+            'qtdMonitorBolsista' => 'QTD Bolsista',
+            'qtdMonitorNaoBolsista' => 'QTD Não Bolsista'
         ];
     }
 }

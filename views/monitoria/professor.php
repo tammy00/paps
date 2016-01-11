@@ -9,22 +9,14 @@ use app\models\AlunoMonitoria;
 /* @var $searchModel app\models\MonitoriaSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Inscrições/Monitorias';
+$this->title = 'Gerenciar Monitorias';
 $this->params['breadcrumbs'][] = ['label' => 'Monitorias', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div>
 
-    <h3><?= Html::encode($this->title) ?></h3>
+    <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-    <p>
-        <?= Html::a('Plano Semestral', ['fazerplanosemestral'], ['class' => 'btn btn-success']) ?>
-        <?= Html::a('Plano Semestral da Disciplina', ['gerarplanosemestraldisciplina'], ['class' => 'btn btn-success']) ?>
-        <?= Html::a('Quadro Geral', ['gerarquadrogeral'], ['class' => 'btn btn-success']) ?>   
-        <?= Html::a('Frequência Geral', ['gerarfrequenciageral'], ['class' => 'btn btn-success']) ?>
-        <?= Html::a('Relatório Semestral', ['gerarrelatoriosemestral'], ['class' => 'btn btn-success']) ?>
-    </p>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -43,11 +35,11 @@ $this->params['breadcrumbs'][] = $this->title;
             'codTurma',
             'nomeCurso',
             [
-                'attribute'=>'bolsa_traducao',
+                'attribute'=> 'bolsa_traducao',
                 'filter'=>array("Sim"=>"Sim","Não"=>"Não"),
             ],
             [
-                'attribute'=>'status',
+                'attribute'=> 'status',
                 'filter'=>array("Aguardando Avaliação"=>"Aguardando Avaliação", "Deferido"=>"Deferido", "Indeferido"=>"Indeferido"),
             ],
             [
@@ -55,30 +47,28 @@ $this->params['breadcrumbs'][] = $this->title;
                 'header'=>'Ações',
                 'headerOptions' => ['style' => 'text-align:center; color:#337AB7'],
                 'contentOptions' => ['style' => 'text-align:center; vertical-align:middle'],
-                'template' => '{view} {delete}',
+                'template' => '{plano} {relatorio}',
                 'buttons' => 
                 [
-                    'view' => function ($url, $model) {
+                    'plano' => function ($url, $model) {
                         return Html::a(
-                            '<span class="glyphicon glyphicon-eye-open"></span>',
-                            ['monitoria/view', 'id' => $model->id], 
+                            '<span class="btn btn-primary"></span>',
+                            ['monitoria/actionGerarplanosemestraldisciplina', 'id' => $model->id], 
                             [
-                                'title' => 'View',
-                                'aria-label' => 'View',
+                                'title' => 'Plano Disciplina',
+                                'aria-label' => 'Plano Disciplina',
                                 'data-pjax' => '0',
                             ]
                         );
                     },
-                    'delete' => function ($url, $model) {
+                    'relatorio' => function ($url, $model) {
                         return Html::a(
-                            '<span class="glyphicon glyphicon-trash"></span>',
-                            ['monitoria/delete', 'id' => $model->id], 
+                            '<span class="btn btn-primary"></span>',
+                            ['monitoria/actionGerarrelatoriosemestral', 'id' => $model->id], 
                             [
-                                'title' => 'Delete',
-                                'aria-label' => 'Delete',
+                                'title' => 'Relatório Semestral',
+                                'aria-label' => 'Relatório Semestral',
                                 'data-pjax' => '0',
-                                'data-confirm' => 'Você realmente deseja deletar este item?',
-                                'data-method' => 'post',
                             ]
                         );
                     },

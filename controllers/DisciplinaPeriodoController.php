@@ -402,10 +402,19 @@ class DisciplinaPeriodoController extends Controller
                         $query = sprintf("SELECT id FROM disciplina WHERE codDisciplina = '%s'", $codDisciplina);
                         $idDisciplina = Yii::$app->db->createCommand($query)->queryScalar();
 
-                        if ($idDisciplina) {
+                        if ($idDisciplina) 
+                        {
+                            //Quando a disciplina não possui monitoria, então não se cadastra em disciplina-periodo
+                            $query = sprintf("SELECT possuiMonitoria FROM disciplina WHERE id = '%s'", $idDisciplina);
+                            $possuiMonitoria = Yii::$app->db->createCommand($query)->queryScalar();
+                            if (!$possuiMonitoria)
+                                continue;
+
                             $arrayUpdate = ['nomeDisciplina' => $nomeDisciplina, 'cargaHoraria' => $cargaHoraria, 'creditos' => $creditos];
                             Yii::$app->db->createCommand()->update('disciplina', $arrayUpdate, 'id='.$idDisciplina)->execute();
-                        } else {
+                        } 
+                        else 
+                        {
                             
                             //if (array_search($codDisciplina, array_column($bulkInsertArray, 'codDisciplina'))) {
                             //    $bulkInsertArray[]=[

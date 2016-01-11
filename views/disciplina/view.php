@@ -33,6 +33,11 @@ $this->params['breadcrumbs'][] = $this->title;
             'nomeDisciplina',
             'cargaHoraria',
             'creditos',
+            //'possuiMonitoria',
+            [
+                'label' => 'Disciplina com Monitoria',
+                'value' => $model->traducao_possui_monitoria
+            ],
         ],
     ]) ?>
 

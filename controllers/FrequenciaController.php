@@ -61,9 +61,16 @@ class FrequenciaController extends Controller
         {
             $evento = new \yii2fullcalendar\models\Event();
             $evento->id = $freq->id;
+            $evento->allDay = true;
             $evento->className = 'btn';
-            $evento->title = $freq->ch .'h';
-            $evento->start = $freq->dmy; 
+            
+            //$evento->title = $freq->ch .'h -' . $freq->atividade;
+            if ( $freq->atividade == null ) 
+                $evento->title = $freq->ch .'h';
+            else 
+                $evento->title = $freq->ch .'h -' . $freq->atividade;
+
+            $evento->start = $freq->dmy;
             $frequencias[] = $evento;
         }
 

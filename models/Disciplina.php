@@ -17,6 +17,9 @@ use Yii;
  */
 class Disciplina extends \yii\db\ActiveRecord
 {
+
+    public $traducao_possui_monitoria;
+
     /**
      * @inheritdoc
      */
@@ -32,7 +35,7 @@ class Disciplina extends \yii\db\ActiveRecord
     {
         return [
             [['codDisciplina', 'nomeDisciplina', 'cargaHoraria', 'creditos'], 'required', 'message'=>'Este campo é obrigatório'],
-            [['cargaHoraria', 'creditos'], 'integer'],
+            [['cargaHoraria', 'creditos', 'possuiMonitoria'], 'integer'],
             [['codDisciplina'], 'string', 'max' => 10],
             [['nomeDisciplina'], 'string', 'max' => 150],
             [['codDisciplina'], 'unique', 'message'=>'O código da disciplina já existe no sistema.']
@@ -50,6 +53,7 @@ class Disciplina extends \yii\db\ActiveRecord
             'nomeDisciplina' => 'Nome da Disciplina',
             'cargaHoraria' => 'Carga Horária',
             'creditos' => 'Créditos',
+            'possuiMonitoria' => 'Disciplina com Monitoria',
         ];
     }
 
@@ -59,5 +63,18 @@ class Disciplina extends \yii\db\ActiveRecord
     public function getDisciplinaPeriodos()
     {
         return $this->hasMany(DisciplinaPeriodo::className(), ['idDisciplina' => 'id']);
+    }
+
+    public function afterFind()
+    {
+        switch ($this->possuiMonitoria)
+        {
+            case 0:
+                $this->traducao_possui_monitoria = 'Não';
+                break;
+            case 1:
+                $this->traducao_possui_monitoria = 'Sim';
+                break;
+        }
     }
 }

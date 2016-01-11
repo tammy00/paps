@@ -22,16 +22,26 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'summary' => '',
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+            //['class' => 'yii\grid\SerialColumn'],
 
             //'id',
             'codDisciplina',
             'nomeDisciplina',
             //'cargaHoraria',
             //'creditos',
-
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'attribute'=> 'traducao_possui_monitoria',
+                'label'=>'Disciplina com Monitoria',
+                'filter'=>array("1"=>"Sim","0"=>"Não"),
+            ],
+            [   
+                'class' => 'yii\grid\ActionColumn', 
+                'header'=>'Ações', 
+                'headerOptions' => ['style' => 'text-align:center; color:#337AB7'],
+                'contentOptions' => ['style' => 'text-align:center; vertical-align:middle'],
+            ],
         ],
     ]); ?>
 
