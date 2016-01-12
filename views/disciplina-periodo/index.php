@@ -9,7 +9,7 @@ use app\models\DisciplinaPeriodo;
 /* @var $searchModel app\models\DisciplinaPeriodoSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Disciplinas do Período';
+$this->title = 'Disciplinas para Monitoria';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="disciplina-periodo-index">
@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Criar Disciplina do Período', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Criar Disciplina', ['create'], ['class' => 'btn btn-success']) ?>
         <?= Html::a('Importar Disciplinas - Arquivo CSV', ['importarcsv'], ['class' => 'btn btn-success']) ?>
     </p>
 

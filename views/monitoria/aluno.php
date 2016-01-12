@@ -9,7 +9,7 @@ use app\models\AlunoMonitoria;
 /* @var $searchModel app\models\AlunoMonitoriaSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Monitorias';
+$this->title = 'Gerenciar Monitorias';
 $this->params['breadcrumbs'][] = ['label' => 'Monitorias', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

@@ -9,7 +9,7 @@ use yii\helpers\Html;
 /* @var array[] $erros */
 
 $this->title = 'Importar Disciplinas - Arquivo CSV';
-$this->params['breadcrumbs'][] = ['label' => 'Disciplinas do Período', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Disciplinas para Monitoria', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="disciplina-periodo-create">

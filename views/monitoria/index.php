@@ -36,15 +36,23 @@ $this->params['breadcrumbs'][] = $this->title;
             <p> <?= Html::a('Gerenciar Monitorias', ['aluno'], ['class' => 'btn btn-success']) ?> </p>
         <?php } ?>
 
-        <?php if(Yii::$app->user->identity->perfil == 'Secretaria' || Yii::$app->user->identity->perfil == 'Coordenador'){ ?>
+        <?php if(Yii::$app->user->identity->perfil == 'Secretaria'){ ?>
             <p><?= Html::a('Gerenciar Período de Inscrição', ['/periodo-inscricao-monitoria/index'], ['class' => 'btn btn-success']) ?></p>
-            <p><?= Html::a('Disciplinas UFAM', ['/disciplina/index'], ['class' => 'btn btn-success']) ?></p>
-            <p><?= Html::a('Selecionar Disciplinas Monitoria', ['/disciplina-periodo/index'], ['class' => 'btn btn-success']) ?></p>
+            <p><?= Html::a('Disciplinas', ['/disciplina/index'], ['class' => 'btn btn-success']) ?></p>
+            <p><?= Html::a('Disciplinas para Monitoria', ['/disciplina-periodo/index'], ['class' => 'btn btn-success']) ?></p>
             <p><?= Html::a('Gerenciar Monitorias', ['secretaria'], ['class' => 'btn btn-success']) ?></p>
         <?php } ?>
 
         <?php if(Yii::$app->user->identity->perfil == 'Professor'){ ?>
             <p> <?= Html::a('Gerenciar Monitorias', ['professor'], ['class' => 'btn btn-success']) ?> </p>
+        <?php } ?>
+
+        <?php if(Yii::$app->user->identity->perfil == 'Coordenador'){ ?>
+            <p><?= Html::a('Gerenciar Período de Inscrição', ['/periodo-inscricao-monitoria/index'], ['class' => 'btn btn-success']) ?></p>
+            <p><?= Html::a('Disciplinas UFAM', ['/disciplina/index'], ['class' => 'btn btn-success']) ?></p>
+            <p><?= Html::a('Selecionar Disciplinas Monitoria', ['/disciplina-periodo/index'], ['class' => 'btn btn-success']) ?></p>
+            <p><?= Html::a('Gerenciar Monitorias - Secretaria', ['secretaria'], ['class' => 'btn btn-success']) ?></p>
+            <p> <?= Html::a('Gerenciar Monitorias - Professor', ['professor'], ['class' => 'btn btn-success']) ?> </p>
         <?php } ?>
     </div>
 

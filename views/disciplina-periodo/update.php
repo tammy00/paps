@@ -9,8 +9,8 @@ use app\models\UsuarioSearch;
 /* @var $this yii\web\View */
 /* @var $model app\models\DisciplinaPeriodo */
 
-$this->title = 'Alterar Disciplina: ' . ' ' . $model->disciplina->nomeDisciplina . ' - ' . $model->codTurma;
-$this->params['breadcrumbs'][] = ['label' => 'Disciplinas do Período', 'url' => ['index']];
+$this->title = 'Alterar: ' . ' ' . $model->disciplina->nomeDisciplina . ' - ' . $model->codTurma;
+$this->params['breadcrumbs'][] = ['label' => 'Disciplinas para Monitoria', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->disciplina->nomeDisciplina, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Alterar';
 ?>

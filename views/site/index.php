@@ -43,10 +43,13 @@ use yii\helpers\Html;
                                     <a href="?r=solicitacao/index"><i class="fa fa-download fa-fw"></i> Solicitações</a>
                                 </li>
                                 <li>
-                                <a href="?r=grupo/index"><i class="fa fa-users fa-fw"></i> Grupos</a>
+                                    <a href="?r=grupo/index"><i class="fa fa-users fa-fw"></i> Grupos</a>
                                 </li>
                                 <li>
                                     <a href="?r=atividade/index"><i class="fa fa-tasks fa-fw"></i> Atividades</a>
+                                </li>
+                                <li>
+                                    <a href="?r=monitoria/index"><i class="fa fa-eye fa-fw"></i> Monitoria</a>
                                 </li>
                             <?php } ?>
                             <?php if(Yii::$app->user->identity->perfil == 'Aluno'){ ?>

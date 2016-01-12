@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.4.14
+-- version 4.2.7.1
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 11-Jan-2016 às 22:35
--- Versão do servidor: 5.6.26
--- PHP Version: 5.6.12
+-- Generation Time: 12-Jan-2016 às 23:14
+-- Versão do servidor: 5.6.20
+-- PHP Version: 5.5.15
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -14,7 +14,7 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!40101 SET NAMES utf8 */;
 
 --
 -- Database: `graduacao`
@@ -27,12 +27,12 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE IF NOT EXISTS `anexo` (
-  `id` int(11) NOT NULL,
+`id` int(11) NOT NULL,
   `nome` varchar(255) NOT NULL,
   `tipo` varchar(100) NOT NULL,
   `hash` int(11) NOT NULL,
   `solicitacao_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -41,13 +41,13 @@ CREATE TABLE IF NOT EXISTS `anexo` (
 --
 
 CREATE TABLE IF NOT EXISTS `atividade` (
-  `id` int(11) NOT NULL,
+`id` int(11) NOT NULL,
   `codigo` varchar(5) NOT NULL,
   `nome` varchar(100) NOT NULL,
   `max_horas` int(11) NOT NULL,
   `curso_id` int(11) NOT NULL,
   `grupo_id` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Extraindo dados da tabela `atividade`
@@ -63,11 +63,11 @@ INSERT INTO `atividade` (`id`, `codigo`, `nome`, `max_horas`, `curso_id`, `grupo
 --
 
 CREATE TABLE IF NOT EXISTS `curso` (
-  `id` int(11) NOT NULL,
+`id` int(11) NOT NULL,
   `codigo` varchar(5) NOT NULL,
   `nome` varchar(100) NOT NULL,
   `max_horas` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=32 ;
 
 --
 -- Extraindo dados da tabela `curso`
@@ -113,13 +113,13 @@ INSERT INTO `curso` (`id`, `codigo`, `nome`, `max_horas`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `disciplina` (
-  `id` int(11) NOT NULL,
+`id` int(11) NOT NULL,
   `codDisciplina` varchar(10) CHARACTER SET utf8 NOT NULL,
   `nomeDisciplina` varchar(150) CHARACTER SET utf8 NOT NULL,
   `cargaHoraria` int(3) NOT NULL,
   `creditos` int(3) NOT NULL,
   `possuiMonitoria` tinyint(1) DEFAULT '1'
-) ENGINE=InnoDB AUTO_INCREMENT=1730 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1730 ;
 
 --
 -- Extraindo dados da tabela `disciplina`
@@ -140,7 +140,7 @@ INSERT INTO `disciplina` (`id`, `codDisciplina`, `nomeDisciplina`, `cargaHoraria
 --
 
 CREATE TABLE IF NOT EXISTS `disciplina_periodo` (
-  `id` int(11) NOT NULL,
+`id` int(11) NOT NULL,
   `idDisciplina` int(11) NOT NULL,
   `codTurma` varchar(10) CHARACTER SET utf8 NOT NULL,
   `idCurso` int(11) NOT NULL,
@@ -154,7 +154,7 @@ CREATE TABLE IF NOT EXISTS `disciplina_periodo` (
   `usaLaboratorio` tinyint(1) DEFAULT NULL,
   `qtdMonitorBolsista` int(4) DEFAULT '0',
   `qtdMonitorNaoBolsista` int(4) DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=128 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=128 ;
 
 --
 -- Extraindo dados da tabela `disciplina_periodo`
@@ -177,12 +177,12 @@ INSERT INTO `disciplina_periodo` (`id`, `idDisciplina`, `codTurma`, `idCurso`, `
 --
 
 CREATE TABLE IF NOT EXISTS `frequencia` (
-  `id` int(11) NOT NULL,
+`id` int(11) NOT NULL,
   `IDMonitoria` int(11) NOT NULL,
   `dmy` date NOT NULL,
   `ch` float NOT NULL,
   `atividade` varchar(200) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=15 ;
 
 --
 -- Extraindo dados da tabela `frequencia`
@@ -211,11 +211,11 @@ INSERT INTO `frequencia` (`id`, `IDMonitoria`, `dmy`, `ch`, `atividade`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `grupo` (
-  `id` int(11) NOT NULL,
+`id` int(11) NOT NULL,
   `codigo` varchar(20) NOT NULL,
   `nome` varchar(100) NOT NULL,
   `max_horas` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Extraindo dados da tabela `grupo`
@@ -259,7 +259,7 @@ INSERT INTO `migration` (`version`, `apply_time`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `monitoria` (
-  `id` int(11) NOT NULL,
+`id` int(11) NOT NULL,
   `IDAluno` int(11) NOT NULL,
   `IDDisc` int(11) NOT NULL,
   `IDperiodoinscr` int(11) NOT NULL,
@@ -275,7 +275,7 @@ CREATE TABLE IF NOT EXISTS `monitoria` (
   `datacriacao` datetime DEFAULT NULL,
   `pathArqPlanoDisciplina` varchar(250) CHARACTER SET utf8 DEFAULT NULL,
   `pathArqRelatorioSemestral` varchar(250) CHARACTER SET utf8 DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 --
 -- Extraindo dados da tabela `monitoria`
@@ -293,11 +293,11 @@ INSERT INTO `monitoria` (`id`, `IDAluno`, `IDDisc`, `IDperiodoinscr`, `pathArqHi
 --
 
 CREATE TABLE IF NOT EXISTS `periodo` (
-  `id` int(11) NOT NULL,
+`id` int(11) NOT NULL,
   `codigo` varchar(10) NOT NULL,
   `dtInicio` date NOT NULL,
   `dtTermino` date NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Extraindo dados da tabela `periodo`
@@ -314,13 +314,13 @@ INSERT INTO `periodo` (`id`, `codigo`, `dtInicio`, `dtTermino`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `periodoinscricao` (
-  `id` int(11) NOT NULL,
+`id` int(11) NOT NULL,
   `dataInicio` date NOT NULL,
   `dataFim` date NOT NULL,
   `periodo` tinyint(1) NOT NULL,
   `ano` int(4) NOT NULL,
   `justificativa` text
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Extraindo dados da tabela `periodoinscricao`
@@ -337,7 +337,7 @@ INSERT INTO `periodoinscricao` (`id`, `dataInicio`, `dataFim`, `periodo`, `ano`,
 --
 
 CREATE TABLE IF NOT EXISTS `solicitacao` (
-  `id` int(11) NOT NULL,
+`id` int(11) NOT NULL,
   `descricao` varchar(100) NOT NULL,
   `dtInicio` date NOT NULL,
   `dtTermino` date NOT NULL,
@@ -350,7 +350,7 @@ CREATE TABLE IF NOT EXISTS `solicitacao` (
   `solicitante_id` int(11) NOT NULL,
   `aprovador_id` int(11) NOT NULL,
   `anexo_id` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Extraindo dados da tabela `solicitacao`
@@ -366,7 +366,7 @@ INSERT INTO `solicitacao` (`id`, `descricao`, `dtInicio`, `dtTermino`, `horasCom
 --
 
 CREATE TABLE IF NOT EXISTS `usuario` (
-  `id` int(11) NOT NULL,
+`id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
   `cpf` varchar(100) NOT NULL,
   `email` varchar(100) NOT NULL,
@@ -383,7 +383,7 @@ CREATE TABLE IF NOT EXISTS `usuario` (
   `telefone` varchar(25) DEFAULT NULL,
   `endereco` text,
   `rg` text
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
 
 --
 -- Extraindo dados da tabela `usuario`
@@ -392,14 +392,15 @@ CREATE TABLE IF NOT EXISTS `usuario` (
 INSERT INTO `usuario` (`id`, `name`, `cpf`, `email`, `password`, `matricula`, `siape`, `perfil`, `dtEntrada`, `isAdmin`, `isAtivo`, `auth_key`, `password_reset_token`, `IDCurso`, `telefone`, `endereco`, `rg`) VALUES
 (1, 'Admin Master', '999', 'admin@master.com', 'b706835de79a2b4e80506f582af3676a', '', '', 'admin', '0000-00-00', 1, 1, NULL, NULL, NULL, NULL, NULL, NULL),
 (2, 'CoordSI', '888', 'coord@si.com.br', '0a113ef6b61820daa5611c870ed8d5ee', NULL, NULL, 'Coordenador', NULL, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL),
-(3, 'Tia', '111', 'tia@icomp.com', '698d51a19d8a121ce581499d7b701668', NULL, NULL, 'Secretaria', NULL, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL),
-(4, 'DENILSON DE ALBUQUERQUE CARVALHO', '74247824287', 'zottozbr@gmail.com', 'da1f83c6908ac6c65b8372c8dda40ec0', '21203723', NULL, 'Aluno', NULL, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL),
-(5, 'LUCIENE OLIVEIRA DA SILVA', '51950880206', 'los@icomp.ufam.edu.br', 'b706835de79a2b4e80506f582af3676a', '20902150', NULL, 'Aluno', NULL, 0, 0, NULL, NULL, 2, NULL, NULL, NULL),
+(3, ' Ana Lucia', '111', 'analuciamachado@gmail.com', 'b706835de79a2b4e80506f582af3676a', NULL, NULL, 'Secretaria', NULL, 0, 1, NULL, NULL, NULL, NULL, NULL, NULL),
+(4, 'DENILSON DE ALBUQUERQUE CARVALHO', '74247824287', 'zottozbr@gmail.com', 'b706835de79a2b4e80506f582af3676a', '21203723', NULL, 'Aluno', NULL, 0, 1, NULL, NULL, NULL, NULL, NULL, NULL),
+(5, 'LUCIENE OLIVEIRA DA SILVA', '51950880206', 'los@icomp.ufam.edu.br', 'b706835de79a2b4e80506f582af3676a', '20902150', NULL, 'Aluno', NULL, 0, 1, NULL, NULL, 2, NULL, NULL, NULL),
 (6, 'TAMMY HIKARI YANAI GUSMAO', '02806338239', 'tammyhikari@gmail.com', 'b706835de79a2b4e80506f582af3676a', '21201463', NULL, 'Secretaria', NULL, 0, 1, NULL, NULL, NULL, NULL, NULL, NULL),
 (7, 'KALLEY CORREA', '88309495234', 'kalleycorrea@gmail.com', 'b706835de79a2b4e80506f582af3676a', '20902175', NULL, 'Aluno', NULL, 0, 1, NULL, NULL, 1, '99613-9649', 'Rua Parintins, N 1, Colonia Terra Nova', '1674082-3'),
 (8, 'ARILO CLÁUDIO DIAS NETO', '444', 'arilo@icomp.ufam.edu.br', 'b706835de79a2b4e80506f582af3676a', NULL, NULL, 'Professor', NULL, 0, 1, NULL, NULL, NULL, '99100-0001', NULL, NULL),
 (9, 'CÉSAR AUGUSTO VIANA MELO', '222', 'cesar@icomp.ufam.edu.br', 'b706835de79a2b4e80506f582af3676a', NULL, NULL, 'Professor', NULL, 0, 1, NULL, NULL, NULL, '99100-0002', NULL, NULL),
-(10, 'ELAINE HARADA TEIXEIRA DE OLIVEIRA', '333', 'elaine@icomp.ufam.edu.br', 'b706835de79a2b4e80506f582af3676a', NULL, NULL, 'Professor', NULL, 0, 1, NULL, NULL, NULL, '99100-0003', NULL, NULL);
+(10, 'ELAINE HARADA TEIXEIRA DE OLIVEIRA', '333', 'elaine@icomp.ufam.edu.br', 'b706835de79a2b4e80506f582af3676a', NULL, NULL, 'Professor', NULL, 0, 1, NULL, NULL, NULL, '99100-0003', NULL, NULL),
+(11, 'FABIOLA GUERRA NAKAMURA', '555', 'fabiola@icomp.ufam.edu.br', 'b706835de79a2b4e80506f582af3676a', NULL, NULL, 'Coordenador', NULL, 0, 1, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -437,7 +438,6 @@ CREATE TABLE IF NOT EXISTS `view_aluno_monitoria` (
 ,`IDperiodoinscr` int(11)
 ,`pathArqHistorico` varchar(250)
 );
-
 -- --------------------------------------------------------
 
 --
@@ -458,7 +458,6 @@ CREATE TABLE IF NOT EXISTS `view_disciplina_monitoria` (
 ,`qtdMonitorBolsista` int(4)
 ,`qtdMonitorNaoBolsista` int(4)
 );
-
 -- --------------------------------------------------------
 
 --
@@ -484,7 +483,6 @@ CREATE TABLE IF NOT EXISTS `view_professor_monitoria` (
 ,`pathArqPlanoDisciplina` varchar(250)
 ,`pathArqRelatorioSemestral` varchar(250)
 );
-
 -- --------------------------------------------------------
 
 --
@@ -520,89 +518,79 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 -- Indexes for table `anexo`
 --
 ALTER TABLE `anexo`
-  ADD PRIMARY KEY (`id`);
+ ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `atividade`
 --
 ALTER TABLE `atividade`
-  ADD PRIMARY KEY (`id`);
+ ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `curso`
 --
 ALTER TABLE `curso`
-  ADD PRIMARY KEY (`id`);
+ ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `disciplina`
 --
 ALTER TABLE `disciplina`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `codDisciplina` (`codDisciplina`);
+ ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `codDisciplina` (`codDisciplina`);
 
 --
 -- Indexes for table `disciplina_periodo`
 --
 ALTER TABLE `disciplina_periodo`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `idDisciplinaPeriodo` (`idDisciplina`,`numPeriodo`,`anoPeriodo`,`codTurma`),
-  ADD KEY `fk_disciplina_periodo_idDisciplina` (`idDisciplina`),
-  ADD KEY `fk_disciplina_periodo_idCurso` (`idCurso`),
-  ADD KEY `fk_disciplina_periodo_idProfessor` (`idProfessor`);
+ ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `idDisciplinaPeriodo` (`idDisciplina`,`numPeriodo`,`anoPeriodo`,`codTurma`), ADD KEY `fk_disciplina_periodo_idDisciplina` (`idDisciplina`), ADD KEY `fk_disciplina_periodo_idCurso` (`idCurso`), ADD KEY `fk_disciplina_periodo_idProfessor` (`idProfessor`);
 
 --
 -- Indexes for table `frequencia`
 --
 ALTER TABLE `frequencia`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `IDMonitoria` (`IDMonitoria`);
+ ADD PRIMARY KEY (`id`), ADD KEY `IDMonitoria` (`IDMonitoria`);
 
 --
 -- Indexes for table `grupo`
 --
 ALTER TABLE `grupo`
-  ADD PRIMARY KEY (`id`);
+ ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `migration`
 --
 ALTER TABLE `migration`
-  ADD PRIMARY KEY (`version`);
+ ADD PRIMARY KEY (`version`);
 
 --
 -- Indexes for table `monitoria`
 --
 ALTER TABLE `monitoria`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `IDDisc` (`IDDisc`) USING BTREE,
-  ADD KEY `IDAluno` (`IDAluno`),
-  ADD KEY `IDperiodoinscr` (`IDperiodoinscr`);
+ ADD PRIMARY KEY (`id`), ADD KEY `IDDisc` (`IDDisc`) USING BTREE, ADD KEY `IDAluno` (`IDAluno`), ADD KEY `IDperiodoinscr` (`IDperiodoinscr`);
 
 --
 -- Indexes for table `periodo`
 --
 ALTER TABLE `periodo`
-  ADD PRIMARY KEY (`id`);
+ ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `periodoinscricao`
 --
 ALTER TABLE `periodoinscricao`
-  ADD PRIMARY KEY (`id`);
+ ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `solicitacao`
 --
 ALTER TABLE `solicitacao`
-  ADD PRIMARY KEY (`id`);
+ ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `usuario`
 --
 ALTER TABLE `usuario`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `IDCurso` (`IDCurso`);
+ ADD PRIMARY KEY (`id`), ADD KEY `IDCurso` (`IDCurso`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -612,62 +600,62 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT for table `anexo`
 --
 ALTER TABLE `anexo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `atividade`
 --
 ALTER TABLE `atividade`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `curso`
 --
 ALTER TABLE `curso`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=32;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=32;
 --
 -- AUTO_INCREMENT for table `disciplina`
 --
 ALTER TABLE `disciplina`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1730;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1730;
 --
 -- AUTO_INCREMENT for table `disciplina_periodo`
 --
 ALTER TABLE `disciplina_periodo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=128;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=128;
 --
 -- AUTO_INCREMENT for table `frequencia`
 --
 ALTER TABLE `frequencia`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=15;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=15;
 --
 -- AUTO_INCREMENT for table `grupo`
 --
 ALTER TABLE `grupo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `monitoria`
 --
 ALTER TABLE `monitoria`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `periodo`
 --
 ALTER TABLE `periodo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `periodoinscricao`
 --
 ALTER TABLE `periodoinscricao`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `solicitacao`
 --
 ALTER TABLE `solicitacao`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
 --
 -- Constraints for dumped tables
 --
@@ -676,29 +664,29 @@ ALTER TABLE `usuario`
 -- Limitadores para a tabela `disciplina_periodo`
 --
 ALTER TABLE `disciplina_periodo`
-  ADD CONSTRAINT `disciplina_periodo_ibfk_1` FOREIGN KEY (`idDisciplina`) REFERENCES `disciplina` (`id`),
-  ADD CONSTRAINT `disciplina_periodo_ibfk_2` FOREIGN KEY (`idCurso`) REFERENCES `curso` (`id`),
-  ADD CONSTRAINT `disciplina_periodo_ibfk_3` FOREIGN KEY (`idProfessor`) REFERENCES `usuario` (`id`);
+ADD CONSTRAINT `disciplina_periodo_ibfk_1` FOREIGN KEY (`idDisciplina`) REFERENCES `disciplina` (`id`),
+ADD CONSTRAINT `disciplina_periodo_ibfk_2` FOREIGN KEY (`idCurso`) REFERENCES `curso` (`id`),
+ADD CONSTRAINT `disciplina_periodo_ibfk_3` FOREIGN KEY (`idProfessor`) REFERENCES `usuario` (`id`);
 
 --
 -- Limitadores para a tabela `frequencia`
 --
 ALTER TABLE `frequencia`
-  ADD CONSTRAINT `frequencia_ibfk_1` FOREIGN KEY (`IDMonitoria`) REFERENCES `monitoria` (`id`);
+ADD CONSTRAINT `frequencia_ibfk_1` FOREIGN KEY (`IDMonitoria`) REFERENCES `monitoria` (`id`);
 
 --
 -- Limitadores para a tabela `monitoria`
 --
 ALTER TABLE `monitoria`
-  ADD CONSTRAINT `monitoria_ibfk_1` FOREIGN KEY (`IDDisc`) REFERENCES `disciplina_periodo` (`id`),
-  ADD CONSTRAINT `monitoria_ibfk_3` FOREIGN KEY (`IDperiodoinscr`) REFERENCES `periodoinscricao` (`id`),
-  ADD CONSTRAINT `monitoria_ibfk_4` FOREIGN KEY (`IDAluno`) REFERENCES `usuario` (`id`);
+ADD CONSTRAINT `monitoria_ibfk_1` FOREIGN KEY (`IDDisc`) REFERENCES `disciplina_periodo` (`id`),
+ADD CONSTRAINT `monitoria_ibfk_3` FOREIGN KEY (`IDperiodoinscr`) REFERENCES `periodoinscricao` (`id`),
+ADD CONSTRAINT `monitoria_ibfk_4` FOREIGN KEY (`IDAluno`) REFERENCES `usuario` (`id`);
 
 --
 -- Limitadores para a tabela `usuario`
 --
 ALTER TABLE `usuario`
-  ADD CONSTRAINT `usuario_ibfk_1` FOREIGN KEY (`IDCurso`) REFERENCES `curso` (`id`);
+ADD CONSTRAINT `usuario_ibfk_1` FOREIGN KEY (`IDCurso`) REFERENCES `curso` (`id`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

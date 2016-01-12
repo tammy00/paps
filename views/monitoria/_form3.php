@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
     <p>
     <a href="https://www.dropbox.com/sh/1sx0q8g0c3rnmzj/AACLNQGdtWLoRv4FoNRVKRcGa/2.%20Plano%20Semestral%20da%20disciplina.doc?dl=0" target="_blank" class="btn btn-primary">Baixar Modelo do Plano</a>
-    <?= Html::a('Baixar Modificações', '/paps/web/'.$modelInfo->pathArqPlanoDisciplina, ['target'=>'_blank', 'class'=>'btn btn-primary']) ?>
+    <?= Html::a('Recuperar Arquivo', '/paps/web/'.$modelInfo->pathArqPlanoDisciplina, ['target'=>'_blank', 'class'=>'btn btn-primary']) ?>
     </p>
 </div>
 
@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
     'model' => $model,
     'attributes' => [
         [
-            'label' => 'Aluno',
+            'label' => 'Monitor',
             'value' => $modelInfo->aluno
         ],
         [
