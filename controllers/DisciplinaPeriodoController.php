@@ -40,7 +40,18 @@ class DisciplinaPeriodoController extends Controller
                         'matchCallback' => function ($rule, $action) {
                             if (!Yii::$app->user->isGuest)
                             {
-                                return Yii::$app->user->identity->perfil == 'Secretaria'; // Só adms podem acessar esse controller
+                                if ( Yii::$app->user->identity->perfil === 'Secretaria' ) 
+                                {
+                                    return Yii::$app->user->identity->perfil == 'Secretaria'; 
+                                }
+                                elseif ( Yii::$app->user->identity->perfil === 'Coordenador' ) 
+                                {
+                                    return Yii::$app->user->identity->perfil == 'Coordenador'; 
+                                }
+                                elseif ( Yii::$app->user->identity->perfil === 'admin' ) 
+                                {
+                                    return Yii::$app->user->identity->perfil == 'admin'; 
+                                }
                             }
                         }
                     ],

@@ -66,6 +66,10 @@ class MonitoriaController extends Controller
                                 {
                                     return Yii::$app->user->identity->perfil == 'Professor'; 
                                 }
+                                elseif ( Yii::$app->user->identity->perfil === 'admin' ) 
+                                {
+                                    return Yii::$app->user->identity->perfil == 'admin'; 
+                                }
                             }
                             //else -> redirecionar para o site/cpf
                         }

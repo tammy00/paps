@@ -54,6 +54,16 @@ $this->params['breadcrumbs'][] = $this->title;
             <p><?= Html::a('Gerenciar Monitorias - Secretaria', ['secretaria'], ['class' => 'btn btn-success']) ?></p>
             <p> <?= Html::a('Gerenciar Monitorias - Professor', ['professor'], ['class' => 'btn btn-success']) ?> </p>
         <?php } ?>
+
+        <?php if(Yii::$app->user->identity->perfil == 'admin'){ ?>
+            <p><?= Html::a('Gerenciar Período de Inscrição', ['/periodo-inscricao-monitoria/index'], ['class' => 'btn btn-success']) ?></p>
+            <p><?= Html::a('Disciplinas UFAM', ['/disciplina/index'], ['class' => 'btn btn-success']) ?></p>
+            <p><?= Html::a('Selecionar Disciplinas Monitoria', ['/disciplina-periodo/index'], ['class' => 'btn btn-success']) ?></p>
+            <p><?= Html::a('Gerenciar Monitorias - Secretaria', ['secretaria'], ['class' => 'btn btn-success']) ?></p>
+            <p> <?= Html::a('Gerenciar Monitorias - Professor', ['professor'], ['class' => 'btn btn-success']) ?> </p>
+            <p> <?= Html::a('Inscrição - Aluno', ['create'], ['class' => 'btn btn-success']) ?>   </p>
+            <p> <?= Html::a('Gerenciar Monitorias - Aluno', ['aluno'], ['class' => 'btn btn-success']) ?> </p>
+        <?php } ?>
     </div>
 
 </div>
