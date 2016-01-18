@@ -12,6 +12,7 @@ use yii\grid\GridView;
         'dataProvider' => $dataProvider,
         'summary'=>'',
         'columns' => [
+            'codDisciplina',
             'nomeDisciplina',
             'nomeCurso',
             'nomeProfessor',

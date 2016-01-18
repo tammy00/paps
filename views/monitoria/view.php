@@ -84,11 +84,11 @@ $this->params['breadcrumbs'][] = $this->title;
     ]) ?>
 
     <?php if(Yii::$app->user->identity->perfil === 'Secretaria') { ?>
-        <a href="?r=monitoria/secretaria" class="btn btn-default">Voltar</a>
+        <a href="?r=monitoria/secretaria" class="btn btn-default">Gerenciar Monitorias</a>
     <?php } ?>
 
     <?php if(Yii::$app->user->identity->perfil === 'Aluno') { ?>
-        <a href="?r=monitoria/aluno" class="btn btn-default">Voltar</a>
+        <a href="?r=monitoria/aluno" class="btn btn-default">Gerenciar Monitorias</a>
     <?php } ?>
 
 </div>

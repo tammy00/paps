@@ -32,6 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
         //'showFooter'=>true,
         'showHeader' => true,
         'columns' => [
+            'codDisciplina',
             'nomeDisciplina',
             'professor',
             [

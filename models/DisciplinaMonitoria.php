@@ -41,6 +41,7 @@ class DisciplinaMonitoria extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'id',
+            'codDisciplina' => 'Código Disciplina',
             'nomeDisciplina' => 'Disciplina',
             'nomeCurso' => 'Curso',
             'nomeProfessor' => 'Professor',

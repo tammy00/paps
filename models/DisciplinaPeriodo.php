@@ -29,6 +29,7 @@ class DisciplinaPeriodo extends \yii\db\ActiveRecord
     public $file;
     public $file_import;
     public $traducao_usa_laboratorio;
+    public $codDisciplina;
 
     /**
      * @inheritdoc
@@ -66,6 +67,7 @@ class DisciplinaPeriodo extends \yii\db\ActiveRecord
         return [
             'id' => 'id',
             'idDisciplina' => 'Disciplina',
+            'codDisciplina' => 'Código da Disciplina',
             'codTurma' => 'Código Turma',
             'idCurso' => 'Curso',
             'idProfessor' => 'Professor',

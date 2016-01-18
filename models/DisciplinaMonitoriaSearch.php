@@ -19,7 +19,7 @@ class DisciplinaMonitoriaSearch extends DisciplinaMonitoria
     {
         return [
             [['id'], 'integer'],
-            [['nomeDisciplina', 'nomeCurso', 'nomeProfessor', 'codTurma'], 'safe'],
+            [['codDisciplina', 'nomeDisciplina', 'nomeCurso', 'nomeProfessor', 'codTurma'], 'safe'],
         ];
     }
 
@@ -61,6 +61,7 @@ class DisciplinaMonitoriaSearch extends DisciplinaMonitoria
             'anoPeriodo' => $this->anoPeriodo,
         ]);
 
+        $query->andFilterWhere(['like', 'codDisciplina', $this->codDisciplina]);
         $query->andFilterWhere(['like', 'nomeDisciplina', $this->nomeDisciplina]);
         $query->andFilterWhere(['like', 'nomeCurso', $this->nomeCurso]);
         $query->andFilterWhere(['like', 'nomeProfessor', $this->nomeProfessor]);

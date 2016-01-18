@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\DisciplinaPeriodo */
 
-$this->title = $model->disciplina->nomeDisciplina . ' - ' . $model->codTurma;
+$this->title = $model->disciplina->nomeDisciplina . ' - Turma ' . $model->codTurma;
 $this->params['breadcrumbs'][] = ['label' => 'Disciplinas para Monitoria', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -30,6 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             //'id',
             //'idDisciplina',
+            'disciplina.codDisciplina',
             'disciplina.nomeDisciplina',
             //[
             //    'attribute'=>'idDisciplina',

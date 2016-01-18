@@ -32,6 +32,10 @@ $this->params['breadcrumbs'][] = $this->title;
             //'id',
             //'idDisciplina',
             [
+                'attribute'=>'codDisciplina', 
+                'value'=>'disciplina.codDisciplina'
+            ],
+            [
                 'attribute'=>'idDisciplina', 
                 'value'=>'disciplina.nomeDisciplina'
             ],
@@ -48,6 +52,14 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             // 'nomeUnidade',
             // 'qtdVagas',
+            [
+                'attribute'=>'qtdMonitorBolsista', 
+                'label'=>'Bolsista'
+            ],
+            [
+                'attribute'=>'qtdMonitorNaoBolsista', 
+                'label'=>'Não Bolsista'
+            ],
             //'anoPeriodo',
             //'numPeriodo',
             [

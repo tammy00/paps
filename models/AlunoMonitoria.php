@@ -42,6 +42,7 @@ class AlunoMonitoria extends \yii\db\ActiveRecord
             'IDAluno' => 'IDAluno',
             'matricula' => 'Matrícula',
             'cpf' => 'CPF',
+            'codDisciplina' => 'Código Disciplina',
             'nomeDisciplina' => 'Disciplina',
             'codTurma' => 'Código da Turma',
             'professor' => 'Professor',

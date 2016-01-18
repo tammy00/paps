@@ -20,7 +20,7 @@ class AlunoMonitoriaSearch extends AlunoMonitoria
     {
         return [
             [['id'], 'integer'],
-            [['aluno', 'matricula', 'cpf', 'nomeDisciplina', 'codTurma', 'professor', 'nomeCurso', 'bolsa_traducao', 'status', 'periodo'], 'safe'],
+            [['aluno', 'matricula', 'cpf', 'codDisciplina', 'nomeDisciplina', 'codTurma', 'professor', 'nomeCurso', 'bolsa_traducao', 'status', 'periodo'], 'safe'],
         ];
     }
 
@@ -67,6 +67,7 @@ class AlunoMonitoriaSearch extends AlunoMonitoria
         $query->andFilterWhere(['like', 'aluno', $this->aluno]);
         $query->andFilterWhere(['like', 'matricula', $this->matricula]);
         $query->andFilterWhere(['like', 'cpf', $this->cpf]);
+        $query->andFilterWhere(['like', 'codDisciplina', $this->codDisciplina]);
         $query->andFilterWhere(['like', 'nomeDisciplina', $this->nomeDisciplina]);
         $query->andFilterWhere(['like', 'codTurma', $this->codTurma]);
         $query->andFilterWhere(['like', 'professor', $this->professor]);
@@ -103,6 +104,7 @@ class AlunoMonitoriaSearch extends AlunoMonitoria
         $query->andFilterWhere(['like', 'aluno', $this->aluno]);
         $query->andFilterWhere(['like', 'matricula', $this->matricula]);
         $query->andFilterWhere(['like', 'cpf', $this->cpf]);
+        $query->andFilterWhere(['like', 'codDisciplina', $this->codDisciplina]);
         $query->andFilterWhere(['like', 'nomeDisciplina', $this->nomeDisciplina]);
         $query->andFilterWhere(['like', 'codTurma', $this->codTurma]);
         $query->andFilterWhere(['like', 'professor', $this->professor]);
