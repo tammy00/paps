@@ -23,16 +23,25 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'showOnEmpty' => false,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
             //'id',
-            'dataInicio',
-            'dataFim',
+            [
+                'attribute' => 'dataInicio',
+                'format' => ['date', 'php:d-m-Y']
+            ],
+            [
+                'attribute' => 'dataFim',
+                'format' => ['date', 'php:d-m-Y']
+            ],
             'ano',
             'periodo',
-
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{update} {delete}',
+            ],
         ],
     ]); ?>
 

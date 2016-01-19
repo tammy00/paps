@@ -26,11 +26,15 @@ $this->params['breadcrumbs'][] = $this->title;
         //'showFooter'=>true,
         'showHeader' => true,
         'columns' => [
+            [
+                'attribute'=>'codDisciplina',
+                'label'=>'Cod. Disciplina'
+            ],
             'nomeDisciplina',
             'aluno',
             'codTurma',
             'nomeCursoDisciplina',
-            'nomeCursoAluno',
+            //'nomeCursoAluno',
             [
                 'attribute'=>'periodo',
                 'filter' => ArrayHelper::map(ProfessorMonitoria::find()->distinct()->orderBy(['periodo' => SORT_DESC])->asArray()->all(), 'periodo', 'periodo'),

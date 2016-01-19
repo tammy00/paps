@@ -36,6 +36,7 @@ class ProfessorMonitoria extends \yii\db\ActiveRecord
         return [
                 'id'=>'id',
                 'id_disciplina'=>'id_disciplina',
+                'codDisciplina' => 'Código Disciplina',
                 'nomeDisciplina'=>'Disciplina',
                 'codTurma'=>'Código da Turma',
                 'professor'=>'Professor',

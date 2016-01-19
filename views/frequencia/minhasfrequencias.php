@@ -19,17 +19,26 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'showOnEmpty'=> false,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            'dmy', 
-            //'IDDisc',
+            [
+                'attribute' => 'dmy',
+                'format' => ['date', 'php:d-m-Y']
+            ],
             'ch',
             'atividade',
+            [
 
-            ['class' => 'yii\grid\ActionColumn'],
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{update} {delete}',
+            ],
         ],
     ]); ?>
 
-    <a href="?r=monitoria/index" class="btn btn-default">Voltar</a>
+    <p> 
+        <a href="?r=monitoria/aluno" class="btn btn-default">Gerenciar Monitorias</a>
+        <a href="?r=monitoria/index" class="btn btn-default">Menu de Monitoria</a>
+    </p>
 
 </div>

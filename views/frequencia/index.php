@@ -19,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Ver todas', ['minhasfrequencias'], ['class' => 'btn btn-success']) ?> 
+        <?= Html::a('Ver todas', ['minhasfrequencias', 'id' => $idM], ['class' => 'btn btn-success']) ?> 
         <?= Html::a('Imprimir Frequências', ['/monitoria/frequenciaindividual'], ['class' => 'btn btn-success']) ?> 
     </p>
 
@@ -33,9 +33,9 @@ $this->params['breadcrumbs'][] = $this->title;
     	Modal::end();
     ?>
     
-    <?= \yii2fullcalendar\yii2fullcalendar::widget(array(
-        'events'=> $events,
-    )); ?>    
+	<?= \yii2fullcalendar\yii2fullcalendar::widget(array('events'=> $events,)); ?>    
+	
+	
     <br>
     
     <?php } else { ?>
