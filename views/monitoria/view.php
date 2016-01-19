@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\AlunoMonitoria */
 
-$this->title = 'Monitoria: '.$model->nomeDisciplina;
+$this->title = $model->codDisciplina.' - '.$model->nomeDisciplina;
 $this->params['breadcrumbs'][] = ['label' => 'Monitorias', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -31,16 +31,30 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]); ?>
-        <?= Html::a('Deletar', ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Você realmente deseja deletar este item?',
-                'method' => 'post',
-            ],
-        ]); ?>
         </p>
         <p>
         <?= Html::a('Formulário de Inscrição', ['formularioinscricao', 'id' => $model->id], ['class' => 'btn btn-primary']); ?>
+
+        <?php if (!empty($model->pathArqPlanoDisciplina)) { ?>
+            <?= Html::a('Plano Semestral da Disciplina', '/paps/web/'.$model->pathArqPlanoDisciplina, 
+                [
+                    'target'=>'_blank', 
+                    'class'=>'btn btn-primary', 
+                ]) ?>
+        <?php } else { ?>
+            <?= Html::a('Plano Semestral da Disciplina', '', ['class'=>'btn btn-primary', 'disabled' => true]) ?>
+        <?php } ?>
+
+        <?php if (!empty($model->pathArqRelatorioSemestral)) { ?>
+            <?= Html::a('Relatório Semestral de Monitoria', '/paps/web/'.$model->pathArqRelatorioSemestral, 
+                [
+                    'target'=>'_blank', 
+                    'class'=>'btn btn-primary', 
+                ]) ?>
+        <?php } else { ?>
+            <?= Html::a('Relatório Semestral de Monitoria', '', ['class'=>'btn btn-primary', 'disabled' => true]) ?>
+        <?php } ?>
+
         </p>
     <?php } ?>
 
@@ -65,10 +79,19 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [            
             'nomeDisciplina',
+            'codDisciplina',
             'professor',
             'periodo',
             'codTurma',
-            'nomeCurso',
+            [
+                'label' => 'Curso da Disciplina',
+                'value' => $model->nomeCurso
+            ],
+            'aluno',
+            [
+                'label' => 'Curso do Aluno',
+                'value' => $model->nomeCursoAluno
+            ],
             'bolsa_traducao',
             [
                 'label' => 'Histórico Escolar',

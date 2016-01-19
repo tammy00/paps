@@ -7,7 +7,7 @@ use yii\helpers\Html;
 /* @var $model app\models\Disciplina */
 
 $this->title = 'Criar Disciplina';
-$this->params['breadcrumbs'][] = ['label' => 'Disciplinas UFAM', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Disciplinas', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="disciplina-create">

@@ -413,15 +413,13 @@ class MonitoriaController extends Controller
             <table id="cabecalho2" width="93%" height="100%">
                 <tr>
                     <td bgcolor="#e6e6e6" width="15.5%"><b>DEPARTAMENTO</b></td>
-                    <td width="48%">Coordenação Acadêmica</td>
-                    <td bgcolor="#e6e6e6" width="10%"><b>UNIDADE</b></td>
-                    <td width="27%"> </td>
+                    <td>Coordenação Acadêmica</td>
                 </tr> 
             </table>
 
-            <table id="cabecalho3" width="90%" height="100%">
+            <table id="cabecalho3" width="93%" height="100%">
                 <tr>
-                    <td bgcolor="#e6e6e6" width="16%"><b>UNIDADE</b></td>
+                    <td bgcolor="#e6e6e6" width="15.5%"><b>UNIDADE</b></td>
                     <td>Instituto de Computação - IComp</td>
                 </tr> 
             </table>
@@ -433,9 +431,9 @@ class MonitoriaController extends Controller
                 </tr> 
             </table>
 
-            <table id = "cabecalho5" width="90%" height="100%">
+            <table id = "cabecalho5" width="93%" height="100%">
                 <tr>
-                  <td bgcolor="#e6e6e6" width="16%"><b>DISCIPLINA</b></td>
+                  <td bgcolor="#e6e6e6" width="15.5%"><b>DISCIPLINA</b></td>
                   <td>'.$modelMonitoria->nomeDisciplina.'</td> 
                 </tr> 
             </table>
