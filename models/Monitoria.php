@@ -48,9 +48,25 @@ class Monitoria extends \yii\db\ActiveRecord
             [['semestreConclusao'], 'in', 'range' => [1,2], 'message'=>'O valor deve ser 1 ou 2'],
             [['anoConclusao'], 'integer', 'min'=>2015, 'message'=>'O valor deve ser um ano no formato de 4 dígitos.'],
             [['mediaFinal'], 'number', 'min'=>7.0, 'max'=>10.0, 'tooSmall'=>'O valor não deve ser menor que 7.', 'tooBig'=>'O valor não deve ser maior que 10.'],
-            [['banco'], 'validateBanco'],
-            [['agencia'], 'validateAgencia'],
-            [['conta'], 'validateConta'],
+            ['banco', 'required', 
+                'message'=>'O código do banco é obrigatório para bolsista', 
+                'when' => function($model) { return $model->bolsa == 1; }, 
+                'whenClient' => "function (attribute, value) { return $('#monitoria-bolsa').val() == '1'; }",
+                //'whenClient' => function($model) { return $model->bolsa == 1; }, 
+                'enableClientValidation' => false
+            ],
+            ['agencia', 'required', 
+                'message'=>'A agência bancária é obrigatória para bolsista', 
+                'when' => function($model) { return $model->bolsa == 1; }, 
+                'whenClient' => "function (attribute, value) { return $('#monitoria-bolsa').val() == '1'; }",
+                'enableClientValidation' => false
+            ],
+            ['conta', 'required', 
+                'message'=>'A conta corrente é obrigatória para bolsista', 
+                'when' => function($model) { return $model->bolsa == 1; }, 
+                'whenClient' => "function (attribute, value) { return $('#monitoria-bolsa').val() == '1'; }",
+                'enableClientValidation' => false
+            ],
             [['file'], 'file', 'extensions' => 'pdf', 'skipOnEmpty' => false, 
                 'message' => 'Falha ao carregar o arquivo.', 
                 'uploadRequired' => 'Por favor, faça o upload do histórico escolar em PDF.', 
@@ -231,32 +247,5 @@ class Monitoria extends \yii\db\ActiveRecord
                 break;
         }
         return $diaString;
-    }
-
-    public function validateBanco($attribute, $params) {
-
-        if ($this->bolsa == 1) {
-            if ($this->banco == null || empty($this->banco) || $this->banco == '' || $this->banco == '0') {
-                $this->addError($attribute, 'Informação obrigatória para candidato bolsista.');
-            }
-        }
-    }
-
-    public function validateAgencia($attribute, $params) {
-
-        if ($this->bolsa == 1) {
-            if (empty($this->agencia)) {
-                $this->addError($attribute, 'Informação obrigatória para candidato bolsista.');
-            }
-        }
-    }
-
-    public function validateConta($attribute, $params) {
-
-        if ($this->bolsa == 1) {
-            if (empty($this->conta)) {
-                $this->addError($attribute, 'Informação obrigatória para candidato bolsista.');
-            }
-        }
     }
 }

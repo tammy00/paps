@@ -47,7 +47,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'header'=>'Ações',
                 'headerOptions' => ['style' => 'text-align:center; color:#337AB7'],
                 'contentOptions' => ['style' => 'text-align:center; vertical-align:middle'],
-                'template' => '{view} {delete}',
+                //'template' => '{view} {delete}',
+                'template' => '{view}',
                 'buttons' => 
                 [
                     'view' => function ($url, $model) {
@@ -61,19 +62,19 @@ $this->params['breadcrumbs'][] = $this->title;
                             ]
                         );
                     },
-                    'delete' => function ($url, $model) {
-                        return Html::a(
-                            '<span class="glyphicon glyphicon-trash"></span>',
-                            ['monitoria/delete', 'id' => $model->id], 
-                            [
-                                'title' => 'Delete',
-                                'aria-label' => 'Delete',
-                                'data-pjax' => '0',
-                                'data-confirm' => 'Você realmente deseja deletar este item?',
-                                'data-method' => 'post',
-                            ]
-                        );
-                    },
+                    //'delete' => function ($url, $model) {
+                    //    return Html::a(
+                    //        '<span class="glyphicon glyphicon-trash"></span>',
+                    //        ['monitoria/delete', 'id' => $model->id], 
+                    //        [
+                    //            'title' => 'Delete',
+                    //            'aria-label' => 'Delete',
+                    //            'data-pjax' => '0',
+                    //            'data-confirm' => 'Você realmente deseja deletar este item?',
+                    //            'data-method' => 'post',
+                    //        ]
+                    //    );
+                    //},
                 ],
             ],
         ],

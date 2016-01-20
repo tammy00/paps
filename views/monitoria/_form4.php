@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 use yii\widgets\DetailView;
 use yii\helpers\ArrayHelper;
@@ -14,7 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
     <p>
     <a href="https://www.dropbox.com/sh/1sx0q8g0c3rnmzj/AAB0GhB4RUdhuRqSdCYWdjdCa/7.%20Relat%C3%B3rio%20Final.doc?dl=0" target="_blank" class="btn btn-primary">Baixar Modelo do Relatório</a>
-    <?= Html::a('Recuperar Arquivo', '/paps/web/'.$modelInfo->pathArqRelatorioSemestral, ['target'=>'_blank', 'class'=>'btn btn-primary']) ?>
+    <?= Html::a('Recuperar Arquivo', Url::base().'/'.$modelInfo->pathArqRelatorioSemestral, ['target'=>'_blank', 'class'=>'btn btn-primary']) ?>
     </p>
 </div>
 

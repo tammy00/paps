@@ -54,7 +54,11 @@ use kartik\select2\Select2;
     <?php $form = ActiveForm::begin(['options'=>['enctype'=>'multipart/form-data']]); ?>
 
         <?php if ($model->errors) { ?>
-            <?= $form->errorSummary($model); ?>
+            <div class="alert alert-warning">
+                <strong>Atenção!</strong>
+                <br>
+                <?= $form->errorSummary($model); ?>
+            </div>            
         <?php } ?>
         
         <?= $form->field($model, 'anoConclusao')->textInput(['style'=>'width:100px']) ?>
@@ -63,7 +67,8 @@ use kartik\select2\Select2;
         <?= $form->field($model, 'file')->fileInput() ?>
         <?= $form->field($model, 'bolsa')->checkbox() ?>
 
-        <div id="dadosbancarios" style="display: none">
+        <!--<div id="dadosbancarios" style="display: none">-->
+        <div id="dadosbancarios">
             <?= $form->field($model, 'banco')->textInput(['style'=>'width:100px']) ?>
             <?= $form->field($model, 'agencia')->textInput(['style'=>'width:100px']) ?>
             <?= $form->field($model, 'conta')->textInput(['style'=>'width:100px']) ?>
@@ -86,16 +91,45 @@ use kartik\select2\Select2;
 
 </div>
 
-<?php 
+<?php
+    
+    //$this->registerJs('
+    //    $(document).ready(function(){
+    //        $("#monitoria-bolsa").change(function(){
+    //            if (!$("#monitoria-bolsa").is(":checked")) {
+    //                $("#monitoria-bolsa").val("0");
+    //                $("#monitoria-banco").val("");
+    //                $("#monitoria-agencia").val("");
+    //                $("#monitoria-conta").val("");
+    //            } else { $("#monitoria-bolsa").val("1"); }
+    //            $("#dadosbancarios").toggle();
+    //        });
+    //    });'
+    //);
+
+    $this->registerJs('
+        $(document).ready(function(){
+            if ($("#monitoria-bolsa").is(":checked"))
+                $("#dadosbancarios").prop("style", "display: block");
+            else
+                $("#dadosbancarios").prop("style", "display: none");
+        });'
+    );
+
     $this->registerJs('
         $(document).ready(function(){
             $("#monitoria-bolsa").change(function(){
-                if (!$("#monitoria-bolsa").is(":checked")) {
+                if ($("#monitoria-bolsa").is(":checked")) {
+                    $("#monitoria-bolsa").val("1");
+                    $("#dadosbancarios").prop("style", "display: block");
+                }
+                else {
+                    $("#monitoria-bolsa").val("0");
                     $("#monitoria-banco").val("");
                     $("#monitoria-agencia").val("");
                     $("#monitoria-conta").val("");
+                    $("#dadosbancarios").prop("style", "display: none");
                 }
-                $("#dadosbancarios").toggle();
             });
         });'
     );

@@ -134,8 +134,6 @@ class MonitoriaController extends Controller
                 $periodoInscricao = PeriodoInscricaoMonitoria::find()->orderBy(['id' => SORT_DESC])->one();
                 $model->IDperiodoinscr = $periodoInscricao->id;
                 
-                //$model->IDDisc = Yii::$app->request->post('id');
-                //$monitoria = DisciplinaMonitoria::find()->where(['id' => Yii::$app->request->post('id')])->one();
                 $monitoria = DisciplinaMonitoria::find()->where(['id' => $model->IDDisc])->one();
                 $model->nomeDisciplina = $monitoria->nomeDisciplina;
                 $model->nomeProfessor = $monitoria->nomeProfessor;
@@ -154,16 +152,13 @@ class MonitoriaController extends Controller
 
                 //Arquivo Histórico
                 //Habilitar "extension=php_fileinfo.dll" em C:\xampp\php\php.ini
+
                 $model->file = UploadedFile::getInstance($model, 'file');
-                //$model->file->saveAs('uploads/historicos/'.$aluno->matricula.'_'.date('Ydm_His').'.'.$model->file->extension);
                 $model->pathArqHistorico = 'uploads/historicos/'.$aluno->matricula.'_'.date('Ydm_His').'.'.$model->file->extension;
-                //$model->file = 'uploads/historicos/'.$aluno->matricula.'_'.date('Ydm_His').'.'.$model->file->extension;
 
                 $model->datacriacao = date('Y-d-m H:i:s');
 
                 //if ($model->validate()) {
-                    //Número do Processo
-                    //$model->numProcs = date("Y").'/'.str_pad(strval($proxProcesso = Monitoria::find()->count() + 1), 6, '0', STR_PAD_LEFT);
                 //}
 
                 if ($model->save()) 
@@ -174,6 +169,7 @@ class MonitoriaController extends Controller
                 } else {
 
                     if ($model->errors) {
+                        
                         //Yii::$app->getSession()->setFlash('danger', $this->convert_multi_array($model->errors));
                         //foreach ($model->getErrors() as $key => $value) {
                         //    Yii::$app->getSession()->setFlash('danger', $key.' - '.$value);
@@ -186,24 +182,6 @@ class MonitoriaController extends Controller
 
                         //foreach ($model->getErrors('IDAluno') as $key => $value) {
                         //    Yii::$app->getSession()->setFlash('danger', $key.' - IDAluno: '.$value);
-                        //}
-                        //foreach ($model->getErrors('IDDisc') as $key => $value) {
-                        //    Yii::$app->getSession()->setFlash('danger', $key.' - IDDisc: '.$value);
-                        //}
-                        //foreach ($model->getErrors('status') as $key => $value) {
-                        //    Yii::$app->getSession()->setFlash('danger', $key.' - status: '.$value);
-                        //}
-                        //foreach ($model->getErrors('IDperiodoinscr') as $key => $value) {
-                        //    Yii::$app->getSession()->setFlash('danger', $key.' - IDperiodoinscr: '.$value);
-                        //}
-                        //foreach ($model->getErrors('semestreConclusao') as $key => $value) {
-                        //    Yii::$app->getSession()->setFlash('danger', $key.' - semestreConclusao: '.$value);
-                        //}
-                        //foreach ($model->getErrors('anoConclusao') as $key => $value) {
-                        //    Yii::$app->getSession()->setFlash('danger', $key.' - anoConclusao: '.$value);
-                        //}
-                        //foreach ($model->getErrors('mediaFinal') as $key => $value) {
-                        //    Yii::$app->getSession()->setFlash('danger', $key.' - mediaFinal: '.$value);
                         //}
 
                         //foreach (Yii::$app->session->getAllFlashes() as $key => $message) {
@@ -296,13 +274,12 @@ class MonitoriaController extends Controller
      */
     public function actionDelete($id)
     {
-        if (Yii::$app->user->identity->perfil == 'Aluno' ||
-            Yii::$app->user->identity->perfil == 'Coordenador' || 
-            Yii::$app->user->identity->perfil == 'Secretaria') 
+        if (Yii::$app->user->identity->perfil == 'Aluno') 
         {
             $this->findModel($id)->delete();
-        } 
-        return $this->redirect(Yii::$app->request->referrer);
+            //return $this->redirect(Yii::$app->request->referrer);
+            return $this->redirect(['aluno']);
+        }
     }
 
     /**
@@ -538,7 +515,7 @@ class MonitoriaController extends Controller
             Declaro para os devidos fins, que: <br>
 
             a) Sou o (a) TITULAR da CONTA CORRENTE acima descrita:<br>
-            b) A conclusão do meu curso de graduacao está prevista para o '.$modelMonitoria->semestreConclusao.' semestre do ano de '.$modelMonitoria->anoConclusao.';<br>
+            b) A conclusão do meu curso de graduacao está prevista para o '.$modelMonitoria->semestreConclusao.'º semestre do ano de '.$modelMonitoria->anoConclusao.';<br>
             c) NÃO exerco outra atividade REMUNERADA através de bolsa nesta universidade;<br>
             d) Obtive aprovacão na disciplina objeto da MONITORIA, com média final ( '.$modelMonitoria->mediaFinal.' );<br>
             e) Disponho de 12 horas semanais para exercer a monitoria;<br>

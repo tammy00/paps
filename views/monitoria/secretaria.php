@@ -6,7 +6,7 @@ use yii\helpers\ArrayHelper;
 use app\models\AlunoMonitoria;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\MonitoriaSearch */
+/* @var $searchModel app\models\AlunoMonitoriaSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Gerenciar Monitorias / Inscrições';
@@ -32,6 +32,10 @@ $this->params['breadcrumbs'][] = $this->title;
         //'showFooter'=>true,
         'showHeader' => true,
         'columns' => [
+            [
+                'attribute'=>'aluno',
+                'label'=>'Nome Aluno'
+            ],
             [
                 'attribute'=>'codDisciplina',
                 'label'=>'Cod. Disciplina'

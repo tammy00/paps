@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
@@ -36,7 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Formulário de Inscrição', ['formularioinscricao', 'id' => $model->id], ['class' => 'btn btn-primary']); ?>
 
         <?php if (!empty($model->pathArqPlanoDisciplina)) { ?>
-            <?= Html::a('Plano Semestral da Disciplina', '/paps/web/'.$model->pathArqPlanoDisciplina, 
+            <?= Html::a('Plano Semestral da Disciplina', Url::base().'/'.$model->pathArqPlanoDisciplina, 
                 [
                     'target'=>'_blank', 
                     'class'=>'btn btn-primary', 
@@ -46,7 +47,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php } ?>
 
         <?php if (!empty($model->pathArqRelatorioSemestral)) { ?>
-            <?= Html::a('Relatório Semestral de Monitoria', '/paps/web/'.$model->pathArqRelatorioSemestral, 
+            <?= Html::a('Relatório Semestral de Monitoria', Url::base().'/'.$model->pathArqRelatorioSemestral, 
                 [
                     'target'=>'_blank', 
                     'class'=>'btn btn-primary', 
@@ -96,7 +97,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'label' => 'Histórico Escolar',
                 'format'=> 'raw',
-                'value' => Html::a('Visualizar', '/paps/web/'.$model->pathArqHistorico, ['target'=>'_blank'])
+                'value' => Html::a('Visualizar', Url::base().'/'.$model->pathArqHistorico, ['target'=>'_blank'])
             ],
             'status'
         ],

@@ -61,8 +61,6 @@ $this->params['breadcrumbs'][] = $this->title;
             <p><?= Html::a('Disciplinas para Monitoria', ['/disciplina-periodo/index'], ['class' => 'btn btn-success']) ?></p>
             <p><?= Html::a('Gerenciar Monitorias - Secretaria', ['secretaria'], ['class' => 'btn btn-success']) ?></p>
             <p> <?= Html::a('Gerenciar Monitorias - Professor', ['professor'], ['class' => 'btn btn-success']) ?> </p>
-            <p> <?= Html::a('Inscrição - Aluno', ['create'], ['class' => 'btn btn-success']) ?>   </p>
-            <p> <?= Html::a('Gerenciar Monitorias - Aluno', ['aluno'], ['class' => 'btn btn-success']) ?> </p>
         <?php } ?>
     </div>
 
