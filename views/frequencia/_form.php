@@ -15,7 +15,6 @@ use dosamigos\datepicker\DatePicker;
 
 	<?= $form->field($model, 'dmy')->textInput(['style'=>'width:100px', 'readonly' => true]) ?>
 
-
     <?= $form->field($model, 'ch')->textInput(['style'=>'width:100px'])->hint('Não informar os minutos. Por exemplo: se 6h00min, digite 6.') ?>
 
     <?= $form->field($model, 'atividade')->textInput(['style'=>'width:530px'])->label('Resumo das Atividades Realizadas') ?>

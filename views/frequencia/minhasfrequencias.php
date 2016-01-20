@@ -29,7 +29,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'ch',
             'atividade',
             [
-
                 'class' => 'yii\grid\ActionColumn',
                 'template' => '{update} {delete}',
             ],

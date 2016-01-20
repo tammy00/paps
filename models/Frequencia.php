@@ -33,7 +33,7 @@ class Frequencia extends \yii\db\ActiveRecord
             [['IDMonitoria', 'dmy', 'ch'], 'required', 'message' => 'Este campo é obrigatório.'],
             [['IDMonitoria'], 'integer'],
             [['dmy'], 'safe'],
-            [['ch'], 'number'],
+            [['ch'], 'number', 'max' => 12, 'min' => 0],
             [['atividade'], 'string', 'max' => 200]
         ];
     }

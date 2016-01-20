@@ -13,10 +13,16 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="frequencia-index">
 
-    <?php if ($erro == '0') { ?>
+    <?php if ($erro == '0' ) { ?>
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+
+    <?php if(isset($mensagem)) { 
+            echo "<p class='col-sm-6 alert alert-warning'>";
+            echo $mensagem ;
+            echo "</p>";
+     } ?>
 
     <p>
         <?= Html::a('Ver todas', ['minhasfrequencias', 'id' => $idM], ['class' => 'btn btn-success']) ?> 
@@ -24,26 +30,25 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
 
     <?php 
-    	Modal::begin([
-    		'header' => '<h3>Frequência Individual</h3>',
-    		'id' => 'modal',
-    		'size' => '',
-    	]);
-    	echo "<div id='modalContent'></div>";
-    	Modal::end();
+        Modal::begin([
+            'header' => '<h3>Frequência Individual</h3>',
+            'id' => 'modal',
+            'size' => '',
+        ]);
+        echo "<div id='modalContent'></div>";
+        Modal::end();
     ?>
     
-	<?= \yii2fullcalendar\yii2fullcalendar::widget(array('events'=> $events,)); ?>    
-	
-	
+    <?= \yii2fullcalendar\yii2fullcalendar::widget(array('events'=> $events,)); ?>    
+
+
     <br>
     
-    <?php } else { ?>
+    <?php } elseif ($erro == '1') { ?>
 
         <div class="alert alert-warning">
             <strong>Atenção!</strong> Você não está inscrito em monitorias no período atual.
         </div>
-
     <?php } ?>
     
     <?php echo Html::a('Voltar', ['monitoria/aluno'], ['class' => 'btn btn-default']); ?>

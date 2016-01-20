@@ -5,10 +5,10 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Frequencia */
 
-$this->title = 'Atualizar Frequência: ' . ' ' . $model->dmy;
-$this->params['breadcrumbs'][] = ['label' => 'Frequências', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->dmy, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->title = 'Atualização de frequência';
+//$this->params['breadcrumbs'][] = ['label' => 'Frequências', 'url' => ['index']];
+//$this->params['breadcrumbs'][] = ['label' => $model->dmy, 'url' => ['view', 'id' => $model->id]];
+//$this->params['breadcrumbs'][] = 'Update';
 ?>
 <div class="frequencia-update">
 

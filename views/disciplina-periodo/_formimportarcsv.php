@@ -34,7 +34,7 @@ use yii\helpers\ArrayHelper;
 
 		    <?= $form->field($model, 'file')->fileInput() ?>
 
-		    <strong>Atenção:</strong> O arquivo deve usar a vírgula (,) como separador de campos/colunas.<br><br>
+		    <strong>Atenção:</strong> O arquivo deve usar 'ponto e vírgula' (;) como separador de campos/colunas.<br><br>
 
 		    <div class="form-group">
 		    	<a href="?r=disciplina-periodo/index" class="btn btn-default">Voltar</a>

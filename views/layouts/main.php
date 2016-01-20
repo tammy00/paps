@@ -54,8 +54,10 @@ AppAsset::register($this);
 
                                 </div> 
                                 <div class="input-group">
-                                    <?php $p = Periodo::find()->orderBy(['id' => SORT_DESC])->one(); ?>
-                                    <b>Período Atual:</b> <?php echo $p->codigo; ?> 
+                                    <?php $p = Periodo::find()->orderBy(['id' => SORT_DESC])->one(); 
+                                    if ($p == null) $periodo = '';
+                                    else $periodo = $p->codigo;  ?>
+                                    <b>Período Atual:</b> <?php echo $periodo; ?> 
                                 </div>
                                 <!-- /input-group -->
                             </li>

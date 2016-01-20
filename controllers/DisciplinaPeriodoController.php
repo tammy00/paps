@@ -107,18 +107,14 @@ class DisciplinaPeriodoController extends Controller
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
 
-            //if ($model->errors) {
-            //    //Yii::$app->getSession()->setFlash('danger', $this->convert_multi_array($model->errors));
-            //    foreach ($model->getErrors() as $key => $value) {
-            //        Yii::$app->getSession()->setFlash('danger', $key.' - '.$value);
-            //    }
+            $lista = Disciplina::find()->all();
+            foreach ($lista as $l)
+            {
+                $l->nomeDisciplina = $l->codDisciplina.' - '.$l->nomeDisciplina;
+            }
 
-            //    foreach (Yii::$app->session->getAllFlashes() as $key => $message) {
-            //        echo '<div class="alert alert-' . $key . '" role="alert">' . $message . '</div>';
-            //    }
-            //} else {
-                return $this->render('create', ['model' => $model]);
-            //}
+            $arrayDisciplinas = ArrayHelper::map($lista, 'id', 'nomeDisciplina');
+                return $this->render('create', ['model' => $model, 'arrayDisciplinas' => $arrayDisciplinas,]);
         }
     }
 
@@ -141,7 +137,14 @@ class DisciplinaPeriodoController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
-            return $this->render('update', ['model' => $model]);
+            $lista = Disciplina::find()->all();
+            foreach ($lista as $l)
+            {
+                $l->nomeDisciplina = $l->codDisciplina.' - '.$l->nomeDisciplina;
+            }
+
+            $arrayDisciplinas = ArrayHelper::map($lista, 'id', 'nomeDisciplina');
+            return $this->render('update', ['model' => $model,'arrayDisciplinas' => $arrayDisciplinas,]);
         }
     }
 

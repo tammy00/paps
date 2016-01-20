@@ -68,7 +68,7 @@ class FrequenciaSearch extends Frequencia
         return $dataProvider;
     }
 
-    public function searchMinhasFrequencias($params)
+    public function searchMinhasFrequencias($params, $idM)
     {
         $query = Frequencia::find();
 
@@ -84,18 +84,18 @@ class FrequenciaSearch extends Frequencia
             return $dataProvider;
         }
 
-        $usuario = Usuario::findOne(['CPF' => Yii::$app->user->identity->cpf]);
-        $monitoria = Monitoria::findOne(['IDAluno' => $usuario->id]);
+        //$usuario = Usuario::findOne(['CPF' => Yii::$app->user->identity->cpf]);
+        //$monitoria = Monitoria::findOne(['IDAluno' => $usuario->id]);
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'IDMonitoria' => $monitoria->id,
+            'IDMonitoria' => $idM,//$monitoria->id,
             'dmy' => $this->dmy,
             'ch' => $this->ch,
             'atividade' => $this->atividade,
         ]);
 
-        $query->orderBy(['id' => SORT_DESC]);
+        $query->orderBy(['dmy' => SORT_ASC]);
 
         return $dataProvider;
     }

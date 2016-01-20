@@ -77,8 +77,8 @@ class PeriodoInscricaoMonitoriaController extends Controller
     public function actionView($id)
     {
         $m = $this->findModel($id);
-        $m->dataInicio = Yii::$app->formatter->asDate($m->dataInicio, 'php:d-m-y');
-        $m->dataFim = Yii::$app->formatter->asDate($m->dataFim, 'php:d-m-y');
+        $m->dataInicio = Yii::$app->formatter->asDate($m->dataInicio, 'php:d-m-Y');
+        $m->dataFim = Yii::$app->formatter->asDate($m->dataFim, 'php:d-m-Y');
         return $this->render('view', [
             'model' => $m,
         ]);

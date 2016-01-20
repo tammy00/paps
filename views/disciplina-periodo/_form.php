@@ -25,8 +25,7 @@ use dosamigos\datepicker\DatePicker;
 
     <!-- <?= $form->errorSummary($model); ?> -->
 
-    <?= $form->field($model, 'idDisciplina')->dropDownList(ArrayHelper::map(Disciplina::find()->orderBy('nomeDisciplina')->asArray()->all(), 'id', 'nomeDisciplina'), 
-        ['prompt'=>'Selecione uma disciplina', 'style'=>'width:600px']); ?>
+    <?= $form->field($model, 'idDisciplina')->dropDownList($arrayDisciplinas, ['prompt'=>'Selecione uma disciplina', 'style'=>'width:600px']); ?>
 
     <?= $form->field($model, 'codTurma')->textInput(['maxlength' => true, 'style'=>'width:130px']) ?>
 
