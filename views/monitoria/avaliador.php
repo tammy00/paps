@@ -9,7 +9,7 @@ use app\models\AlunoMonitoria;
 /* @var $searchModel app\models\AlunoMonitoriaSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Gerenciar Monitorias / Inscrições';
+$this->title = 'Julgar Inscrições';
 $this->params['breadcrumbs'][] = ['label' => 'Monitorias', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -17,12 +17,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h3><?= Html::encode($this->title) ?></h3>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-    <p>
-        <?= Html::a('Plano Semestral', ['planosemestral'], ['class' => 'btn btn-success']) ?>
-        <?= Html::a('Quadro Geral', ['gerarquadrogeral'], ['class' => 'btn btn-success']) ?>   
-        <?= Html::a('Frequência Geral', ['frequenciageral'], ['class' => 'btn btn-success']) ?>
-    </p>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,

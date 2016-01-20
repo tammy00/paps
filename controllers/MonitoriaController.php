@@ -29,6 +29,7 @@ use app\models\ProfessorMonitoriaSearch;
 use app\models\Periodo;
 use app\models\Curso;
 use app\models\Frequencia;
+use app\models\Comissao;
 use mPDF;
 
 /**
@@ -41,10 +42,10 @@ class MonitoriaController extends Controller
         return [
             'acess' => [
                 'class' => AccessControl::className(),
-                'only' => ['create','index','update', 'view', 'delete', 'aluno', 'secretaria', 'professor', 'justificativa'],
+                'only' => ['create','index','update', 'view', 'delete', 'aluno', 'secretaria', 'professor', 'avaliador', 'justificativa'],
                 'rules' => [
                     [
-                        'actions' => ['create','index','update', 'view', 'delete', 'aluno', 'secretaria', 'professor', 'justificativa'],
+                        'actions' => ['create','index','update', 'view', 'delete', 'aluno', 'secretaria', 'professor', 'avaliador', 'justificativa'],
                         'allow' => true,
                         'matchCallback' => function ($rule, $action) 
                         {
@@ -337,18 +338,47 @@ class MonitoriaController extends Controller
         ]);
     }
 
-    public function actionDeferir($id)
+    public function actionAvaliador()
     {
-        Yii::$app->db->createCommand()->update('monitoria', ['status' => 1], 'id='.$id)->execute();
+        //Pega professor baseando-se no CPF do usuário logado
+        $professor = Usuario::findOne(['CPF' => Yii::$app->user->identity->cpf]);
+        $comissao = Comissao::findOne(['idProfessor' => $professor->id]);
+        if ($comissao != null && $comissao->idProfessor != null) {
 
-        return$this->actionView($id);
+            //Seleciona o último período de inscrição
+            $periodoInscricao = PeriodoInscricaoMonitoria::find()->orderBy(['id' => SORT_DESC])->one();
+            $searchModel = new AlunoMonitoriaSearch();
+            $dataProvider = $searchModel->searchAvaliador(Yii::$app->request
+                ->queryParams+['AlunoMonitoriaSearch' => ['=', 'periodo' => $periodoInscricao->ano.'/'.$periodoInscricao->periodo]]);
+
+            return $this->render('avaliador', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
+        }
     }
 
-    public function actionIndeferir($id)
+    public function actionJulgarinscricao($id)
     {
-        Yii::$app->db->createCommand()->update('monitoria', ['status' => 2], 'id='.$id)->execute();
-        
-        return$this->actionView($id);
+        $model = new Monitoria();
+        $modelInfo = new ProfessorMonitoria();
+
+        if ($model->load(Yii::$app->request->post())) 
+        {
+            $arrayUpdate = ['status' => $model->status];
+            Yii::$app->db->createCommand()->update('monitoria', ['status' => $model->status], 'id='.$id)->execute();
+            return $this->redirect(['avaliador']);
+        }
+        else
+        {
+            $model = $this->findModel($id);
+            $modelInfo = AlunoMonitoria::findOne(['id' => $id]);
+
+            return $this->render('_form5', [
+                'model' => $model,
+                'modelInfo' => $modelInfo,
+            ]);
+        }
     }
 
     public function actionFormularioinscricao($id)

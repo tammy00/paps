@@ -18,23 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </br>
     <?php if(Yii::$app->user->identity->perfil === 'Secretaria') { ?>
         <p>
-        <?= Html::a('Deferir', ['deferir', 'id' => $model->id], [
-            'class' => 'btn btn-primary',
-            'data' => [
-                'confirm' => 'Você realmente deseja deferir esta inscrição?',
-                'method' => 'post',
-            ],
-        ]); ?>
-        <?= Html::a('Indeferir', ['indeferir', 'id' => $model->id], [
-            'class' => 'btn btn-warning',
-            'data' => [
-                'confirm' => 'Você realmente deseja indeferir esta inscrição?',
-                'method' => 'post',
-            ],
-        ]); ?>
-        </p>
-        <p>
-        <?= Html::a('Formulário de Inscrição', ['formularioinscricao', 'id' => $model->id], ['class' => 'btn btn-primary']); ?>
+        <?= Html::a('Formulário de Inscrição', ['formularioinscricao', 'id' => $model->id], ['target'=>'_blank', 'class' => 'btn btn-primary']); ?>
 
         <?php if (!empty($model->pathArqPlanoDisciplina)) { ?>
             <?= Html::a('Plano Semestral da Disciplina', Url::base().'/'.$model->pathArqPlanoDisciplina, 
@@ -62,10 +46,10 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php if(Yii::$app->user->identity->perfil === 'Aluno') { ?>
         <p>
         <?php if($model->status == 'Deferido') { ?>
-            <?= Html::a('Formulário de Inscrição', ['formularioinscricao', 'id' => $model->id], ['class' => 'btn btn-primary']); ?>
+            <?= Html::a('Formulário de Inscrição', ['formularioinscricao', 'id' => $model->id], ['target'=>'_blank', 'class' => 'btn btn-primary']); ?>
             <?= Html::a('Frequências', ['/frequencia/index', 'id' => $model->id], ['class' => 'btn btn-primary']); ?>
         <?php } else { ?>
-            <?= Html::a('Formulário de Inscrição', ['formularioinscricao', 'id' => $model->id], ['class' => 'btn btn-primary']); ?>
+            <?= Html::a('Formulário de Inscrição', ['formularioinscricao', 'id' => $model->id], ['target'=>'_blank', 'class' => 'btn btn-primary']); ?>
             <?= Html::a('Deletar', ['delete', 'id' => $model->id], [
                 'class' => 'btn btn-danger',
                 'data' => [
@@ -76,9 +60,19 @@ $this->params['breadcrumbs'][] = $this->title;
         </p>
     <?php } } ?>
 
+    <?php if(Yii::$app->user->identity->perfil === 'Professor') { ?>
+        <p>
+        <?= Html::a('Formulário de Inscrição', ['formularioinscricao', 'id' => $model->id], ['target'=>'_blank', 'class' => 'btn btn-primary']); ?>
+        
+        <?= Html::a('Julgar', ['julgarinscricao', 'id' => $model->id], ['class' => 'btn btn-primary']); ?>
+
+        </p>
+    <?php } ?>
+
     <?= DetailView::widget([
         'model' => $model,
-        'attributes' => [            
+        'attributes' => [
+            'aluno',
             'nomeDisciplina',
             'codDisciplina',
             'professor',
@@ -88,7 +82,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => 'Curso da Disciplina',
                 'value' => $model->nomeCurso
             ],
-            'aluno',
             [
                 'label' => 'Curso do Aluno',
                 'value' => $model->nomeCursoAluno
@@ -113,6 +106,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php if(Yii::$app->user->identity->perfil === 'Aluno') { ?>
         <a href="?r=monitoria/aluno" class="btn btn-default">Gerenciar Monitorias</a>
+    <?php } ?>
+
+    <?php if(Yii::$app->user->identity->perfil === 'Professor') { ?>
+        <a href="?r=monitoria/avaliador" class="btn btn-default">Julgar Inscrições</a>
     <?php } ?>
 
 </div>

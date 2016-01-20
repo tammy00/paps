@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\helpers\ArrayHelper;
+use app\models\PeriodoInscricaoMonitoria;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\PeriodoInscricaoMonitoriaSearch */
@@ -23,24 +25,31 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
-        'showOnEmpty' => false,
+        'summary' => '',
+        //'showOnEmpty' => false,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            //'id',
+            //['class' => 'yii\grid\SerialColumn'],
+            [
+                'attribute'=>'ano',
+                'filter' => ArrayHelper::map(PeriodoInscricaoMonitoria::find()->distinct()->orderBy(['ano' => SORT_DESC])->asArray()->all(), 'ano', 'ano'),
+            ],
+            [
+                'attribute'=>'periodo',
+                'filter' => ArrayHelper::map(PeriodoInscricaoMonitoria::find()->distinct()->orderBy(['periodo' => SORT_DESC])->asArray()->all(), 'periodo', 'periodo'),
+            ],
             [
                 'attribute' => 'dataInicio',
-                'format' => ['date', 'php:d-m-Y']
+                'format' => ['date', 'php:d/m/Y']
             ],
             [
                 'attribute' => 'dataFim',
-                'format' => ['date', 'php:d-m-Y']
+                'format' => ['date', 'php:d/m/Y']
             ],
-            'ano',
-            'periodo',
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{update} {delete}',
+                'header'=>'Ações',
+                'headerOptions' => ['style' => 'text-align:center; color:#337AB7'],
+                'contentOptions' => ['style' => 'text-align:center; vertical-align:middle'],
             ],
         ],
     ]); ?>

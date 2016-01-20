@@ -46,7 +46,8 @@ class PeriodoInscricaoMonitoria extends \yii\db\ActiveRecord
             'id' => 'id',
             'dataInicio' => 'Data Inicial   ',
             'dataFim' => 'Data Final   ',
-            'periodo' => 'Período da Universidade',
+            'ano' => 'Ano',
+            'periodo' => 'Número do Período',
             'justificativa' => 'Justificativa',
         ];
     }

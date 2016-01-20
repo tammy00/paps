@@ -40,7 +40,13 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute'=> 'status',
-                'filter'=>array("Aguardando Avaliação"=>"Aguardando Avaliação", "Deferido"=>"Deferido", "Indeferido"=>"Indeferido"),
+                'filter'=>array("Aguardando Avaliação"=>"Aguardando Avaliação",
+                                "Selecionado com bolsa"=>"Selecionado com bolsa",
+                                "Selecionado sem bolsa"=>"Selecionado sem bolsa",
+                                "Não selecionado"=>"Não selecionado",
+                                "Indeferido - Nota < 7"=>"Indeferido - Nota < 7",
+                                "Indeferido - Coeficiente < 5"=>"Indeferido - Coeficiente < 5",
+                                "Indeferido - Não cursou a disciplina"=>"Indeferido - Não cursou a disciplina"),
             ],
             [
                 'class' => 'yii\grid\ActionColumn',
@@ -56,8 +62,8 @@ $this->params['breadcrumbs'][] = $this->title;
                             '<span class="glyphicon glyphicon-eye-open"></span>',
                             ['monitoria/view', 'id' => $model->id], 
                             [
-                                'title' => 'View',
-                                'aria-label' => 'View',
+                                'title' => 'Visualizar',
+                                'aria-label' => 'Visualizar',
                                 'data-pjax' => '0',
                             ]
                         );

@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.4.14
+-- version 4.2.7.1
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 20-Jan-2016 às 07:38
--- Versão do servidor: 5.6.26
--- PHP Version: 5.6.12
+-- Generation Time: 20-Jan-2016 às 20:19
+-- Versão do servidor: 5.6.20
+-- PHP Version: 5.5.15
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -14,7 +14,7 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!40101 SET NAMES utf8 */;
 
 --
 -- Database: `graduacao`
@@ -27,12 +27,12 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE IF NOT EXISTS `anexo` (
-  `id` int(11) NOT NULL,
+`id` int(11) NOT NULL,
   `nome` varchar(255) NOT NULL,
   `tipo` varchar(100) NOT NULL,
   `hash` int(11) NOT NULL,
   `solicitacao_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -41,13 +41,13 @@ CREATE TABLE IF NOT EXISTS `anexo` (
 --
 
 CREATE TABLE IF NOT EXISTS `atividade` (
-  `id` int(11) NOT NULL,
+`id` int(11) NOT NULL,
   `codigo` varchar(5) NOT NULL,
   `nome` varchar(100) NOT NULL,
   `max_horas` int(11) NOT NULL,
   `curso_id` int(11) NOT NULL,
   `grupo_id` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Extraindo dados da tabela `atividade`
@@ -59,15 +59,26 @@ INSERT INTO `atividade` (`id`, `codigo`, `nome`, `max_horas`, `curso_id`, `grupo
 -- --------------------------------------------------------
 
 --
+-- Estrutura da tabela `comissao`
+--
+
+CREATE TABLE IF NOT EXISTS `comissao` (
+`id` int(11) NOT NULL,
+  `idProfessor` int(11) NOT NULL
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura da tabela `curso`
 --
 
 CREATE TABLE IF NOT EXISTS `curso` (
-  `id` int(11) NOT NULL,
+`id` int(11) NOT NULL,
   `codigo` varchar(5) NOT NULL,
   `nome` varchar(100) NOT NULL,
   `max_horas` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=32 ;
 
 --
 -- Extraindo dados da tabela `curso`
@@ -113,25 +124,13 @@ INSERT INTO `curso` (`id`, `codigo`, `nome`, `max_horas`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `disciplina` (
-  `id` int(11) NOT NULL,
+`id` int(11) NOT NULL,
   `codDisciplina` varchar(10) CHARACTER SET utf8 NOT NULL,
   `nomeDisciplina` varchar(150) CHARACTER SET utf8 NOT NULL,
   `cargaHoraria` int(3) NOT NULL,
   `creditos` int(3) NOT NULL,
   `possuiMonitoria` tinyint(1) DEFAULT '1'
-) ENGINE=InnoDB AUTO_INCREMENT=1729 DEFAULT CHARSET=latin1;
-
---
--- Extraindo dados da tabela `disciplina`
---
-
-INSERT INTO `disciplina` (`id`, `codDisciplina`, `nomeDisciplina`, `cargaHoraria`, `creditos`, `possuiMonitoria`) VALUES
-(1723, 'IEC010', 'MATEMÁTICA DISCRETA', 60, 4, 1),
-(1724, 'IEC081', 'INTRODUÇÃO A CIÊNCIA DOS COMPUTADORES', 60, 4, 0),
-(1725, 'ICC120', 'MATEMÁTICA DISCRETA', 60, 4, 1),
-(1726, 'ICC400', 'INTRODUÇÃO À ENGENHARIA DE SOFTWARE', 90, 5, 0),
-(1727, 'ICC410', 'PRÁTICA DE ANÁLISE E PROJETO DE SISTEMAS', 60, 2, 0),
-(1728, 'ICC002', 'ALGORITMOS E ESTRUTURA DE DADOS I', 90, 5, 0);
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1729 ;
 
 -- --------------------------------------------------------
 
@@ -140,7 +139,7 @@ INSERT INTO `disciplina` (`id`, `codDisciplina`, `nomeDisciplina`, `cargaHoraria
 --
 
 CREATE TABLE IF NOT EXISTS `disciplina_periodo` (
-  `id` int(11) NOT NULL,
+`id` int(11) NOT NULL,
   `idDisciplina` int(11) NOT NULL,
   `codTurma` varchar(10) CHARACTER SET utf8 NOT NULL,
   `idCurso` int(11) NOT NULL,
@@ -154,22 +153,7 @@ CREATE TABLE IF NOT EXISTS `disciplina_periodo` (
   `usaLaboratorio` tinyint(1) DEFAULT '0',
   `qtdMonitorBolsista` int(4) DEFAULT '0',
   `qtdMonitorNaoBolsista` int(4) DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=129 DEFAULT CHARSET=latin1;
-
---
--- Extraindo dados da tabela `disciplina_periodo`
---
-
-INSERT INTO `disciplina_periodo` (`id`, `idDisciplina`, `codTurma`, `idCurso`, `idProfessor`, `nomeUnidade`, `qtdVagas`, `numPeriodo`, `anoPeriodo`, `dataInicioPeriodo`, `dataFimPeriodo`, `usaLaboratorio`, `qtdMonitorBolsista`, `qtdMonitorNaoBolsista`) VALUES
-(120, 1723, '03', 3, 10, 'COORD. ACADÊMICA DO INSTITUTO DE COMPUTAÇÃO', 4, 2, 2015, '2015-09-08', '2016-01-18', 0, 1, 0),
-(121, 1724, '02', 17, 10, 'COORD. ACADÊMICA DO INSTITUTO DE COMPUTAÇÃO', 0, 2, 2015, '2015-09-08', '2016-01-18', 0, NULL, NULL),
-(122, 1725, 'CB01', 2, 10, 'COORD. ACADÊMICA DO INSTITUTO DE COMPUTAÇÃO', 30, 2, 2015, '2015-09-08', '2016-01-18', 0, NULL, NULL),
-(123, 1724, 'FL01', 26, 10, 'COORD. ACADÊMICA DO INSTITUTO DE COMPUTAÇÃO', 21, 2, 2015, '2015-09-08', '2016-01-18', 0, NULL, NULL),
-(124, 1724, 'FL501', 26, 10, 'COORD. ACADÊMICA DO INSTITUTO DE COMPUTAÇÃO', 20, 2, 2015, '2015-09-08', '2016-01-18', 0, NULL, NULL),
-(125, 1726, '01', 28, 8, 'COORD. ACADÊMICA DO INSTITUTO DE COMPUTAÇÃO', 40, 2, 2015, '2015-09-08', '2016-01-18', 0, NULL, NULL),
-(126, 1727, '01', 28, 8, 'COORD. ACADÊMICA DO INSTITUTO DE COMPUTAÇÃO', 30, 2, 2015, '2015-09-08', '2016-01-18', 0, NULL, NULL),
-(127, 1728, '01', 28, 9, 'COORD. ACADÊMICA DO INSTITUTO DE COMPUTAÇÃO', 50, 2, 2015, '2015-09-08', '2016-01-18', 0, NULL, NULL),
-(128, 1725, '03', 3, 8, 'icomp', 10, 2, 2015, '2016-01-01', '2016-01-31', 0, 1, 0);
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=129 ;
 
 -- --------------------------------------------------------
 
@@ -178,32 +162,12 @@ INSERT INTO `disciplina_periodo` (`id`, `idDisciplina`, `codTurma`, `idCurso`, `
 --
 
 CREATE TABLE IF NOT EXISTS `frequencia` (
-  `id` int(11) NOT NULL,
+`id` int(11) NOT NULL,
   `IDMonitoria` int(11) NOT NULL,
   `dmy` date NOT NULL,
   `ch` float NOT NULL,
   `atividade` varchar(200) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
-
---
--- Extraindo dados da tabela `frequencia`
---
-
-INSERT INTO `frequencia` (`id`, `IDMonitoria`, `dmy`, `ch`, `atividade`) VALUES
-(1, 3, '2015-12-01', 2, NULL),
-(2, 3, '2015-12-02', 8, NULL),
-(3, 3, '2015-12-03', 2, NULL),
-(4, 3, '2015-12-04', 2, NULL),
-(5, 3, '2015-12-07', 2, NULL),
-(6, 3, '2015-12-11', 2, NULL),
-(7, 3, '2015-12-14', 2, NULL),
-(8, 3, '2015-12-15', 9, NULL),
-(9, 3, '2015-12-16', 2, NULL),
-(10, 3, '2015-12-18', 2, NULL),
-(11, 3, '2015-12-23', 2, NULL),
-(12, 3, '2015-12-24', 2, NULL),
-(13, 3, '2015-12-25', 2, NULL),
-(14, 3, '2015-12-28', 2, NULL);
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=15 ;
 
 -- --------------------------------------------------------
 
@@ -212,11 +176,11 @@ INSERT INTO `frequencia` (`id`, `IDMonitoria`, `dmy`, `ch`, `atividade`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `grupo` (
-  `id` int(11) NOT NULL,
+`id` int(11) NOT NULL,
   `codigo` varchar(20) NOT NULL,
   `nome` varchar(100) NOT NULL,
   `max_horas` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Extraindo dados da tabela `grupo`
@@ -260,7 +224,7 @@ INSERT INTO `migration` (`version`, `apply_time`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `monitoria` (
-  `id` int(11) NOT NULL,
+`id` int(11) NOT NULL,
   `IDAluno` int(11) NOT NULL,
   `IDDisc` int(11) NOT NULL,
   `IDperiodoinscr` int(11) NOT NULL,
@@ -276,15 +240,7 @@ CREATE TABLE IF NOT EXISTS `monitoria` (
   `datacriacao` datetime DEFAULT NULL,
   `pathArqPlanoDisciplina` varchar(250) CHARACTER SET utf8 DEFAULT NULL,
   `pathArqRelatorioSemestral` varchar(250) CHARACTER SET utf8 DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=latin1;
-
---
--- Extraindo dados da tabela `monitoria`
---
-
-INSERT INTO `monitoria` (`id`, `IDAluno`, `IDDisc`, `IDperiodoinscr`, `pathArqHistorico`, `status`, `semestreConclusao`, `anoConclusao`, `mediaFinal`, `bolsa`, `banco`, `agencia`, `conta`, `datacriacao`, `pathArqPlanoDisciplina`, `pathArqRelatorioSemestral`) VALUES
-(2, 7, 124, 1, 'uploads/historicos/20902175_20151212_074512.pdf', 1, 1, 2016, 8, 0, '', '', '', '0000-00-00 00:00:00', NULL, NULL),
-(3, 7, 122, 2, 'uploads/historicos/_20152312_182456.pdf', 1, 2, 2016, 8, 1, '341', '0686', '64684-5', '0000-00-00 00:00:00', 'uploads/plano-semestral-disciplina/333_20161101_205448.doc', 'uploads/relatorio-semestral/333_20161101_223252.doc');
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=34 ;
 
 -- --------------------------------------------------------
 
@@ -293,11 +249,11 @@ INSERT INTO `monitoria` (`id`, `IDAluno`, `IDDisc`, `IDperiodoinscr`, `pathArqHi
 --
 
 CREATE TABLE IF NOT EXISTS `periodo` (
-  `id` int(11) NOT NULL,
+`id` int(11) NOT NULL,
   `codigo` varchar(10) NOT NULL,
   `dtInicio` date NOT NULL,
   `dtTermino` date NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Extraindo dados da tabela `periodo`
@@ -314,21 +270,13 @@ INSERT INTO `periodo` (`id`, `codigo`, `dtInicio`, `dtTermino`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `periodoinscricao` (
-  `id` int(11) NOT NULL,
+`id` int(11) NOT NULL,
   `dataInicio` date NOT NULL,
   `dataFim` date NOT NULL,
   `periodo` tinyint(1) NOT NULL,
   `ano` int(4) NOT NULL,
   `justificativa` text
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
-
---
--- Extraindo dados da tabela `periodoinscricao`
---
-
-INSERT INTO `periodoinscricao` (`id`, `dataInicio`, `dataFim`, `periodo`, `ano`, `justificativa`) VALUES
-(1, '2015-11-20', '2015-11-21', 1, 2015, NULL),
-(2, '2015-12-01', '2015-12-31', 2, 2015, 'teste');
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 -- --------------------------------------------------------
 
@@ -337,7 +285,7 @@ INSERT INTO `periodoinscricao` (`id`, `dataInicio`, `dataFim`, `periodo`, `ano`,
 --
 
 CREATE TABLE IF NOT EXISTS `solicitacao` (
-  `id` int(11) NOT NULL,
+`id` int(11) NOT NULL,
   `descricao` varchar(100) NOT NULL,
   `dtInicio` date NOT NULL,
   `dtTermino` date NOT NULL,
@@ -350,7 +298,7 @@ CREATE TABLE IF NOT EXISTS `solicitacao` (
   `solicitante_id` int(11) NOT NULL,
   `aprovador_id` int(11) NOT NULL,
   `anexo_id` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Extraindo dados da tabela `solicitacao`
@@ -366,7 +314,7 @@ INSERT INTO `solicitacao` (`id`, `descricao`, `dtInicio`, `dtTermino`, `horasCom
 --
 
 CREATE TABLE IF NOT EXISTS `usuario` (
-  `id` int(11) NOT NULL,
+`id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
   `cpf` varchar(100) NOT NULL,
   `email` varchar(100) NOT NULL,
@@ -383,7 +331,7 @@ CREATE TABLE IF NOT EXISTS `usuario` (
   `telefone` varchar(25) DEFAULT NULL,
   `endereco` text,
   `rg` text
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
 
 --
 -- Extraindo dados da tabela `usuario`
@@ -434,14 +382,14 @@ CREATE TABLE IF NOT EXISTS `view_aluno_monitoria` (
 ,`telefoneProfessor` varchar(25)
 ,`emailProfessor` varchar(100)
 ,`nomeCurso` varchar(100)
-,`status` varchar(20)
+,`codStatus` int(11)
+,`status` varchar(36)
 ,`periodo` varchar(16)
 ,`IDperiodoinscr` int(11)
 ,`pathArqHistorico` varchar(250)
 ,`pathArqPlanoDisciplina` varchar(250)
 ,`pathArqRelatorioSemestral` varchar(250)
 );
-
 -- --------------------------------------------------------
 
 --
@@ -462,7 +410,6 @@ CREATE TABLE IF NOT EXISTS `view_disciplina_monitoria` (
 ,`qtdMonitorBolsista` int(4)
 ,`qtdMonitorNaoBolsista` int(4)
 );
-
 -- --------------------------------------------------------
 
 --
@@ -489,7 +436,6 @@ CREATE TABLE IF NOT EXISTS `view_professor_monitoria` (
 ,`pathArqPlanoDisciplina` varchar(250)
 ,`pathArqRelatorioSemestral` varchar(250)
 );
-
 -- --------------------------------------------------------
 
 --
@@ -497,7 +443,7 @@ CREATE TABLE IF NOT EXISTS `view_professor_monitoria` (
 --
 DROP TABLE IF EXISTS `view_aluno_monitoria`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_aluno_monitoria` AS select `m`.`id` AS `id`,`m`.`IDDisc` AS `id_disciplina`,`u`.`name` AS `aluno`,`m`.`IDAluno` AS `IDAluno`,`u`.`matricula` AS `matricula`,`u`.`cpf` AS `cpf`,`m`.`mediaFinal` AS `mediaFinal`,`m`.`bolsa` AS `bolsa`,if((`m`.`bolsa` = 1),'Sim','Não') AS `bolsa_traducao`,`m`.`banco` AS `banco`,`m`.`agencia` AS `agencia`,`m`.`conta` AS `conta`,`m`.`semestreConclusao` AS `semestreConclusao`,`m`.`anoConclusao` AS `anoConclusao`,`u`.`telefone` AS `telefoneAluno`,`u`.`endereco` AS `enderecoAluno`,`u`.`email` AS `emailAluno`,`u`.`rg` AS `RgAluno`,`ca`.`nome` AS `nomeCursoAluno`,`d`.`codDisciplina` AS `codDisciplina`,`d`.`nomeDisciplina` AS `nomeDisciplina`,`dp`.`codTurma` AS `codTurma`,`p`.`name` AS `professor`,`p`.`telefone` AS `telefoneProfessor`,`p`.`email` AS `emailProfessor`,`c`.`nome` AS `nomeCurso`,(case `m`.`status` when 0 then 'Aguardando Avaliação' when 1 then 'Deferido' when 2 then 'Indeferido' end) AS `status`,concat(`pi`.`ano`,'/',`pi`.`periodo`) AS `periodo`,`m`.`IDperiodoinscr` AS `IDperiodoinscr`,`m`.`pathArqHistorico` AS `pathArqHistorico`,`m`.`pathArqPlanoDisciplina` AS `pathArqPlanoDisciplina`,`m`.`pathArqRelatorioSemestral` AS `pathArqRelatorioSemestral` from (((((((`monitoria` `m` join `disciplina_periodo` `dp` on((`m`.`IDDisc` = `dp`.`id`))) join `disciplina` `d` on((`dp`.`idDisciplina` = `d`.`id`))) left join `usuario` `u` on((`m`.`IDAluno` = `u`.`id`))) left join `usuario` `p` on((`dp`.`idProfessor` = `p`.`id`))) left join `curso` `c` on((`dp`.`idCurso` = `c`.`id`))) left join `periodoinscricao` `pi` on((`m`.`IDperiodoinscr` = `pi`.`id`))) left join `curso` `ca` on((`u`.`IDCurso` = `ca`.`id`)));
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_aluno_monitoria` AS select `m`.`id` AS `id`,`m`.`IDDisc` AS `id_disciplina`,`u`.`name` AS `aluno`,`m`.`IDAluno` AS `IDAluno`,`u`.`matricula` AS `matricula`,`u`.`cpf` AS `cpf`,`m`.`mediaFinal` AS `mediaFinal`,`m`.`bolsa` AS `bolsa`,if((`m`.`bolsa` = 1),'Sim','Não') AS `bolsa_traducao`,`m`.`banco` AS `banco`,`m`.`agencia` AS `agencia`,`m`.`conta` AS `conta`,`m`.`semestreConclusao` AS `semestreConclusao`,`m`.`anoConclusao` AS `anoConclusao`,`u`.`telefone` AS `telefoneAluno`,`u`.`endereco` AS `enderecoAluno`,`u`.`email` AS `emailAluno`,`u`.`rg` AS `RgAluno`,`ca`.`nome` AS `nomeCursoAluno`,`d`.`codDisciplina` AS `codDisciplina`,`d`.`nomeDisciplina` AS `nomeDisciplina`,`dp`.`codTurma` AS `codTurma`,`p`.`name` AS `professor`,`p`.`telefone` AS `telefoneProfessor`,`p`.`email` AS `emailProfessor`,`c`.`nome` AS `nomeCurso`,`m`.`status` AS `codStatus`,(case `m`.`status` when 0 then 'Aguardando Avaliação' when 1 then 'Selecionado com bolsa' when 2 then 'Selecionado sem bolsa' when 3 then 'Não selecionado' when 4 then 'Indeferido - Nota < 7' when 5 then 'Indeferido - Coeficiente < 5' when 6 then 'Indeferido - Não cursou a disciplina' end) AS `status`,concat(`pi`.`ano`,'/',`pi`.`periodo`) AS `periodo`,`m`.`IDperiodoinscr` AS `IDperiodoinscr`,`m`.`pathArqHistorico` AS `pathArqHistorico`,`m`.`pathArqPlanoDisciplina` AS `pathArqPlanoDisciplina`,`m`.`pathArqRelatorioSemestral` AS `pathArqRelatorioSemestral` from (((((((`monitoria` `m` join `disciplina_periodo` `dp` on((`m`.`IDDisc` = `dp`.`id`))) join `disciplina` `d` on((`dp`.`idDisciplina` = `d`.`id`))) left join `usuario` `u` on((`m`.`IDAluno` = `u`.`id`))) left join `usuario` `p` on((`dp`.`idProfessor` = `p`.`id`))) left join `curso` `c` on((`dp`.`idCurso` = `c`.`id`))) left join `periodoinscricao` `pi` on((`m`.`IDperiodoinscr` = `pi`.`id`))) left join `curso` `ca` on((`u`.`IDCurso` = `ca`.`id`)));
 
 -- --------------------------------------------------------
 
@@ -515,7 +461,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `view_professor_monitoria`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_professor_monitoria` AS select `m`.`id` AS `id`,`m`.`IDDisc` AS `id_disciplina`,`d`.`codDisciplina` AS `codDisciplina`,`d`.`nomeDisciplina` AS `nomeDisciplina`,`dp`.`codTurma` AS `codTurma`,`p`.`name` AS `professor`,`p`.`cpf` AS `cpfProfessor`,`dp`.`idProfessor` AS `idProfessor`,`c`.`nome` AS `nomeCursoDisciplina`,`u`.`name` AS `aluno`,`m`.`IDAluno` AS `IDAluno`,`u`.`matricula` AS `matricula`,`ca`.`nome` AS `nomeCursoAluno`,`m`.`bolsa` AS `bolsa`,if((`m`.`bolsa` = 1),'Sim','Não') AS `bolsa_traducao`,concat(`pi`.`ano`,'/',`pi`.`periodo`) AS `periodo`,`m`.`IDperiodoinscr` AS `IDperiodoinscr`,`m`.`pathArqPlanoDisciplina` AS `pathArqPlanoDisciplina`,`m`.`pathArqRelatorioSemestral` AS `pathArqRelatorioSemestral` from (((((((`monitoria` `m` join `disciplina_periodo` `dp` on((`m`.`IDDisc` = `dp`.`id`))) join `disciplina` `d` on((`dp`.`idDisciplina` = `d`.`id`))) left join `usuario` `u` on((`m`.`IDAluno` = `u`.`id`))) left join `usuario` `p` on((`dp`.`idProfessor` = `p`.`id`))) left join `curso` `c` on((`dp`.`idCurso` = `c`.`id`))) left join `periodoinscricao` `pi` on((`m`.`IDperiodoinscr` = `pi`.`id`))) left join `curso` `ca` on((`u`.`IDCurso` = `ca`.`id`))) where (`m`.`status` = 1);
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_professor_monitoria` AS select `m`.`id` AS `id`,`m`.`IDDisc` AS `id_disciplina`,`d`.`codDisciplina` AS `codDisciplina`,`d`.`nomeDisciplina` AS `nomeDisciplina`,`dp`.`codTurma` AS `codTurma`,`p`.`name` AS `professor`,`p`.`cpf` AS `cpfProfessor`,`dp`.`idProfessor` AS `idProfessor`,`c`.`nome` AS `nomeCursoDisciplina`,`u`.`name` AS `aluno`,`m`.`IDAluno` AS `IDAluno`,`u`.`matricula` AS `matricula`,`ca`.`nome` AS `nomeCursoAluno`,`m`.`bolsa` AS `bolsa`,if((`m`.`bolsa` = 1),'Sim','Não') AS `bolsa_traducao`,concat(`pi`.`ano`,'/',`pi`.`periodo`) AS `periodo`,`m`.`IDperiodoinscr` AS `IDperiodoinscr`,`m`.`pathArqPlanoDisciplina` AS `pathArqPlanoDisciplina`,`m`.`pathArqRelatorioSemestral` AS `pathArqRelatorioSemestral` from (((((((`monitoria` `m` join `disciplina_periodo` `dp` on((`m`.`IDDisc` = `dp`.`id`))) join `disciplina` `d` on((`dp`.`idDisciplina` = `d`.`id`))) left join `usuario` `u` on((`m`.`IDAluno` = `u`.`id`))) left join `usuario` `p` on((`dp`.`idProfessor` = `p`.`id`))) left join `curso` `c` on((`dp`.`idCurso` = `c`.`id`))) left join `periodoinscricao` `pi` on((`m`.`IDperiodoinscr` = `pi`.`id`))) left join `curso` `ca` on((`u`.`IDCurso` = `ca`.`id`))) where (`m`.`status` in (1,2));
 
 --
 -- Indexes for dumped tables
@@ -525,89 +471,85 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 -- Indexes for table `anexo`
 --
 ALTER TABLE `anexo`
-  ADD PRIMARY KEY (`id`);
+ ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `atividade`
 --
 ALTER TABLE `atividade`
-  ADD PRIMARY KEY (`id`);
+ ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `comissao`
+--
+ALTER TABLE `comissao`
+ ADD PRIMARY KEY (`id`), ADD KEY `idProfessor` (`idProfessor`);
 
 --
 -- Indexes for table `curso`
 --
 ALTER TABLE `curso`
-  ADD PRIMARY KEY (`id`);
+ ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `disciplina`
 --
 ALTER TABLE `disciplina`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `codDisciplina` (`codDisciplina`);
+ ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `codDisciplina` (`codDisciplina`);
 
 --
 -- Indexes for table `disciplina_periodo`
 --
 ALTER TABLE `disciplina_periodo`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `idDisciplinaPeriodo` (`idDisciplina`,`numPeriodo`,`anoPeriodo`,`codTurma`),
-  ADD KEY `fk_disciplina_periodo_idDisciplina` (`idDisciplina`),
-  ADD KEY `fk_disciplina_periodo_idCurso` (`idCurso`),
-  ADD KEY `fk_disciplina_periodo_idProfessor` (`idProfessor`);
+ ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `idDisciplinaPeriodo` (`idDisciplina`,`numPeriodo`,`anoPeriodo`,`codTurma`), ADD KEY `fk_disciplina_periodo_idDisciplina` (`idDisciplina`), ADD KEY `fk_disciplina_periodo_idCurso` (`idCurso`), ADD KEY `fk_disciplina_periodo_idProfessor` (`idProfessor`);
 
 --
 -- Indexes for table `frequencia`
 --
 ALTER TABLE `frequencia`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `IDMonitoria` (`IDMonitoria`);
+ ADD PRIMARY KEY (`id`), ADD KEY `IDMonitoria` (`IDMonitoria`);
 
 --
 -- Indexes for table `grupo`
 --
 ALTER TABLE `grupo`
-  ADD PRIMARY KEY (`id`);
+ ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `migration`
 --
 ALTER TABLE `migration`
-  ADD PRIMARY KEY (`version`);
+ ADD PRIMARY KEY (`version`);
 
 --
 -- Indexes for table `monitoria`
 --
 ALTER TABLE `monitoria`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `IDDisc` (`IDDisc`) USING BTREE,
-  ADD KEY `IDAluno` (`IDAluno`),
-  ADD KEY `IDperiodoinscr` (`IDperiodoinscr`);
+ ADD PRIMARY KEY (`id`), ADD KEY `IDDisc` (`IDDisc`) USING BTREE, ADD KEY `IDAluno` (`IDAluno`), ADD KEY `IDperiodoinscr` (`IDperiodoinscr`);
 
 --
 -- Indexes for table `periodo`
 --
 ALTER TABLE `periodo`
-  ADD PRIMARY KEY (`id`);
+ ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `periodoinscricao`
 --
 ALTER TABLE `periodoinscricao`
-  ADD PRIMARY KEY (`id`);
+ ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `solicitacao`
 --
 ALTER TABLE `solicitacao`
-  ADD PRIMARY KEY (`id`);
+ ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `usuario`
 --
 ALTER TABLE `usuario`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `IDCurso` (`IDCurso`);
+ ADD PRIMARY KEY (`id`), ADD KEY `IDCurso` (`IDCurso`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -617,93 +559,104 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT for table `anexo`
 --
 ALTER TABLE `anexo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `atividade`
 --
 ALTER TABLE `atividade`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT for table `comissao`
+--
+ALTER TABLE `comissao`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT for table `curso`
 --
 ALTER TABLE `curso`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=32;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=32;
 --
 -- AUTO_INCREMENT for table `disciplina`
 --
 ALTER TABLE `disciplina`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1729;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1729;
 --
 -- AUTO_INCREMENT for table `disciplina_periodo`
 --
 ALTER TABLE `disciplina_periodo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=129;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=129;
 --
 -- AUTO_INCREMENT for table `frequencia`
 --
 ALTER TABLE `frequencia`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=15;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=15;
 --
 -- AUTO_INCREMENT for table `grupo`
 --
 ALTER TABLE `grupo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `monitoria`
 --
 ALTER TABLE `monitoria`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=34;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=34;
 --
 -- AUTO_INCREMENT for table `periodo`
 --
 ALTER TABLE `periodo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `periodoinscricao`
 --
 ALTER TABLE `periodoinscricao`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `solicitacao`
 --
 ALTER TABLE `solicitacao`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
 --
 -- Constraints for dumped tables
 --
 
 --
+-- Limitadores para a tabela `comissao`
+--
+ALTER TABLE `comissao`
+ADD CONSTRAINT `comissao_ibfk_1` FOREIGN KEY (`idProfessor`) REFERENCES `usuario` (`id`);
+
+--
 -- Limitadores para a tabela `disciplina_periodo`
 --
 ALTER TABLE `disciplina_periodo`
-  ADD CONSTRAINT `disciplina_periodo_ibfk_1` FOREIGN KEY (`idDisciplina`) REFERENCES `disciplina` (`id`),
-  ADD CONSTRAINT `disciplina_periodo_ibfk_2` FOREIGN KEY (`idCurso`) REFERENCES `curso` (`id`),
-  ADD CONSTRAINT `disciplina_periodo_ibfk_3` FOREIGN KEY (`idProfessor`) REFERENCES `usuario` (`id`);
+ADD CONSTRAINT `disciplina_periodo_ibfk_1` FOREIGN KEY (`idDisciplina`) REFERENCES `disciplina` (`id`),
+ADD CONSTRAINT `disciplina_periodo_ibfk_2` FOREIGN KEY (`idCurso`) REFERENCES `curso` (`id`),
+ADD CONSTRAINT `disciplina_periodo_ibfk_3` FOREIGN KEY (`idProfessor`) REFERENCES `usuario` (`id`);
 
 --
 -- Limitadores para a tabela `frequencia`
 --
 ALTER TABLE `frequencia`
-  ADD CONSTRAINT `frequencia_ibfk_1` FOREIGN KEY (`IDMonitoria`) REFERENCES `monitoria` (`id`);
+ADD CONSTRAINT `frequencia_ibfk_1` FOREIGN KEY (`IDMonitoria`) REFERENCES `monitoria` (`id`);
 
 --
 -- Limitadores para a tabela `monitoria`
 --
 ALTER TABLE `monitoria`
-  ADD CONSTRAINT `monitoria_ibfk_1` FOREIGN KEY (`IDDisc`) REFERENCES `disciplina_periodo` (`id`),
-  ADD CONSTRAINT `monitoria_ibfk_3` FOREIGN KEY (`IDperiodoinscr`) REFERENCES `periodoinscricao` (`id`),
-  ADD CONSTRAINT `monitoria_ibfk_4` FOREIGN KEY (`IDAluno`) REFERENCES `usuario` (`id`);
+ADD CONSTRAINT `monitoria_ibfk_1` FOREIGN KEY (`IDDisc`) REFERENCES `disciplina_periodo` (`id`),
+ADD CONSTRAINT `monitoria_ibfk_3` FOREIGN KEY (`IDperiodoinscr`) REFERENCES `periodoinscricao` (`id`),
+ADD CONSTRAINT `monitoria_ibfk_4` FOREIGN KEY (`IDAluno`) REFERENCES `usuario` (`id`);
 
 --
 -- Limitadores para a tabela `usuario`
 --
 ALTER TABLE `usuario`
-  ADD CONSTRAINT `usuario_ibfk_1` FOREIGN KEY (`IDCurso`) REFERENCES `curso` (`id`);
+ADD CONSTRAINT `usuario_ibfk_1` FOREIGN KEY (`IDCurso`) REFERENCES `curso` (`id`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

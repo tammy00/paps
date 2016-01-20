@@ -117,4 +117,42 @@ class AlunoMonitoriaSearch extends AlunoMonitoria
 
         return $dataProvider;
     }
+
+    public function searchAvaliador($params)
+    {
+        $query = AlunoMonitoria::find();
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        $this->load($params);
+
+        if (!$this->validate()) {
+            // uncomment the following line if you do not want to return any records when validation fails
+            // $query->where('0=1');
+            return $dataProvider;
+        }
+
+        $query->andFilterWhere([
+            'id' => $this->id,
+            //'codStatus' => '0',
+        ]);
+
+        $query->andFilterWhere(['like', 'aluno', $this->aluno]);
+        $query->andFilterWhere(['like', 'matricula', $this->matricula]);
+        $query->andFilterWhere(['like', 'cpf', $this->cpf]);
+        $query->andFilterWhere(['like', 'codDisciplina', $this->codDisciplina]);
+        $query->andFilterWhere(['like', 'nomeDisciplina', $this->nomeDisciplina]);
+        $query->andFilterWhere(['like', 'codTurma', $this->codTurma]);
+        $query->andFilterWhere(['like', 'professor', $this->professor]);
+        $query->andFilterWhere(['like', 'nomeCurso', $this->nomeCurso]);
+        $query->andFilterWhere(['like', 'bolsa_traducao', $this->bolsa_traducao]);
+        $query->andFilterWhere(['like', 'status', $this->status]);
+        $query->andFilterWhere(['like', 'periodo', $this->periodo]);
+
+        $query->orderBy(['id' => SORT_DESC]);
+
+        return $dataProvider;
+    }
 }

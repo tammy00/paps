@@ -5,12 +5,13 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\PeriodoInscricaoMonitoria;
+use app\models\Comissao;
+use app\models\Usuario;
 
 /**
- * PeriodoInscricaoMonitoriaSearch represents the model behind the search form about `app\models\PeriodoInscricaoMonitoria`.
+ * ComissaoSearch represents the model behind the search form about `app\models\Comissao`.
  */
-class PeriodoInscricaoMonitoriaSearch extends PeriodoInscricaoMonitoria
+class ComissaoSearch extends Comissao
 {
     /**
      * @inheritdoc
@@ -19,7 +20,7 @@ class PeriodoInscricaoMonitoriaSearch extends PeriodoInscricaoMonitoria
     {
         return [
             [['id'], 'integer'],
-            [['dataInicio', 'dataFim', 'ano', 'periodo', 'justificativa'], 'safe'],
+            [['idProfessor'], 'safe'],
         ];
     }
 
@@ -41,7 +42,9 @@ class PeriodoInscricaoMonitoriaSearch extends PeriodoInscricaoMonitoria
      */
     public function search($params)
     {
-        $query = PeriodoInscricaoMonitoria::find();
+        $query = Comissao::find();
+
+        // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -55,15 +58,15 @@ class PeriodoInscricaoMonitoriaSearch extends PeriodoInscricaoMonitoria
             return $dataProvider;
         }
 
+        $query->joinWith(['usuario']);
+
+        // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            //'dataInicio' => $this->dataInicio,
-            //'dataFim' => $this->dataFim,
-            'ano' => $this->ano,
-            'periodo' => $this->periodo,
+            //'idProfessor' => $this->idProfessor,
         ]);
 
-        //$query->andFilterWhere(['like', 'periodo', $this->periodo]);
+        $query->andFilterWhere(['like', 'usuario.name', $this->idProfessor]);
 
         return $dataProvider;
     }
