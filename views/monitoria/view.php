@@ -45,7 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php if(Yii::$app->user->identity->perfil === 'Aluno') { ?>
         <p>
-        <?php if($model->status == 'Deferido') { ?>
+        <?php if($model->status == 'Selecionado sem bolsa' || $model->status == 'Selecionado com bolsa') { ?>
             <?= Html::a('Formulário de Inscrição', ['formularioinscricao', 'id' => $model->id], ['target'=>'_blank', 'class' => 'btn btn-primary']); ?>
             <?= Html::a('Frequências', ['/frequencia/index', 'id' => $model->id], ['class' => 'btn btn-primary']); ?>
         <?php } else { ?>

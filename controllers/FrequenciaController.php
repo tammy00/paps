@@ -114,7 +114,8 @@ class FrequenciaController extends Controller
         $aluno = AlunoMonitoria::find()
             ->where(['cpf' => Yii::$app->user->identity->cpf])
             ->andWhere(['IDperiodoinscr' => $p->id])
-            ->andWhere(['status' => 'Deferido'])
+            //->andWhere(['status' => 'Deferido'])
+            ->andFilterWhere(['or', ['like','status', 'Selecionado com bolsa'], ['like','status', 'Selecionado sem bolsa']])
             ->one(); // pesquisa para pegar o id do alun
 
         $model->dmy = $date;

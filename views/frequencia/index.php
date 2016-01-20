@@ -11,18 +11,23 @@ use yii\bootstrap\Modal;
 $this->title = 'Frequências';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+
+<?php if(isset($_GET['mensagem'])) { ?>
+
+    <div class="alert alert-danger">
+    <strong>Erro!</strong>
+       <?php echo $_GET['mensagem']; ?>
+    </div>
+
+ <?php } ?>
+
+
 <div class="frequencia-index">
 
     <?php if ($erro == '0' ) { ?>
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-    <?php if(isset($mensagem)) { 
-            echo "<p class='col-sm-6 alert alert-warning'>";
-            echo $mensagem ;
-            echo "</p>";
-     } ?>
 
     <p>
         <?= Html::a('Ver todas', ['minhasfrequencias', 'id' => $idM], ['class' => 'btn btn-success']) ?> 

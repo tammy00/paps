@@ -157,10 +157,22 @@ class Monitoria extends \yii\db\ActiveRecord
                 $this->traducao_status = 'Aguardando Avaliação';
                 break;
             case 1:
-                $this->traducao_status = 'Deferido';
+                $this->traducao_status = 'Selecionado com bolsa';
                 break;
             case 2:
-                $this->traducao_status = 'Indeferido';
+                $this->traducao_status = 'Selecionado sem bolsa';
+                break;
+            case 3:
+                $this->traducao_status = 'Não selecionado';
+                break;
+            case 4:
+                $this->traducao_status = 'Indeferido - Nota < 7';
+                break;
+            case 5:
+                $this->traducao_status = 'Indeferido - Coeficiente < 5';
+                break;
+            case 6:
+                $this->traducao_status = 'Indeferido - Não cursou a disciplina';
                 break;
         }
         

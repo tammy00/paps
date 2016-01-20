@@ -940,7 +940,10 @@ class MonitoriaController extends Controller
                  </table>
                  ');
 
-        $aM = AlunoMonitoria::find()->where(['periodo' => $periodoletivo])->andWhere(['status' => 'Deferido'])->orderBy(['aluno' => SORT_DESC])->all();
+        $aM = AlunoMonitoria::find()->where(['periodo' => $periodoletivo])
+        //->andWhere(['status' => 'Deferido'])
+        ->andFilterWhere(['or', ['like','status', 'Selecionado com bolsa'], ['like','status', 'Selecionado sem bolsa']])
+        ->orderBy(['aluno' => SORT_DESC])->all();
         $count = count($aM);
         $n = 1;
         $id = 0;
@@ -1101,7 +1104,8 @@ class MonitoriaController extends Controller
                  ');
 
             $alunos = AlunoMonitoria::find()->where(['periodo' => $periodoletivo])
-                                            ->andWhere(['status' => 'Deferido'])
+                                            //->andWhere(['status' => 'Deferido'])
+                                            ->andFilterWhere(['or', ['like','status', 'Selecionado com bolsa'], ['like','status', 'Selecionado sem bolsa']])
                                             ->orderBy(['aluno' => SORT_ASC])
                                             ->all();
             $totalAlunos = count($alunos);
@@ -1233,7 +1237,8 @@ class MonitoriaController extends Controller
 
         $monitoria = AlunoMonitoria::find()->where(['periodo' => $periodoletivo])
                                            ->andWhere(['IDAluno' => $monitor->id])
-                                           ->andWhere(['status' => 'Deferido'])
+                                           //->andWhere(['status' => 'Selecionado com bolsa'])
+                                           ->andFilterWhere(['or', ['like','status', 'Selecionado com bolsa'], ['like','status', 'Selecionado sem bolsa']])
                                            ->one();
 
         if ($monitoria == null ) return $this->render('index', ['erro' => 1]);
