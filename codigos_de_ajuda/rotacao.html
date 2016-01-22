@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+<!-- Atividade 1 -->
+<!-- <td valign=top align=left>Seus<br>comentários:</td> -->
+
+<html>
+	<head>
+	  <meta charset = "UTF-8" />
+	  <link rel="stylesheet" type="text/css" href="estilo.css">
+	  <title>[TESTE] Quadro Geral</title>
+	</head>
+
+	<body>
+	<style>
+
+		.vertical { 
+		    -webkit-writing-mode:vertical-lr; 
+		    -ms-writing-mode:tb-lr; 
+		    writing-mode:vertical-lr; 
+		 }
+
+		.rotacao {
+		    -ms-transform: rotate(7deg); /* IE 9 */
+		    -webkit-transform: rotate(7deg); /* Chrome, Safari, Opera */
+		    transform: rotate(7deg);
+		}
+		.rotate {
+		  display:inline-block;
+		  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+		  -webkit-transform: rotate(270deg);
+		  -ms-transform: rotate(270deg);
+		  transform: rotate(270deg);
+		}
+    </style>
+    <table><tr>
+    <td><span class="rotate">This text should be vertical.</span></td>
+    </tr></table>
+
+    </body>
+    </html>
